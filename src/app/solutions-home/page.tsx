@@ -76,7 +76,7 @@ export default function SolutionsHomePage() {
 				<SolutionsFeature
 					title="Управление воротами"
 					text="Возможность дистанционного управления, автоматизация процессов и интеграция с другими системами делают данную функцию неотъемлемой частью современного умного дома."
-					link="#"
+					link="/gates"
 					image="/images/solutions-page/feature-home.png"
 					imageWidth={888}
 					imageHeight={450}
@@ -87,7 +87,7 @@ export default function SolutionsHomePage() {
 				<SystemCase
 					title="Видео-наблюдение"
 					text="Одним из важных компонентов системы безопасности является видеонаблюдение."
-					link="#"
+					link="/video-control"
 					image="/images/solutions-page/system-case/1.jpg"
 					imageWidth={910}
 					imageHeight={540}
@@ -97,7 +97,7 @@ export default function SolutionsHomePage() {
 				<SystemCase
 					title="Видео-доступ"
 					text="Вызов на смартфон, превью с ближайших камер и открытие двери/калитки/шлагбаума из приложения."
-					link="#"
+					link="/video-control"
 					image="/images/solutions-page/system-case/2.jpg"
 					imageWidth={910}
 					imageHeight={540}

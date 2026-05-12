@@ -5,6 +5,7 @@ import Image from "next/image"
 import { useEffect, useRef } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import Link from "next/link"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -136,10 +137,10 @@ export default function EquipmentApp() {
 						Наше приложение интуитивно понятно и редактируемое. Можно изменить шапку или столбцы по пожеланию клиента. Можно изменить картинки и их название. Цвет интерфейса и прочие детали. Наш программный продукт вы можете настроить под себя, без каких либо сложностей. Скачайте и попробуйте.
 					</p>
 
-					<a href="#" className="font-helvetica inline-flex items-center gap-1 text-[15px] font-medium text-brand-blue group">
+					<Link href="/app" className="font-helvetica inline-flex items-center gap-1 text-[15px] font-medium text-brand-blue group">
 						Узнать больше о приложении
 						<RightArrowIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-					</a>
+					</Link>
 				</div>
 
 			</div>

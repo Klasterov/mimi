@@ -5,6 +5,7 @@ import Image from "next/image"
 import { useEffect, useRef } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import Link from "next/link"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -131,10 +132,10 @@ export default function EquipmentControlls() {
 							Оборудование MiMiSmart подключается к большому числу пользователей и поддерживает более 200 модулей расширения для передачи сигналов. Устройства обладают большим запасом памяти и высокой производительностью для решения ряда специфических задач.
 						</p>
 
-						<a href="#" className="font-helvetica inline-flex items-center gap-1 text-[15px] font-medium text-brand-blue group">
+						<Link href="/controller" className="font-helvetica inline-flex items-center gap-1 text-[15px] font-medium text-brand-blue group">
 							Узнать больше о контроллерах
 							<RightArrowIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-						</a>
+						</Link>
 					</div>
 
 				</div>

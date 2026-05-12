@@ -5,6 +5,7 @@ import { Title } from '../UI/Title';
 import { Button } from '../UI/Button';
 import { useEffect } from 'react';
 import { useTheme } from '@/context/ThemeContext';
+import { ButtonLink } from '../UI/ButtonLink';
 
 function LivingRoom() {
 	const { enabled } = useTheme();
@@ -280,7 +281,7 @@ export default function SmartHome() {
 						Производство и монтаж современной электрики. <br />
 						Автоматическое управление всеми системами дома.
 					</p>
-					<Button className='justify-center'>Узнать больше</Button>
+					<ButtonLink href='/' className='justify-center'>Узнать больше</ButtonLink>
 				</div>
 			</div>
 		</section>

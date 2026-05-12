@@ -2,6 +2,7 @@ import { LeadModalTrigger } from "@/components/modals/LeadModalTrigger";
 import { Title } from "@/components/UI/Title";
 import { RightArrowIcon } from "@/icons/RightArrowIcon";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function ServicesService() {
 	return (
@@ -10,10 +11,10 @@ export default function ServicesService() {
 				<div className="mb-10 space-y-6 flex flex-col items-center text-center">
 					<Title>Сервис</Title>
 					<div className="font-helvetica leading-[1.3] max-w-132 -tracking-[0.01em]">Музыка — одна из важнейших составляющих настроения, и порой так хочется, чтобы ей сопровождалось каждое действие.</div>
-					<a href="#" className="-tracking-[0.01em] inline-flex hover:text-foreground transition-colors duration-300 items-center gap-1 text-[15px] font-medium text-brand-blue group">
+					<Link href="/services" className="-tracking-[0.01em] inline-flex hover:text-foreground transition-colors duration-300 items-center gap-1 text-[15px] font-medium text-brand-blue group">
 						Узнать больше про сервис
 						<RightArrowIcon className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
-					</a>
+					</Link>
 				</div>
 				<div className="flex md:flex-row gap-10 md:gap-0 flex-col md:items-start">
 					<div className="md:pt-25.5 md:pb-10">

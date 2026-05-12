@@ -1,6 +1,7 @@
 import { Title } from "@/components/UI/Title";
 import { RightArrowIcon } from "@/icons/RightArrowIcon";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function LightningSettings() {
 
@@ -18,10 +19,10 @@ export default function LightningSettings() {
 					</div>
 					<div className="text-[17px]  leading-tight -tracking-[0.01em] space-y-3">
 						<p className="mb-4 font-helvetica">Плавная регулировка яркости от ночника до рабочего уровня без рывков и мерцания. Мягкое включение и затухание, равномерные переходы, управление с кнопки, панели или голосом.</p>
-						<a href="#" className="inline-flex hover:text-foreground transition-colors duration-300 items-center gap-1 text-[15px] font-medium text-brand-blue group">
+						<Link href="/dimming" className="inline-flex hover:text-foreground transition-colors duration-300 items-center gap-1 text-[15px] font-medium text-brand-blue group">
 							Узнать больше про Диммирование
 							<RightArrowIcon className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
-						</a>
+						</Link>
 					</div>
 				</div>
 			</div>

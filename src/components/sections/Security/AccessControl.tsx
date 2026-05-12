@@ -1,6 +1,7 @@
 import { Title } from "@/components/UI/Title"
 import { RightArrowIcon } from "@/icons/RightArrowIcon"
 import Image from "next/image"
+import Link from "next/link"
 
 const cols = [
 	{
@@ -48,14 +49,14 @@ export default function AccessControl() {
 					<Title className="mb-8">Контроль
 						доступа</Title>
 					<div className="mb-8 flex gap-6 md:gap-8 lg:gap-10 items-center flex-wrap">
-						<a href="#" className="-tracking-[0.01em] inline-flex hover:text-foreground transition-colors duration-300 items-center gap-1 text-[15px] font-medium text-brand-blue group">
+						<Link href="/electric-lock" className="-tracking-[0.01em] inline-flex hover:text-foreground transition-colors duration-300 items-center gap-1 text-[15px] font-medium text-brand-blue group">
 							Узнать больше про электрозамки
 							<RightArrowIcon className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
-						</a>
-						<a href="#" className="-tracking-[0.01em] inline-flex hover:text-foreground transition-colors duration-300 items-center gap-1 text-[15px] font-medium text-brand-blue group">
+						</Link>
+						<Link href="/gates" className="-tracking-[0.01em] inline-flex hover:text-foreground transition-colors duration-300 items-center gap-1 text-[15px] font-medium text-brand-blue group">
 							Узнать больше про ворота
 							<RightArrowIcon className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
-						</a>
+						</Link>
 					</div>
 					<ul className="grid gap-3 md:gap-5 md:grid-cols-2">
 						{cols.map((col, i) => (

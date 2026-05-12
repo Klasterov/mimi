@@ -98,7 +98,7 @@ export default function PartnersForDis() {
 						решения, поддержка и реализация берутся на стороне производителя.
 					</p>
 
-					<ArrowLink href="#">Подробнее дизайнерам</ArrowLink>
+					<ArrowLink href="/for-designers">Подробнее дизайнерам</ArrowLink>
 				</div>
 
 				<ul className="flex gap-5 font-helvetica text-[17px] leading-[1.4] -tracking-[0.01em] max-sm:flex-col sm:gap-10 lg:gap-35">

@@ -1,6 +1,7 @@
 import { Title } from "@/components/UI/Title";
 import { RightArrowIcon } from "@/icons/RightArrowIcon";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function SolutionsCaseOffice() {
 	return (
@@ -10,10 +11,10 @@ export default function SolutionsCaseOffice() {
 					<Title className="bg-linear-to-r from-foreground to-[#516076] bg-clip-text text-transparent">Внутреннее
 						освещение</Title>
 					<div className="font-helvetica text-[17px] leading-[1.3] -tracking-[0.01em]">Для каждой зоны заданы сценарии, яркость и цвет меняются по датчикам присутствия и дневного света. Освещение синхронизируется с жалюзи и вентиляцией, управление - на панелях и в приложении, понятно любому сотруднику.</div>
-					<a href="#" className="inline-flex hover:text-foreground transition-colors duration-300 items-center gap-1 text-[15px] font-medium text-brand-blue group">
+					<Link href="/lightning" className="inline-flex hover:text-foreground transition-colors duration-300 items-center gap-1 text-[15px] font-medium text-brand-blue group">
 						Узнать больше
 						<RightArrowIcon className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
-					</a>
+					</Link>
 				</div>
 				<div className="mr-[-10%] md:-mr-[28.57%] relative md:w-172 aspect-690/504">
 					<Image

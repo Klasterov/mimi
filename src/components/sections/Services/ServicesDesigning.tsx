@@ -1,6 +1,7 @@
 import { Title } from "@/components/UI/Title";
 import { RightArrowIcon } from "@/icons/RightArrowIcon";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function ServicesDesigning() {
 	return (
@@ -18,10 +19,10 @@ export default function ServicesDesigning() {
 					/>
 				</div>
 				<div className="mb-6 font-helvetica leading-[1.3] -tracking-[0.01em] text-center max-w-132">Музыка — одна из важнейших составляющих настроения, и порой так хочется, чтобы ей сопровождалось каждое действие.</div>
-				<a href="#" className="inline-flex hover:text-foreground transition-colors duration-300 items-center gap-1 -tracking-[0.01em] text-[15px] font-medium text-brand-blue group">
+				<Link href="/designing" className="inline-flex hover:text-foreground transition-colors duration-300 items-center gap-1 -tracking-[0.01em] text-[15px] font-medium text-brand-blue group">
 					Узнать больше о проектировании
 					<RightArrowIcon className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
-				</a>
+				</Link>
 			</div>
 		</section>
 	);

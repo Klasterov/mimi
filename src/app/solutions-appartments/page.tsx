@@ -85,7 +85,7 @@ export default function solutionsAppartmentsPage() {
 				<SystemCase
 					title="Видео-доступ"
 					text="Вызов на смартфон, превью с ближайших камер и открытие двери/калитки/шлагбаума из приложения."
-					link="#"
+					link="/video-control"
 					image="/images/solutions-page/system-case/2.jpg"
 					imageWidth={910}
 					imageHeight={540}

@@ -9,6 +9,7 @@ import { BtnArrowIcon } from '@/icons/BtnArrowIcon'
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import Link from 'next/link'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -68,10 +69,10 @@ const capabilitiesItems: CapabilityItem[] = [
 						<p className="font-helvetica text-[16px] sm:max-w-85 lg:max-w-83 leading-snug tracking-[-0.01em] text-brand-gray">
 							Защита от протечек воды, охранная сигнализация, имитацция присутствия.
 						</p>
-						<button className="shadow-[inset_-3px_-3px_6px_1px_rgba(255,255,255,0.5),inset_3px_3px_6px_0_#eaeaea] cursor-pointer rounded-[50px] leading-none flex px-11 py-2 border border-white items-center justify-center uppercase gap-1.5 font-semibold text-[13px] bg-[#f0f4f6] tracking-[-0.02em] text-[#5a250a] group hover:opacity-80 transition-opacity">
+						<Link href="/gates" className="shadow-[inset_-3px_-3px_6px_1px_rgba(255,255,255,0.5),inset_3px_3px_6px_0_#eaeaea] cursor-pointer rounded-[50px] leading-none flex px-11 py-2 border border-white items-center justify-center uppercase gap-1.5 font-semibold text-[13px] bg-[#f0f4f6] tracking-[-0.02em] text-[#5a250a] group hover:opacity-80 transition-opacity">
 							Подробнее
 							<BtnArrowIcon className="group-hover:translate-x-1 transition-transform duration-300 w-6 h-6" />
-						</button>
+						</Link>
 					</div>
 					<span className="absolute w-full sm:w-70% bottom-0 right-0 lg:w-[73.16%] aspect-878/600">
 						<Image
@@ -111,10 +112,10 @@ const capabilitiesItems: CapabilityItem[] = [
 							Свежий воздух без лишних настроек. <br />
 							Управление притоком и вытяжкой по уровню CO₂
 						</p>
-						<button className="shadow-[inset_-3px_-3px_6px_1px_rgba(255,255,255,0.5),inset_3px_3px_6px_0_#eaeaea] cursor-pointer rounded-[50px] leading-none flex px-11 py-2 border border-white items-center justify-center uppercase gap-1.5 font-semibold text-[13px] bg-[#f0f4f6] tracking-[-0.02em] text-[#5a250a] group hover:opacity-80 transition-opacity">
+						<Link href="/ventilation" className="shadow-[inset_-3px_-3px_6px_1px_rgba(255,255,255,0.5),inset_3px_3px_6px_0_#eaeaea] cursor-pointer rounded-[50px] leading-none flex px-11 py-2 border border-white items-center justify-center uppercase gap-1.5 font-semibold text-[13px] bg-[#f0f4f6] tracking-[-0.02em] text-[#5a250a] group hover:opacity-80 transition-opacity">
 							Подробнее
 							<BtnArrowIcon className="group-hover:translate-x-1 transition-transform duration-300 w-6 h-6" />
-						</button>
+						</Link>
 					</div>
 					<span className="absolute w-50 sm:w-90 bottom-[35%] sm:bottom-0 right-0 lg:w-[43.4%] aspect-521/573">
 						<Image
@@ -153,10 +154,10 @@ const capabilitiesItems: CapabilityItem[] = [
 						<p className="font-helvetica text-[16px] sm:max-w-85 lg:max-w-85 leading-snug tracking-[-0.01em] text-[#907e70]">
 							Подходят любые светильники. <br /> Регулируйте яркость, температуру теплого и холодного света. Управляйте шторами с кнопок и с телефона.
 						</p>
-						<button className="shadow-[inset_-3px_-3px_6px_1px_rgba(255,255,255,0.5),inset_3px_3px_6px_0_#eaeaea] cursor-pointer rounded-[50px] leading-none flex px-11 py-2 border border-white items-center justify-center uppercase gap-1.5 font-semibold text-[13px] bg-[#f0f4f6] tracking-[-0.02em] text-[#5a250a] group hover:opacity-80 transition-opacity">
+						<Link href="/lightning" className="shadow-[inset_-3px_-3px_6px_1px_rgba(255,255,255,0.5),inset_3px_3px_6px_0_#eaeaea] cursor-pointer rounded-[50px] leading-none flex px-11 py-2 border border-white items-center justify-center uppercase gap-1.5 font-semibold text-[13px] bg-[#f0f4f6] tracking-[-0.02em] text-[#5a250a] group hover:opacity-80 transition-opacity">
 							Подробнее
 							<BtnArrowIcon className="group-hover:translate-x-1 transition-transform duration-300 w-6 h-6" />
-						</button>
+						</Link>
 					</div>
 					<span className="absolute w-98 top-0 -right-20 sm:-right-5 lg:w-[44%] lg:top-0 lg:-right-7.25 aspect-233/200 lg:aspect-584/500">
 						<Image
@@ -195,10 +196,10 @@ const capabilitiesItems: CapabilityItem[] = [
 						<p className="font-helvetica text-[16px] sm:max-w-85 lg:max-w-85 leading-snug tracking-[-0.01em] text-[#303236]">
 							Автоматический климат-контроль: <br /> слаженная работа отопления, теплых полов, кондиционеров, вентиляции и увлажнения
 						</p>
-						<button className="group cursor-pointer rounded-[50px] leading-none flex px-11 py-2 border border-white items-center justify-center uppercase gap-1.5 font-semibold text-[13px] bg-[#f0f4f6] tracking-[-0.02em] text-[#0a051a] hover:opacity-80 transition-opacity">
+						<Link href='/climate' className="group cursor-pointer rounded-[50px] leading-none flex px-11 py-2 border border-white items-center justify-center uppercase gap-1.5 font-semibold text-[13px] bg-[#f0f4f6] tracking-[-0.02em] text-[#0a051a] hover:opacity-80 transition-opacity">
 							Подробнее
 							<BtnArrowIcon className="group-hover:translate-x-1 transition-transform duration-300 w-6 h-6" />
-						</button>
+						</Link>
 					</div>
 
 					<span className="absolute w-45 md:w-70 lg:w-80.5 top-20 md:top-7 right-4 lg:top-7 lg:right-6 aspect-322/303">
@@ -244,10 +245,10 @@ const capabilitiesItems: CapabilityItem[] = [
 						<p className="font-helvetica text-[16px] sm:max-w-85 lg:max-w-85 leading-snug tracking-[-0.01em] text-[#95979e]">
 							Защита от протечек воды, охранная сигнализация, имитацция присутствия
 						</p>
-						<button className="group shadow-[inset_-3px_-3px_6px_1px_rgba(255,255,255,0.5),inset_3px_3px_6px_0_#eaeaea] cursor-pointer rounded-[50px] leading-none flex px-11 py-2 border border-white items-center justify-center uppercase gap-1.5 font-semibold text-[13px] bg-[#f0f4f6] tracking-[-0.02em] text-[#0a051a] hover:opacity-80 transition-opacity">
+						<Link href="/security" className="group shadow-[inset_-3px_-3px_6px_1px_rgba(255,255,255,0.5),inset_3px_3px_6px_0_#eaeaea] cursor-pointer rounded-[50px] leading-none flex px-11 py-2 border border-white items-center justify-center uppercase gap-1.5 font-semibold text-[13px] bg-[#f0f4f6] tracking-[-0.02em] text-[#0a051a] hover:opacity-80 transition-opacity">
 							Подробнее
 							<BtnArrowIcon className="group-hover:translate-x-1 transition-transform duration-300 w-6 h-6" />
-						</button>
+						</Link>
 					</div>
 				</div>
 				<div className="absolute left-1/2 bottom-0 bg-[#D9D9D9]/90 -translate-x-1/2 translate-y-1/2 rounded-[50px] backdrop-blur-xs text-[15px] py-1.5 px-4 leading-normal text-[#303236] -tracking-[0.01em]">
@@ -284,10 +285,10 @@ const capabilitiesItems: CapabilityItem[] = [
 						<p className="font-helvetica text-[16px] sm:max-w-85 lg:max-w-85 leading-snug tracking-[-0.01em] text-[#58595d]">
 							Управляем любыми видами отопления, теплых полов и конвекторов. В каждой комнате своя, комфортная каждому температура.
 						</p>
-						<button className="group cursor-pointer rounded-[50px] leading-none flex px-11 py-2 border border-white items-center justify-center uppercase gap-1.5 font-semibold text-[13px] bg-[#f0f4f6] tracking-[-0.02em] text-[#0a051a] hover:opacity-80 transition-opacity">
+						<Link href="/curtains" className="group cursor-pointer rounded-[50px] leading-none flex px-11 py-2 border border-white items-center justify-center uppercase gap-1.5 font-semibold text-[13px] bg-[#f0f4f6] tracking-[-0.02em] text-[#0a051a] hover:opacity-80 transition-opacity">
 							Подробнее
 							<BtnArrowIcon className="group-hover:translate-x-1 transition-transform duration-300 w-6 h-6" />
-						</button>
+						</Link>
 					</div>
 				</div>
 				<div className="absolute left-1/2 bottom-0 bg-[#D9D9D9]/90 -translate-x-1/2 translate-y-1/2 rounded-[50px] backdrop-blur-xs text-[15px] py-1.5 px-4 leading-normal text-[#303236] -tracking-[0.01em]">
@@ -324,10 +325,10 @@ const capabilitiesItems: CapabilityItem[] = [
 						<p className="font-helvetica text-[16px] sm:max-w-85 lg:max-w-85 leading-snug tracking-[-0.01em] text-[#95979e]">
 							Смотрите ваши камеры и отвечайте на звонок в домофон в любой точке мира. Наблюдайте за домом и будьте уверены, что с родными все в порядке.
 						</p>
-						<button className="group cursor-pointer rounded-[50px] leading-none flex px-11 py-2 border border-white items-center justify-center uppercase gap-1.5 font-semibold text-[13px] bg-[#f0f4f6] tracking-[-0.02em] text-[#0a051a] hover:opacity-80 transition-opacity">
+						<Link href="/video-control" className="group cursor-pointer rounded-[50px] leading-none flex px-11 py-2 border border-white items-center justify-center uppercase gap-1.5 font-semibold text-[13px] bg-[#f0f4f6] tracking-[-0.02em] text-[#0a051a] hover:opacity-80 transition-opacity">
 							Подробнее
 							<BtnArrowIcon className="group-hover:translate-x-1 transition-transform duration-300 w-6 h-6" />
-						</button>
+						</Link>
 					</div>
 				</div>
 				<div className="absolute left-1/2 bottom-0 bg-[#D9D9D9]/90 -translate-x-1/2 translate-y-1/2 rounded-[50px] backdrop-blur-xs text-[15px] py-1.5 px-4 leading-normal text-[#303236] -tracking-[0.01em]">
@@ -364,10 +365,10 @@ const capabilitiesItems: CapabilityItem[] = [
 						<p className="font-helvetica text-[16px] sm:max-w-85 lg:max-w-85 leading-snug tracking-[-0.01em] text-[#58595d]">
 							Спроектируем и реализуем современную электрику. Управление розетками, сценарные выключатели, стабилизация напряжения, резервное питание, молниезащита.
 						</p>
-						<button className="group cursor-pointer rounded-[50px] leading-none flex px-11 py-2 border border-white items-center justify-center uppercase gap-1.5 font-semibold text-[13px] bg-[#f0f4f6] tracking-[-0.02em] text-[#0a051a] hover:opacity-80 transition-opacity">
+						<Link href="/sockets" className="group cursor-pointer rounded-[50px] leading-none flex px-11 py-2 border border-white items-center justify-center uppercase gap-1.5 font-semibold text-[13px] bg-[#f0f4f6] tracking-[-0.02em] text-[#0a051a] hover:opacity-80 transition-opacity">
 							Подробнее
 							<BtnArrowIcon className="group-hover:translate-x-1 transition-transform duration-300 w-6 h-6" />
-						</button>
+						</Link>
 					</div>
 				</div>
 				<div className="absolute left-1/2 bottom-0 bg-[#D9D9D9]/90 -translate-x-1/2 translate-y-1/2 rounded-[50px] backdrop-blur-xs text-[15px] py-1.5 px-4 leading-normal text-[#303236] -tracking-[0.01em]">
@@ -404,10 +405,10 @@ const capabilitiesItems: CapabilityItem[] = [
 						<p className="font-helvetica text-[16px] sm:max-w-85 lg:max-w-85 leading-snug tracking-[-0.01em] text-[#303236]">
 							Оборудуем кинозалы и кино в гостиной под ключ. Автоматизируем аппаратуру кино и создаем удобные сценарии
 						</p>
-						<button className="group cursor-pointer rounded-[50px] leading-none flex px-11 py-2 border border-white items-center justify-center uppercase gap-1.5 font-semibold text-[13px] bg-[#f0f4f6] tracking-[-0.02em] text-[#0a051a] hover:opacity-80 transition-opacity">
+						<Link href="/cinema-home" className="group cursor-pointer rounded-[50px] leading-none flex px-11 py-2 border border-white items-center justify-center uppercase gap-1.5 font-semibold text-[13px] bg-[#f0f4f6] tracking-[-0.02em] text-[#0a051a] hover:opacity-80 transition-opacity">
 							Подробнее
 							<BtnArrowIcon className="group-hover:translate-x-1 transition-transform duration-300 w-6 h-6" />
-						</button>
+						</Link>
 					</div>
 				</div>
 				<div className="absolute left-1/2 bottom-0 bg-[#D9D9D9]/90 -translate-x-1/2 translate-y-1/2 rounded-[50px] backdrop-blur-xs text-[15px] py-1.5 px-4 leading-normal text-[#303236] -tracking-[0.01em]">
@@ -467,10 +468,10 @@ const capabilitiesItems: CapabilityItem[] = [
 						<p className="font-helvetica text-[16px] sm:max-w-85 lg:max-w-85 leading-snug tracking-[-0.01em] text-[#92969d]">
 							Своя музыка в каждой комнате, AirPlay, следящая музыка, звуковые оповещения
 						</p>
-						<button className="group cursor-pointer rounded-[50px] leading-none flex px-11 py-2 border border-white items-center justify-center uppercase gap-1.5 font-semibold text-[13px] bg-[#f0f4f6] tracking-[-0.02em] text-[#0a051a] hover:opacity-80 transition-opacity">
+						<Link href="/multiroom" className="group cursor-pointer rounded-[50px] leading-none flex px-11 py-2 border border-white items-center justify-center uppercase gap-1.5 font-semibold text-[13px] bg-[#f0f4f6] tracking-[-0.02em] text-[#0a051a] hover:opacity-80 transition-opacity">
 							Подробнее
 							<BtnArrowIcon className="group-hover:translate-x-1 transition-transform duration-300 w-6 h-6" />
-						</button>
+						</Link>
 					</div>
 				</div>
 				<div className="absolute z-10 left-1/2 bottom-0 bg-[#D9D9D9]/90 -translate-x-1/2 translate-y-1/2 rounded-[50px] backdrop-blur-xs text-[15px] py-1.5 px-4 leading-normal text-[#303236] -tracking-[0.01em]">

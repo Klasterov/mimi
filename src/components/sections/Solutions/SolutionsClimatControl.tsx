@@ -29,7 +29,7 @@ export default function SolutionsClimatControl() {
 							alt=""
 						/>
 						<div className="text-[17px] font-helvetica leading-[1.3] -tracking-[0.01em]">Важно организовать правильный энергосберегающий климат-контроль. Отопление не должно конкурировать с кондиционированием. Это позволит оптимизировать расходы на электроэнергию.</div>
-						<ArrowLink href="">Узнать больше</ArrowLink>
+						<ArrowLink href="/climate">Узнать больше</ArrowLink>
 					</div>
 				</div>
 			</div>

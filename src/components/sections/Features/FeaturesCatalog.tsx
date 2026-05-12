@@ -1,7 +1,9 @@
 import { Button } from "@/components/UI/Button";
+import { ButtonLink } from "@/components/UI/ButtonLink";
 import { Title } from "@/components/UI/Title";
 import { RightArrowIcon } from "@/icons/RightArrowIcon";
 import Image from "next/image";
+import Link from "next/link";
 
 const catalog = [
 	{
@@ -9,36 +11,42 @@ const catalog = [
 		iconWidth: 75,
 		iconHeight: 64,
 		description: 'Освещение',
+		href: '/lightning'
 	},
 	{
 		icon: '/images/features-page/catalog/2.png',
 		iconWidth: 63,
 		iconHeight: 64,
 		description: 'Климат контроль',
+		href: '/climate'
 	},
 	{
 		icon: '/images/features-page/catalog/3.png',
 		iconWidth: 78,
 		iconHeight: 64,
 		description: 'Мультимедиа',
+		href: '/cinema'
 	},
 	{
 		icon: '/images/features-page/catalog/4.png',
 		iconWidth: 75,
 		iconHeight: 64,
 		description: 'Безопасность',
+		href: '/security'
 	},
 	{
 		icon: '/images/features-page/catalog/5.png',
 		iconWidth: 91,
 		iconHeight: 64,
 		description: 'Электрокарнизы',
+		href: '/curtains'
 	},
 	{
 		icon: '/images/features-page/catalog/6.png',
 		iconWidth: 64,
 		iconHeight: 64,
 		description: 'Управление розетками',
+		href: '/sockets'
 	},
 ]
 
@@ -95,7 +103,7 @@ export default function FeaturesCatalog() {
 									alt={item.description}
 								/>
 							</div>
-							<a href="">{item.description}</a>
+							<Link href={item.href}>{item.description}</Link>
 						</li>
 					))}
 				</ul>
@@ -126,7 +134,7 @@ export default function FeaturesCatalog() {
 									alt=""
 								/>
 								<div className="text-[17px] -tracking-[0.01em] mt-auto lg:mt-0 lg:flex-auto leading-tight font-helvetica">Плавная регулировка яркости от ночника до рабочего уровня без рывков и мерцания. Мягкое включение и затухание, равномерные переходы, управление с кнопки, панели или голосом.</div>
-								<Button className="justify-center py-1.75!">Узнать больше</Button>
+								<ButtonLink href="/lightning" className="justify-center py-1.75!">Узнать больше</ButtonLink>
 							</div>
 							<div className="hidden lg:block absolute right-0 top-0 aspect-672/600 h-full">
 								<Image
@@ -161,7 +169,7 @@ export default function FeaturesCatalog() {
 									/>
 								</div>
 								<div className="text-[17px] mt-auto lg:mt-0 -tracking-[0.01em] lg:flex-auto leading-tight font-helvetica">Плавная регулировка яркости от ночника до рабочего уровня без рывков и мерцания. Мягкое включение и затухание, равномерные переходы, управление с кнопки, панели или голосом.</div>
-								<Button className="justify-center py-1.75!">Узнать больше</Button>
+								<ButtonLink href="/climate" className="justify-center py-1.75!">Узнать больше</ButtonLink>
 							</div>
 							<ul className="relative flex-none w-100 flex-col gap-2 hidden lg:flex">
 								<li className="flex-auto">
@@ -215,7 +223,7 @@ export default function FeaturesCatalog() {
 									/>
 								</div>
 								<div className="text-[17px] -tracking-[0.01em] mt-0 lg:mt-auto lg:flex-auto leading-tight font-helvetica">Плавная регулировка яркости от ночника до рабочего уровня без рывков и мерцания. Мягкое включение и затухание, равномерные переходы, управление с кнопки, панели или голосом.</div>
-								<Button className="justify-center py-1.75!">Узнать больше</Button>
+								<ButtonLink href="/cinema" className="justify-center py-1.75!">Узнать больше</ButtonLink>
 								<div className="relative w-full sm:w-84 aspect-336/300 lg:hidden">
 
 									<Image
@@ -259,7 +267,7 @@ export default function FeaturesCatalog() {
 									/>
 								</div>
 								<div className="text-[17px] -tracking-[0.01em] lg:flex-auto leading-tight font-helvetica">Плавная регулировка яркости от ночника до рабочего уровня без рывков и мерцания. Мягкое включение и затухание, равномерные переходы, управление с кнопки, панели или голосом.</div>
-								<Button className="justify-center py-1.75!">Узнать больше</Button>
+								<ButtonLink href="/security" className="justify-center py-1.75!">Узнать больше</ButtonLink>
 
 							</div>
 
@@ -279,7 +287,7 @@ export default function FeaturesCatalog() {
 						<div className="relative rounded-[20px] bg-white px-5.5 py-10 lg:px-10 shadow-[0_0_24px_0_rgba(0,0,0,0.04)] min-h-150 flex overflow-hidden">
 							<div className="flex flex-col items-start gap-5 lg:flex-none lg:w-110 relative z-10">
 								<div className="text-[17px] -tracking-[0.01em] flex-auto leading-tight font-helvetica">Плавная регулировка яркости от ночника до рабочего уровня без рывков и мерцания. Мягкое включение и затухание, равномерные переходы, управление с кнопки, панели или голосом.</div>
-								<Button className="justify-center py-1.75!">Узнать больше</Button>
+								<ButtonLink href="/curtains" className="justify-center py-1.75!">Узнать больше</ButtonLink>
 							</div>
 
 							<Image
@@ -307,7 +315,7 @@ export default function FeaturesCatalog() {
 									/>
 								</div>
 								<div className="text-[17px] -tracking-[0.01em] lg:flex-auto leading-tight font-helvetica">Плавная регулировка яркости от ночника до рабочего уровня без рывков и мерцания. Мягкое включение и затухание, равномерные переходы, управление с кнопки, панели или голосом.</div>
-								<Button className="justify-center py-1.75!">Узнать больше</Button>
+								<ButtonLink href="/sockets" className="justify-center py-1.75!">Узнать больше</ButtonLink>
 							</div>
 							<div className="grid lg:mx-0 -mx-5.5 lg:-my-10 lg:grid-cols-2 gap-2.5 flex-none h-62.75 lg:h-auto lg:w-115.5">
 								<div className="grid gap-2 grid-cols-3 lg:block lg:space-y-2.5 lg:-mt-14.75">

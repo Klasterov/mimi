@@ -9,6 +9,7 @@ import { showroomContent } from '@/data/showroom';
 import { brand } from '@/config/brand';
 import { PlayIcon } from '@/icons/PlayIcon';
 import { MimiLogo } from '@/components/UI/MimiLogo';
+import { ButtonLink } from '@/components/UI/ButtonLink';
 
 export default function Showroom() {
 	const gradientRef = useRef<HTMLDivElement>(null)
@@ -125,7 +126,7 @@ export default function Showroom() {
 							{brand.address}
 						</a>
 					</div>
-					<Button className='justify-center'>Записаться в шоурум</Button>
+					<ButtonLink href="/showroom" className='justify-center'>Записаться в шоурум</ButtonLink>
 				</div>
 
 			</div>

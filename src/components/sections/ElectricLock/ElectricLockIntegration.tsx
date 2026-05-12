@@ -20,7 +20,7 @@ const cols = [
 		image: "/images/electric-lock-page/integration/3.png",
 		link: {
 			text: 'Узнать больше',
-			href: '#'
+			href: '/intercom-system'
 		},
 	},
 	{

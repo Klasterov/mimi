@@ -6,6 +6,7 @@ import { useState, useRef, useEffect } from "react"
 
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import Link from "next/link"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -85,13 +86,13 @@ export default function FireSafety() {
 						критической.
 					</div>
 
-					<a
-						href="#"
+					<Link
+						href="/fire"
 						className="inline-flex items-center gap-1 -tracking-[0.01em] text-[15px] font-medium text-brand-blue group"
 					>
 						Узнать больше
 						<RightArrowIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-					</a>
+					</Link>
 				</div>
 
 				<Image
@@ -110,8 +111,8 @@ export default function FireSafety() {
 									key={tab.id}
 									onClick={() => setActive(i)}
 									className={`pb-5 transition relative hover:opacity-80 ${active === i
-											? "bg-[linear-gradient(90deg,#fff_0%,#ff383c_100%)] bg-clip-text text-transparent"
-											: "cursor-pointer"
+										? "bg-[linear-gradient(90deg,#fff_0%,#ff383c_100%)] bg-clip-text text-transparent"
+										: "cursor-pointer"
 										}`}
 								>
 									{tab.title}

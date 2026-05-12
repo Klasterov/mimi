@@ -1,5 +1,6 @@
 import { RightArrowIcon } from "@/icons/RightArrowIcon"
 import Image from "next/image"
+import Link from "next/link"
 
 export default function EquipmentCatalog() {
 	return (
@@ -24,10 +25,10 @@ export default function EquipmentCatalog() {
 					</div>
 					<div>
 						<p className="mb-4 text-[17px] leading-tight font-helvetica">Оборудование MiMiSmart подключается к большому числу пользователей и поддерживает более 200 модулей расширения для передачи сигналов. Устройства обладают большим запасом памяти и высокой производительностью для решения ряда специфических задач.</p>
-						<a href="#" className="font-helvetica inline-flex items-center gap-1 text-[15px] font-medium text-brand-blue group">
+						<Link href="/catalog" className="font-helvetica inline-flex items-center gap-1 text-[15px] font-medium text-brand-blue group">
 							Узнать больше про каталог
 							<RightArrowIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300"></RightArrowIcon>
-						</a>
+						</Link>
 					</div>
 				</div>
 			</div>

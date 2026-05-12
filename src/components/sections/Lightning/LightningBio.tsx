@@ -1,6 +1,7 @@
 import { Title } from "@/components/UI/Title"
 import { RightArrowIcon } from "@/icons/RightArrowIcon"
 import Image from "next/image"
+import Link from "next/link"
 
 export default function LightningBio() {
 	return (
@@ -8,10 +9,10 @@ export default function LightningBio() {
 			<div className="max-w-308 mx-auto px-4">
 				<div className="mb-10 lg:justify-between lg:flex lg:items-end lg:gap-10">
 					<Title><span className="text-[32px] md:text-[40px] lg:text-[64px]">Биодинамическое освещение</span></Title>
-					<a href="#" className="lg:inline-flex tracking-[-0.01e] hidden items-center gap-1 text-[15px] text-brand-blue whitespace-nowrap">
+					<Link href="/biodynamics" className="lg:inline-flex tracking-[-0.01e] hidden items-center gap-1 text-[15px] text-brand-blue whitespace-nowrap">
 						Узнать большое про Биодинамику
 						<RightArrowIcon className="w-5 h-5"></RightArrowIcon>
-					</a>
+					</Link>
 				</div>
 				<div className="lg:relative lg:rounded-[20px] lg:overflow-hidden lg:min-h-150 lg:px-10 lg:pb-10 lg:pt-20 lg:flex lg:flex-col lg:gap-10 lg:justify-between">
 					<Image

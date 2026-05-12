@@ -1,6 +1,7 @@
 import { Title } from "@/components/UI/Title"
 import { RightArrowIcon } from "@/icons/RightArrowIcon"
 import Image from "next/image"
+import Link from "next/link"
 
 export default function VideoControl() {
 	return (
@@ -13,10 +14,10 @@ export default function VideoControl() {
 						Система видеонаблюдения позволяет удобно следить за тем,
 						что происходит у вас дома.
 					</div>
-					<a href="#" className="-tracking-[0.01em] lg:inline-flex hidden font-helvetica items-center gap-1 text-[15px] font-medium text-brand-blue group">
+					<Link href="/video-control" className="-tracking-[0.01em] lg:inline-flex hidden font-helvetica items-center gap-1 text-[15px] font-medium text-brand-blue group">
 						Узнать больше
 						<RightArrowIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300"></RightArrowIcon>
-					</a>
+					</Link>
 				</div>
 				<Image
 					src="/images/security-page/video-control/main.png"

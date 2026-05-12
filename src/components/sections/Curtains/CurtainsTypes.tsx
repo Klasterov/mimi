@@ -11,6 +11,7 @@ import Image from "next/image";
 import { useState, useRef, useEffect } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -123,10 +124,10 @@ export default function CurtainsTypes() {
 					className="mb-6 md:mb-8 lg:mb-10 justify-between lg:flex lg:items-end lg:gap-10"
 				>
 					<Title>Типы штор</Title>
-					<a href="#" className="lg:inline-flex tracking-[-0.01e] hidden items-center gap-1 text-[15px] text-brand-blue group">
+					<Link href="/electric-curtains" className="lg:inline-flex tracking-[-0.01e] hidden items-center gap-1 text-[15px] text-brand-blue group">
 						Узнать больше про шторы
 						<RightArrowIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-					</a>
+					</Link>
 				</div>
 
 				<ul ref={cardsRef} className="hidden mb-10 lg:grid grid-cols-3 gap-5">

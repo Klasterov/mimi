@@ -5,6 +5,7 @@ import Footer from "@/components/layout/Footer";
 import { Title } from "@/components/UI/NotFoundTitle";
 import { Button } from "@/components/UI/Button";
 import Image from "next/image";
+import { ButtonLink } from "@/components/UI/ButtonLink";
 
 export default function NotFoundPage() {
 	return (
@@ -53,7 +54,7 @@ export default function NotFoundPage() {
 						</div>
 						<Title>4 0 4</Title>
 						<div className="mb-10 font-helvetica text-[17px] leading-[1.3] -tracking-[0.01em]">Ой, такой страницы больше нет</div>
-						<Button className="justify-center sm:py-1.75">Вернуться на главную</Button>
+						<ButtonLink href='/' className="justify-center sm:py-1.75">Вернуться на главную</ButtonLink>
 					</div>
 				</div>
 			</main>

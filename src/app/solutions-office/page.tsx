@@ -75,7 +75,7 @@ export default function solutionsOfficePage() {
 				<SystemCase
 					title="Видеонаблюдение"
 					text="Одним из важных компонентов системы безопасности является видеонаблюдение."
-					link="#"
+					link="/video-control"
 					image="/images/solutions-page/system-case/1.jpg"
 					imageWidth={910}
 					imageHeight={540}

@@ -1,6 +1,7 @@
 import { Title } from "@/components/UI/Title";
 import { RightArrowIcon } from "@/icons/RightArrowIcon";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function ClimateFunctions() {
 	return (
@@ -18,10 +19,10 @@ export default function ClimateFunctions() {
 						<div className="relative">
 							<h3 className="mb-2.5 font-semibold text-[32px] leading-snug">Управление отоплением.</h3>
 							<p className="mb-2.5 text-[17px] leading-tight font-helvetica">Управление климатом в Умном Доме также позволяет прогревать комнаты перед вашим возвращением с работы или из путешествия.</p>
-							<a href="#" className="inline-flex items-center gap-1 text-[15px] font-medium text-brand-blue group">
+							<Link href="/heating" className="inline-flex items-center gap-1 text-[15px] font-medium text-brand-blue group">
 								Узнать больше про отопление
 								<RightArrowIcon className="w-5 h-5"></RightArrowIcon>
-							</a>
+							</Link>
 						</div>
 					</li>
 					<li className="flex px-15 py-9 min-h-150 -leading-[0.01em] bg-white overflow-hidden rounded-[20px] relative">
@@ -34,10 +35,10 @@ export default function ClimateFunctions() {
 						<div className="relative mt-auto">
 							<h3 className="mb-2.5 font-semibold text-[32px] leading-snug">Контроль влажности.</h3>
 							<p className="mb-2.5 text-[17px] leading-tight font-helvetica">Системы подогрева воздуха часто применяются в помещениях с панорамным остеклением.</p>
-							<a href="#" className="inline-flex items-center gap-1 text-[15px] font-medium text-brand-blue group">
+							<Link href="/climate" className="inline-flex items-center gap-1 text-[15px] font-medium text-brand-blue group">
 								Узнать больше про увлажнение
 								<RightArrowIcon className="w-5 h-5"></RightArrowIcon>
-							</a>
+							</Link>
 						</div>
 					</li>
 
@@ -51,10 +52,10 @@ export default function ClimateFunctions() {
 						<div className="mt-auto relative">
 							<h3 className="mb-2.5 font-semibold text-[32px] leading-snug">Кондиционер.</h3>
 							<p className="mb-2.5 text-[17px] leading-tight font-helvetica">Системы подогрева воздуха часто применяются в помещениях с панорамным остеклением.</p>
-							<a href="#" className="inline-flex items-center gap-1 text-[15px] font-medium text-brand-blue group">
+							<Link href="/air-conditioning" className="inline-flex items-center gap-1 text-[15px] font-medium text-brand-blue group">
 								Узнать больше про кондиционирование
 								<RightArrowIcon className="w-5 h-5"></RightArrowIcon>
-							</a>
+							</Link>
 						</div>
 					</li>
 					<li className="px-15 py-9 min-h-150 -leading-[0.01em] bg-white overflow-hidden rounded-[20px] relative">
@@ -67,20 +68,20 @@ export default function ClimateFunctions() {
 						<div className="relative">
 							<h3 className="mb-2.5 font-semibold text-[32px] leading-snug">Теплый пол.</h3>
 							<p className="mb-2.5 text-[17px] leading-tight font-helvetica">Представьте, что вы встаете утром, идете в ванную или на кухню, и вместо холодного кафеля вас встречает теплый пол.</p>
-							<a href="#" className="inline-flex items-center gap-1 text-[15px] font-medium text-brand-blue group">
+							<Link href="/underfloor-heating" className="inline-flex items-center gap-1 text-[15px] font-medium text-brand-blue group">
 								Узнать больше про теплый пол
 								<RightArrowIcon className="w-5 h-5"></RightArrowIcon>
-							</a>
+							</Link>
 						</div>
 					</li>
 					<li className="col-span-2 gap-5 min-h-125 flex items-center -leading-[0.01em] bg-white overflow-hidden rounded-[20px] relative">
 						<div className="pl-15 py-10">
 							<h3 className="mb-6 font-semibold text-[32px] leading-snug lg:max-w-87">Управление вентиляцией.</h3>
 							<p className="mb-6 text-[17px] leading-tight font-helvetica">Предполагает непрерывный контроль за уровнем углекислого газа в помещениях. При необходимости система вентиляции включается автоматически.</p>
-							<a href="#" className="inline-flex items-center gap-1 text-[15px] font-medium text-brand-blue group">
+							<Link href="/ventilation" className="inline-flex items-center gap-1 text-[15px] font-medium text-brand-blue group">
 								Узнать больше про вентиляцию
 								<RightArrowIcon className="w-5 h-5"></RightArrowIcon>
-							</a>
+							</Link>
 						</div>
 						<div className="relative flex-none w-[47%] h-full">
 							<Image

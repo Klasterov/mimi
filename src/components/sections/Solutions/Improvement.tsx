@@ -3,14 +3,15 @@ import { useEffect, useRef, useState } from "react"
 import { BtnArrowIcon } from "@/icons/BtnArrowIcon"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import Link from "next/link"
 
 gsap.registerPlugin(ScrollTrigger)
 
 const slides = [
-	{ image: '/images/solutions-page/improvement/1.jpg', title: 'Вашу квартиру.', subtitle: 'Поможем улучшить' },
-	{ image: '/images/solutions-page/improvement/2.jpg', title: 'Ваш дом.', subtitle: 'Поможем улучшить' },
-	{ image: '/images/solutions-page/improvement/3.jpg', title: 'Ваш офис.', subtitle: 'Поможем улучшить' },
-	{ image: '/images/solutions-page/improvement/4.jpg', title: 'Жилой комплекс.', subtitle: 'Поможем улучшить' },
+	{ href: '/solutions-flat', image: '/images/solutions-page/improvement/1.jpg', title: 'Вашу квартиру.', subtitle: 'Поможем улучшить' },
+	{ href: '/solutions-home', image: '/images/solutions-page/improvement/2.jpg', title: 'Ваш дом.', subtitle: 'Поможем улучшить' },
+	{ href: '/solutions-office', image: '/images/solutions-page/improvement/3.jpg', title: 'Ваш офис.', subtitle: 'Поможем улучшить' },
+	{ href: '/solutions-appartments', image: '/images/solutions-page/improvement/4.jpg', title: 'Жилой комплекс.', subtitle: 'Поможем улучшить' },
 ]
 
 export default function Improvement() {
@@ -122,10 +123,10 @@ export default function Improvement() {
 						</div>
 					</div>
 
-					<button className="min-w-62.25 shadow-[inset_-3px_-3px_6px_1px_rgba(255,255,255,0.5),inset_3px_3px_6px_0_#eaeaea] cursor-pointer rounded-[50px] leading-none flex px-11 py-2 items-center justify-center uppercase gap-1.5 font-semibold text-[13px] bg-[#d1d1d1] tracking-[-0.02em] text-[#5a250a] group">
+					<Link href={slides[0].href} className="min-w-62.25 shadow-[inset_-3px_-3px_6px_1px_rgba(255,255,255,0.5),inset_3px_3px_6px_0_#eaeaea] cursor-pointer rounded-[50px] leading-none flex px-11 py-2 items-center justify-center uppercase gap-1.5 font-semibold text-[13px] bg-[#d1d1d1] tracking-[-0.02em] text-[#5a250a] group">
 						Подробнее
 						<BtnArrowIcon className="group-hover:translate-x-1 transition-transform duration-300 w-6 h-6" />
-					</button>
+					</Link>
 				</div>
 			</div>
 		</section>

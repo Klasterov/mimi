@@ -49,7 +49,7 @@ export default function PartnersForAgency() {
 							понятной для нового владельца.
 						</p>
 					</div>
-					<ArrowLink href="#">Подробнее агентствам</ArrowLink>
+					<ArrowLink href="/for-agencies">Подробнее агентствам</ArrowLink>
 				</div>
 
 				<div className="pt-15.5 lg:pt-20 flex gap-10 flex-col items-center rounded-3xl shadow-[0_28px_24px_0_rgba(0,0,0,0.04)] bg-linear-to-b from-white/0 to-white">

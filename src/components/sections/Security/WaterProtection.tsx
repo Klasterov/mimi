@@ -8,6 +8,7 @@ import { EffectFade, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import { RightArrowIcon } from "@/icons/RightArrowIcon";
+import Link from "next/link";
 
 const features = [
 	{
@@ -86,10 +87,10 @@ export default function WaterProtection() {
 		<section className="pt-22.5 lg:pt-30 pb-22.5 overflow-hidden">
 			<div className="max-w-308 mb-10 mx-auto px-4 flex md:flex-row flex-col items-start gap-10 justify-between md:items-end">
 				<Title>Защита от протечек воды</Title>
-				<a href="#" className="font-helvetica inline-flex lg:items-center gap-1 -tracking-[0.01em] text-[15px] font-medium text-brand-blue group whitespace-nowrap">
+				<Link href="/protection-against-leaks" className="font-helvetica inline-flex lg:items-center gap-1 -tracking-[0.01em] text-[15px] font-medium text-brand-blue group whitespace-nowrap">
 					Узнать больше
 					<RightArrowIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300"></RightArrowIcon>
-				</a>
+				</Link>
 			</div>
 			<div className="max-w-348 mx-auto px-4">
 				<div className="rounded-3xl overflow-hidden bg-white min-h-152.5 items-center gap-30 lg:flex hidden">

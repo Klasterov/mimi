@@ -5,6 +5,7 @@ import Image from "next/image"
 import { useEffect, useRef } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import Link from "next/link"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -130,10 +131,10 @@ export default function EquipmentReserve() {
 							Питание остается на приоритетных контурах — контроллеры, связь/интернет, охрана, сервер, аварийный свет — так что все сценарии умного дома и замки остаются активны без пауз.
 						</p>
 
-						<a href="#" className="font-helvetica inline-flex items-center gap-1 text-[15px] font-medium text-brand-blue group">
+						<Link href="/power-supply" className="font-helvetica inline-flex items-center gap-1 text-[15px] font-medium text-brand-blue group">
 							Бесперебойное электроснабжение
 							<RightArrowIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-						</a>
+						</Link>
 					</div>
 
 				</div>

@@ -9,6 +9,7 @@ import { Navigation } from "swiper/modules";
 
 import "swiper/css";
 import { useState } from "react";
+import Link from "next/link";
 
 const cols = [
 	{
@@ -64,10 +65,10 @@ export default function SmartSockets() {
 						<div className="mb-6 md:mb-4 font-helvetica text-[17px] leading-tight -tracking-[0.01em]">
 							Сигнализация в системе Умный дом реализуется за счет комплекса датчиков, которые покрывают всю охраняемую площадь.
 						</div>
-						<a href="#" className="inline-flex hover:text-foreground transition-colors duration-300 items-center gap-1 text-[15px] font-helvetica font-medium text-brand-blue group">
+						<Link href="/sockets" className="inline-flex hover:text-foreground transition-colors duration-300 items-center gap-1 text-[15px] font-helvetica font-medium text-brand-blue group">
 							Узнать больше
 							<RightArrowIcon className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"></RightArrowIcon>
-						</a>
+						</Link>
 					</div>
 					<div className="mb-32.5 lg:mb-30 flex flex-col lg:flex-row  items-center gap-20 lg:gap-28">
 						<div className="w-85.75 sm:max-w-none flex-none aspect-square relative">

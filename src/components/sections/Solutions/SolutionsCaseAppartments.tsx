@@ -1,6 +1,7 @@
 import { Title } from "@/components/UI/Title";
 import { RightArrowIcon } from "@/icons/RightArrowIcon";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function SolutionsCase() {
 	return (
@@ -13,12 +14,12 @@ export default function SolutionsCase() {
 					<div className="font-helvetica text-[17px] leading-[1.3] -tracking-[0.01em]">
 						Датчики дыма/протечки/газа/открытия работают в общей логике: включаются маршруты света, разблокируются двери, перекрываются вода/газ, вентиляция реагирует по регламенту.
 					</div>
-					<a href="#" className="inline-flex hover:text-foreground transition-colors duration-300 items-center gap-1 text-[15px] font-medium text-brand-blue group">
+					<Link href="/detector" className="inline-flex hover:text-foreground transition-colors duration-300 items-center gap-1 text-[15px] font-medium text-brand-blue group">
 						Узнать больше
 						<RightArrowIcon className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
-					</a>
+					</Link>
 				</div>
-				<div className="">
+				<div >
 					<Image
 						width={419}
 						height={575}

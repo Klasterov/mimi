@@ -1,6 +1,7 @@
 import { Title } from "@/components/UI/Title";
 import { RightArrowIcon } from "@/icons/RightArrowIcon";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function VentilationControl() {
 	return (
@@ -10,10 +11,10 @@ export default function VentilationControl() {
 				<div className="font-helvetica mb-6 text-[17px] leading-[1.3] -tracking-[0.01em] max-w-142.5">
 					Система считывает CO₂ и присутствие и автоматически регулирует приток и вытяжку по зонам. Опен-спейс, кабинеты и переговорные получают ровно столько воздуха, сколько нужно. Пустые зоны переходят в эко-режим без ручных переключений.
 				</div>
-				<a href="#" className="mb-20 inline-flex hover:text-foreground transition-colors duration-300 items-center gap-1 text-[15px] text-brand-blue group">
+				<Link href="/ventilation" className="mb-20 inline-flex hover:text-foreground transition-colors duration-300 items-center gap-1 text-[15px] text-brand-blue group">
 					Узнать больше
 					<RightArrowIcon className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
-				</a>
+				</Link>
 				<div className="relative max-sm:w-70">
 					<Image
 						width={364}

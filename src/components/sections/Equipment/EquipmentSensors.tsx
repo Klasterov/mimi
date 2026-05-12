@@ -5,6 +5,7 @@ import Image from "next/image"
 import { useEffect, useRef } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import Link from "next/link"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -127,14 +128,14 @@ export default function EquipmentSensors() {
 						Умный Дом MiMiSmart ведет статистику и накапливает показания всех датчиков в системе ежесекундно. Все показания вы контролируете в online режиме с приложения.
 					</div>
 
-					<a
+					<Link
 						ref={linkRef}
-						href="#"
+						href="/detector"
 						className="inline-flex hover:text-foreground transition-colors duration-300 items-center gap-1 text-[15px] font-medium text-brand-blue group"
 					>
 						Узнать больше о датчиках
 						<RightArrowIcon className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
-					</a>
+					</Link>
 				</div>
 
 				{/* Иконки без анимации */}

@@ -6,6 +6,7 @@ import Image from "next/image"
 import { useEffect, useRef } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import Link from "next/link"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -181,13 +182,13 @@ export default function ServicesMontage() {
 							<div className="font-helvetica mb-2.5 lg:mb-6 text-brand-light-gray">
 								Система децентрализована, не имеет "центрального мозга", что позволяет поднять надежность системы на новый уровень.
 							</div>
-							<a
-								href="#"
+							<Link
+								href="/customization"
 								className="-tracking-[0.01em] inline-flex hover:text-foreground transition-colors duration-300 items-center gap-1 text-[15px] font-medium text-brand-blue group"
 							>
 								Узнать больше про монтаж
 								<RightArrowIcon className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
-							</a>
+							</Link>
 						</div>
 
 						<div className="flex-none w-[47.25%] hidden md:block relative aspect-430/500">
