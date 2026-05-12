@@ -1,0 +1,1121 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter);
+
+  --color-background: #f4f4f4;
+  --color-foreground: #0b0d10;
+
+  --color-brand-blue: #478beb;
+  --color-brand-gray: #5f6368;
+  --color-brand-light-gray: #262626;
+
+
+  --ease-soft: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --ease-float: cubic-bezier(0.33, 1, 0.68, 1);
+  --ease-drift: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-chaos: cubic-bezier(0.6, 0.04, 0.98, 0.34);
+}
+
+@layer base {
+
+  *,
+  ::after,
+  ::before {
+    border-color: var(--color-gray-200, currentColor);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    @apply font-sans antialiased;
+  }
+}
+
+@layer utilities {
+  .font-helvetica {
+    font-family: var(--font-helvetica), Arial, sans-serif;
+  }
+}
+
+.swiper-pagination {
+  width: fit-content;
+  margin: 28px auto 0;
+  display: flex;
+  gap: 10px;
+  backdrop-filter: blur(4px);
+  background: rgba(217, 217, 217, 0.9);
+  border-radius: 50px;
+  padding: 20px;
+}
+
+.cinema-features .swiper-pagination {
+  backdrop-filter: blur(2px);
+  background: rgba(38, 38, 38, 0.9);
+}
+
+.swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background: #a8a8a9;
+  border-radius: 5px;
+  transition: width .3s ease, background .3s ease;
+}
+
+
+.cinema-features .swiper-pagination-bullet {
+  background: #3c3c3c;
+}
+
+.swiper-pagination-bullet-active {
+  width: 40px;
+  background: #0a051a;
+}
+
+.cinema-features .swiper-pagination-bullet-active {
+  background: white;
+}
+
+/* styles/globals.css или отдельный файл */
+.pattern-bg-dark {
+  background-image: url('/images/cases/decor.svg');
+  background-repeat: repeat;
+  background-size: 14px 13px;
+}
+
+.pattern-bg {
+  background-image: url('/images/cases/decor-light.svg');
+  background-repeat: repeat;
+  background-size: 14px 22px;
+}
+
+
+/* hover */
+.living-zone {
+  position: absolute;
+  top: 48%;
+  left: 0.1%;
+  width: 15.4%;
+  height: 19.5%;
+}
+
+/* последовательность + прозрачность */
+.kitchen-zone:hover .step-1,
+.bedroom-zone:hover .step-1,
+.living-zone:hover .step-1 {
+  opacity: 0.25;
+  transition-delay: 0ms;
+}
+
+.kitchen-zone:hover .step-2,
+.bedroom-zone:hover .step-2,
+.living-zone:hover .step-2 {
+  opacity: 0.35;
+  transition-delay: 120ms;
+}
+
+.kitchen-zone:hover .step-3,
+.bedroom-zone:hover .step-3,
+.living-zone:hover .step-3 {
+  opacity: 0.5;
+  transition-delay: 240ms;
+}
+
+.kitchen-zone:hover .step-4,
+.bedroom-zone:hover .step-4,
+.living-zone:hover .step-4 {
+  opacity: 0.7;
+  transition-delay: 360ms;
+}
+
+.kitchen-zone:hover .step-5,
+.bedroom-zone:hover .step-5,
+.living-zone:hover .step-5 {
+  opacity: 0.85;
+  transition-delay: 480ms;
+}
+
+.kitchen-zone:hover .step-6,
+.bedroom-zone:hover .step-6,
+.living-zone:hover .step-6 {
+  opacity: 1;
+  transition-delay: 600ms;
+}
+
+/* Анимация датчика в прихожей */
+.sensor {
+  position: absolute;
+  bottom: 2%;
+  right: 1%;
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+  --pulse-intensity: 0;
+  --pulse-speed: 2s;
+}
+
+.pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  /* Немного прозрачности */
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Анимация запускается только когда мышь в зоне */
+.sensor.active .pulse {
+  animation: ripple var(--pulse-speed) infinite linear;
+}
+
+.pulse2 {
+  animation-delay: calc(var(--pulse-speed) / 3) !important;
+}
+
+.pulse3 {
+  animation-delay: calc(var(--pulse-speed) / 1.5) !important;
+}
+
+@keyframes ripple {
+  0% {
+    transform: translate(-50%, -50%) scale(calc(1 + var(--pulse-intensity)));
+    opacity: calc(0.3 + var(--pulse-energy));
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(calc(2.5 + var(--pulse-intensity) * 3));
+    opacity: 0;
+  }
+}
+
+/* Инверсия цвета для темной темы */
+.dark-theme .pulse {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* CCTV */
+.living-cctv {
+  position: absolute;
+  top: -7%;
+  right: -6.2%;
+  display: block;
+  transform-origin: calc(100% - 22px) 11px;
+  pointer-events: none;
+}
+
+@media (min-width: 640px) {
+  .living-cctv {
+    animation: cctv-anim 7s infinite linear;
+
+  }
+}
+
+
+@keyframes cctv-anim {
+  0% {
+    transform: rotate(0deg) translate(0, 0);
+  }
+
+  50% {
+    transform: rotate(-40deg) translate(-5px, 1px);
+  }
+
+  100% {
+    transform: rotate(0deg) translate(0, 0);
+  }
+}
+
+.bedroom-zone {
+  position: absolute;
+  left: 11.4%;
+  bottom: 9.2%;
+  width: 38.3%;
+  height: 22.4%;
+}
+
+.bedroom-zone:hover .lamp-off {
+  opacity: 0;
+}
+
+.bedroom-zone:hover .lamp-on {
+  opacity: 1;
+}
+
+.bedroom-zone.dark-theme .lamp-off {
+  opacity: 0;
+}
+
+.bedroom-zone.dark-theme .lamp-on {
+  opacity: 1;
+}
+
+.bedroom-zone:hover .curtain-open {
+  opacity: 0;
+}
+
+.bedroom-zone:hover .curtain-close {
+  opacity: 1;
+}
+
+.bedroom-zone .curtain {
+  display: block;
+  position: absolute;
+  top: 13.3%;
+  left: -3%;
+  transition: 0.4s;
+  pointer-events: none;
+}
+
+.bedroom-zone .curtain-open {
+  opacity: 1;
+}
+
+.bedroom-zone.dark-theme .curtain-open {
+  opacity: 0;
+}
+
+.bedroom-zone .curtain-close {
+  opacity: 0;
+}
+
+.bedroom-zone.dark-theme .curtain-close {
+  opacity: 1;
+}
+
+.bedroom-zone .lamp {
+  display: block;
+  position: absolute;
+  bottom: -10.3%;
+  left: -2.9%;
+  pointer-events: none;
+  transition: opacity 0.4s .2s;
+}
+
+.bedroom-zone .lamp-off {
+  opacity: 1;
+}
+
+.bedroom-zone .lamp-on {
+  opacity: 0;
+}
+
+
+.kitchen-zone {
+  position: absolute;
+  width: 20.7%;
+  height: 35.4%;
+  right: 14.7%;
+  bottom: 16.8%;
+}
+
+.kitchen-zone-2 {
+  position: absolute;
+  width: 69.2%;
+  height: 100%;
+  bottom: -21.6%;
+  right: 100%;
+}
+
+.kitchen-zone:hover .lamp-off {
+  opacity: 0;
+}
+
+.kitchen-zone:hover .lamp-on {
+  opacity: 1;
+}
+
+.kitchen-zone.dark-theme .lamp-off {
+  opacity: 0;
+}
+
+.kitchen-zone.dark-theme .lamp-on {
+  opacity: 1;
+}
+
+.kitchen-zone .lamp {
+  display: block;
+  position: absolute;
+  top: -5.6%;
+  left: -3%;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.kitchen-zone:hover .conditioner-off {
+  opacity: 0;
+}
+
+.kitchen-zone:hover .conditioner-on {
+  opacity: 1;
+}
+
+.kitchen-zone.dark-theme:hover .conditioner-off {
+  opacity: 1;
+}
+
+.kitchen-zone.dark-theme:hover .conditioner-on {
+  opacity: 0;
+}
+
+.kitchen-zone .conditioner {
+  display: block;
+  position: absolute;
+  top: 26.8%;
+  left: -12.3%;
+  pointer-events: none;
+  transition: 0.4s;
+}
+
+.kitchen-zone .conditioner-on {
+  left: -11.6%;
+
+}
+
+.kitchen-zone .lamp-off {
+  opacity: 1;
+}
+
+.kitchen-zone .lamp-on {
+  opacity: 0;
+}
+
+.kitchen-zone .conditioner-off {
+  opacity: 1;
+}
+
+.kitchen-zone .conditioner-on {
+  opacity: 0;
+}
+
+.garage-zone {
+  position: absolute;
+  top: 17%;
+  right: 0%;
+  width: 13.9%;
+  height: 66.9%;
+}
+
+.car {
+  display: block;
+  position: absolute;
+
+  top: 6.8%;
+  left: 15.9%;
+  width: 70.9%;
+  aspect-ratio: 142/310;
+}
+
+.garage-cctv {
+  position: absolute;
+  top: -2.8%;
+  left: -28%;
+  display: block;
+  transform-origin: calc(100% - 22px) 11px;
+  pointer-events: none;
+
+  /* 1. Анимация всегда привязана к элементу */
+  animation: garage-cctv-anim 4s ease-in-out infinite;
+
+  /* 2. НО в обычном состоянии она стоит на паузе */
+  animation-play-state: paused;
+
+  /* 3. Переход для плавного возврата */
+  transition: transform 1s var(--ease-soft);
+
+  /* Исходная точка */
+  transform: scaleX(-1) rotate(-10deg) translate(0, 0);
+}
+
+.garage-zone:hover .garage-cctv {
+  /* 4. При наведении запускаем анимацию с того же места, где она замерла */
+  animation-play-state: running;
+}
+
+@keyframes garage-cctv-anim {
+
+  0%,
+  100% {
+    /* Должно совпадать с исходной точкой выше */
+    transform: scaleX(-1) rotate(-10deg) translate(0, 0);
+  }
+
+  50% {
+    /* Крайняя точка поворота */
+    transform: scaleX(-1) rotate(-40deg) translate(-5px, 1px);
+  }
+}
+
+.sitting-zone {
+  position: absolute;
+  width: 20.5%;
+  height: 30.3%;
+  top: 16.2%;
+  right: 14.6%;
+}
+
+.sitting-zone .curtain {
+  display: block;
+  position: absolute;
+  transform: rotate(90deg);
+  top: -1.7%;
+  left: -7.5%;
+  transition: 0.5s;
+  pointer-events: none;
+}
+
+
+.blur-el {
+  position: absolute;
+  top: 14%;
+  height: 72%;
+  aspect-ratio: 511 / 431;
+  right: 0;
+
+}
+
+.blur-el div {
+  position: absolute;
+  width: calc(10% + 1px);
+  bottom: 0;
+  backdrop-filter: blur(30px);
+  /* background: rgba(217, 217, 217, 0.1); */
+  /* background: linear-gradient(270deg,
+      rgba(217, 217, 217, 0),
+      rgba(217, 217, 217, 0.5)); */
+  background-size: 300% 300%;
+}
+
+.blur-el div:not(:last-child):after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  height: 100%;
+  right: 0;
+  width: 1px;
+  z-index: 2;
+  background: linear-gradient(0deg,
+      rgba(255, 255, 255, .4),
+      rgba(255, 255, 255, 0.1));
+}
+
+.blur-el div:nth-child(1) {
+  left: 0%;
+  height: 31%;
+  z-index: 10;
+}
+
+.blur-el div:nth-child(2) {
+  left: 10%;
+  height: 39%;
+  z-index: 9;
+}
+
+.blur-el div:nth-child(3) {
+  left: 20%;
+  height: 49%;
+  z-index: 8;
+}
+
+.blur-el div:nth-child(4) {
+  left: 30%;
+  height: 55%;
+  z-index: 7;
+}
+
+.blur-el div:nth-child(5) {
+  left: 40%;
+  height: 61%;
+  z-index: 6;
+}
+
+.blur-el div:nth-child(6) {
+  left: 50%;
+  height: 69%;
+  z-index: 5;
+}
+
+.blur-el div:nth-child(7) {
+  left: 60%;
+  height: 77%;
+  z-index: 4;
+}
+
+.blur-el div:nth-child(8) {
+  left: 70%;
+  height: 84%;
+  z-index: 3;
+}
+
+.blur-el div:nth-child(9) {
+  left: 80%;
+  height: 92%;
+  z-index: 2;
+}
+
+.blur-el div:nth-child(10) {
+  left: 90%;
+  height: 100%;
+}
+
+/*  */
+.blur-anim {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+}
+
+.blur-anim div {
+  position: absolute;
+  width: calc(10% + 1px);
+  bottom: -10px;
+  backdrop-filter: blur(2px);
+  background: linear-gradient(270deg,
+      rgba(217, 217, 217, 0.8),
+      rgba(217, 217, 217, 0.3),
+      rgba(217, 217, 217, 0.8));
+  background-size: 300% 300%;
+  will-change: transform, opacity;
+}
+
+.blur-anim div:not(:last-child):after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  height: 100%;
+  right: 0;
+  width: 2px;
+  z-index: 2;
+  background: linear-gradient(0deg,
+      rgba(255, 255, 255, 1),
+      rgba(255, 255, 255, 0.1));
+}
+
+/* Анимация включается только через класс .active */
+.blur-anim.active div {
+  animation: blurFlow 6s ease-in-out infinite;
+}
+
+@keyframes blurFlow {
+  0% {
+    background-position: 0% 50%;
+    backdrop-filter: blur(2px);
+    opacity: 0.8;
+  }
+
+  50% {
+    background-position: 100% 50%;
+    backdrop-filter: blur(3px);
+    opacity: 1;
+  }
+
+  100% {
+    background-position: 0% 50%;
+    backdrop-filter: blur(4px);
+    opacity: 0.8;
+  }
+}
+
+.blur-anim div:nth-child(odd) {
+  animation-delay: -2s;
+}
+
+.blur-anim div:nth-child(even) {
+  animation-delay: -4s;
+}
+
+.blur-anim div:nth-child(1) {
+  left: 0%;
+  height: 65%;
+  z-index: 10;
+}
+
+.blur-anim div:nth-child(2) {
+  left: 10%;
+  height: 60%;
+  z-index: 9;
+}
+
+.blur-anim div:nth-child(3) {
+  left: 20%;
+  height: 55%;
+  z-index: 8;
+}
+
+.blur-anim div:nth-child(4) {
+  left: 30%;
+  height: 50%;
+  z-index: 7;
+}
+
+.blur-anim div:nth-child(5) {
+  left: 40%;
+  height: 45%;
+  z-index: 6;
+}
+
+.blur-anim div:nth-child(6) {
+  left: 50%;
+  height: 41%;
+  z-index: 5;
+}
+
+.blur-anim div:nth-child(7) {
+  left: 60%;
+  height: 37%;
+  z-index: 4;
+}
+
+.blur-anim div:nth-child(8) {
+  left: 70%;
+  height: 32%;
+  z-index: 3;
+}
+
+.blur-anim div:nth-child(9) {
+  left: 80%;
+  height: 30%;
+  z-index: 2;
+}
+
+.blur-anim div:nth-child(10) {
+  left: 90%;
+  height: 22%;
+}
+
+@keyframes scroll-y-down {
+  from {
+    transform: translateY(0)
+  }
+
+  to {
+    transform: translateY(-50%)
+  }
+}
+
+/*  */
+
+.team-col {
+  will-change: transform;
+}
+
+@keyframes scroll-y-up {
+  from {
+    transform: translateY(-50%)
+  }
+
+  to {
+    transform: translateY(0)
+  }
+}
+
+
+@keyframes scroll-x-left {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scroll-x-right {
+  from {
+    transform: translateX(-50%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* mobile */
+.team-col--left {
+  animation: scroll-x-left 25s linear infinite
+}
+
+.team-col--right {
+  animation: scroll-x-right 25s linear infinite
+}
+
+/* desktop */
+@media (min-width: 1024px) {
+  .team-col--left {
+    animation: scroll-y-down 30s linear infinite
+  }
+
+  .team-col--right {
+    animation: scroll-y-up 30s linear infinite
+  }
+}
+
+.close-btn:after,
+.close-btn:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: currentColor;
+  border-radius: 2px;
+  height: 2px;
+  width: 15px;
+}
+
+.close-btn:after {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.close-btn:before {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* globals.css */
+@keyframes fade-in {
+  from {
+    opacity: 0
+  }
+
+  to {
+    opacity: 1
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.25s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.text-wrapper {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.text-slide {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  transform: translateY(100%);
+  opacity: 0;
+}
+
+.image-0,
+.image-1,
+.image-2,
+.image-3 {
+  opacity: 0;
+}
+
+.image-0 {
+  opacity: 1;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes text-fill-shadow {
+  0% {
+    color: #a8a8a9;
+    text-shadow:
+      0 0 0 rgba(#0b0d10, 0),
+      0 0 0 rgba(#0b0d10, 0);
+  }
+
+  100% {
+    color: #1a1a1a;
+    text-shadow:
+      0 1px 1px rgba(#0b0d10, 0.35),
+      0 6px 18px rgba(#0b0d10, 0.45);
+  }
+}
+
+.animate-text-fill {
+  animation: text-fill-shadow 1.2s ease-out forwards;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  will-change: transform;
+  opacity: 0.95;
+}
+
+/* Тёплый золотой */
+.blob-1 {
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle,
+      #ffb648 0%,
+      #c97a00 45%,
+      transparent 75%);
+  top: -10%;
+  left: -5%;
+}
+
+/* Фиолетовый неоновый */
+.blob-2 {
+  width: 360px;
+  height: 360px;
+  background: radial-gradient(circle,
+      #c65cff 0%,
+      #6b1bb1 50%,
+      transparent 75%);
+  bottom: 10%;
+  right: -10%;
+}
+
+/* Световой блик */
+.blob-3 {
+  width: 520px;
+  height: 240px;
+  background: radial-gradient(circle,
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(255, 255, 255, 0.35) 40%,
+      transparent 70%);
+  top: 40%;
+  left: 10%;
+  mix-blend-mode: screen;
+}
+
+/* Голубой неон */
+.blob-4 {
+  width: 520px;
+  height: 240px;
+  background: radial-gradient(circle,
+      #6fdcff 0%,
+      #1c7fd6 50%,
+      transparent 75%);
+  bottom: -10%;
+  left: 20%;
+}
+
+.glow-block {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+}
+
+.rect {
+  position: absolute;
+  width: 60%;
+  height: 40%;
+  top: 50%;
+  left: 50%;
+  border-radius: 24px;
+  /* ИЗМЕНЕНО: Сильно увеличил блюр для мягкости */
+  filter: blur(7px);
+  mix-blend-mode: hard-light;
+  opacity: 0.7;
+  /* Добавлено для мягкости */
+}
+
+.shine {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.shine-core {
+  /* ИЗМЕНЕНО: Сделал белое ядро прозрачнее */
+  background: rgba(255, 255, 255, 0.3);
+  filter: blur(25px);
+  mix-blend-mode: plus-lighter;
+}
+
+.shine-glow {
+  background: rgba(255, 255, 255, 0.2);
+  filter: blur(15px);
+  mix-blend-mode: overlay;
+}
+
+/* ИЗМЕНЕНО: Цвета заменены на более глубокие (из Figma) */
+.rect-1 {
+
+  background: linear-gradient(92.16deg, rgba(255, 245, 153, 0) 0.4%, rgba(255, 245, 153, 0.2) 59.39%, #9D7F46 109.14%);
+  /* Deep Blue */
+}
+
+.rect-2 {
+  background: linear-gradient(92.12deg, #AECDFA 0.75%, rgba(71, 139, 235, 0.2) 49.68%, rgba(71, 139, 235, 0) 107.68%);
+  /* Soft Orange */
+}
+
+.rect-3 {
+  background: linear-gradient(92.16deg, rgba(255, 245, 153, 0) 0.4%, rgba(255, 245, 153, 0.2) 59.39%, #9D7F46 109.14%);
+  opacity: .7;
+  filter: blur(20px);
+  /* ИЗМЕНЕНО: Увеличен блюр */
+}
+
+.rect-4 {
+  background: linear-gradient(92.12deg, #AECDFA 0.75%, rgba(71, 139, 235, 0.2) 49.68%, rgba(71, 139, 235, 0) 107.68%);
+  opacity: .7;
+  filter: blur(20px);
+  /* ИЗМЕНЕНО: Увеличен блюр */
+}
+
+.rect-5 {
+  background: linear-gradient(92.16deg, rgba(255, 245, 153, 0) 0.4%, rgba(255, 245, 153, 0.2) 59.39%, #9D7F46 109.14%);
+  opacity: .5;
+  filter: blur(10px);
+  /* ИЗМЕНЕНО: Увеличен блюр */
+}
+
+.rect-6 {
+  background: linear-gradient(92.12deg, #AECDFA 0.75%, rgba(71, 139, 235, 0.2) 49.68%, rgba(71, 139, 235, 0) 107.68%);
+  filter: blur(10px);
+  /* ИЗМЕНЕНО: Увеличен блюр */
+}
+
+.dots-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* ИЗМЕНЕНО: Точки стали чуть тусклее (0.15 вместо 0.3) */
+  background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1px,
+      transparent 1px);
+  background-size: 6px 6px;
+  z-index: 5;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.typewriter-decor {
+  position: relative;
+}
+
+/* <div className="caret-start absolute -left-0.5 top-0 w-0.5 h-7 bg-black z-10 opacity-0">
+								<span className="absolute bottom-full left-1/2 w-2 h-2 rounded-full bg-black -translate-x-1/2"></span>
+							</div> */
+
+.typewriter-decor span {
+  position: absolute;
+  top: 0;
+  left: calc(100% + 2px);
+  width: 2px;
+  height: 28px;
+  background: #000;
+
+}
+
+.typewriter-decor span::after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #000;
+
+}
+
+/* Контейнер-подложка для шагов */
+#steps-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* Чтобы не мешал кликать по кнопкам */
+  z-index: 10;
+  /* Слой 1: выше фона, но ниже всего остального */
+  overflow: hidden;
+  /* Чтобы шаги не вылезали за границы дома */
+}
+
+/* Сами шаги */
+.dynamic-step {
+  position: absolute;
+  /* Привязываемся к координатам #steps-container */
+  width: 28px;
+  height: 19px;
+  pointer-events: none;
+  background-size: contain;
+  background-repeat: no-repeat;
+  transform-origin: center center;
+  /* Анимация затухания */
+  animation: stepLife 3s linear forwards;
+}
+
+/* Стадии прозрачности, как ты просил */
+@keyframes stepLife {
+  0% {
+    opacity: 0;
+  }
+
+  5% {
+    opacity: 0.8;
+  }
+
+  /* 80% сразу */
+  30% {
+    opacity: 0.5;
+  }
+
+  /* 50% позже */
+  60% {
+    opacity: 0.2;
+  }
+
+  /* 20% в конце */
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(-50% - 8px));
+  }
+}
+
+@keyframes marquee-reverse {
+  from {
+    transform: translateX(calc(-50% - 8px));
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 32s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-reverse {
+  animation: marquee-reverse 32s linear infinite;
+  will-change: transform;
+}

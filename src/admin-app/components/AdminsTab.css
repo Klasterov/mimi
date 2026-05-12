@@ -1,0 +1,74 @@
+.admins-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.admins-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 20px;
+}
+
+.admins-card {
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: linear-gradient(180deg, #ffffff 0%, #fafcff 100%);
+  box-shadow: var(--shadow-sm);
+}
+
+.admins-card h3 {
+  margin: 0 0 10px;
+  color: var(--text);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.admins-description,
+.admins-card-info p {
+  margin: 0;
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
+.admins-notes {
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.admins-note {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  background: white;
+}
+
+.admins-note strong {
+  color: var(--text);
+  font-size: 14px;
+}
+
+.admins-note span {
+  color: var(--text-light);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.admins-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+@media (max-width: 960px) {
+  .admins-layout {
+    grid-template-columns: 1fr;
+  }
+}

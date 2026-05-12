@@ -1,0 +1,159 @@
+.leads-tab {
+  width: 100%;
+}
+
+.leads-filters {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+  padding: 20px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow);
+}
+
+.filter-group {
+  flex: 1;
+  min-width: 220px;
+}
+
+.search-input,
+.status-select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 13px;
+  transition: var(--transition-fast);
+}
+
+.search-input:focus,
+.status-select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-lighter);
+}
+
+.pagination-info {
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: white;
+  color: var(--text-light);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: white;
+  box-shadow: var(--shadow);
+}
+
+.leads-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.leads-table thead {
+  background: var(--bg-alt);
+}
+
+.leads-table th,
+.leads-table td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.leads-table th {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.leads-table td {
+  max-width: 220px;
+  color: var(--text-light);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.leads-table tbody tr {
+  transition: var(--transition-fast);
+}
+
+.leads-table tbody tr:hover {
+  background: var(--overlay);
+}
+
+.comment-text {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.comment-input,
+.url-input,
+.leads-table input,
+.leads-table select {
+  width: 100%;
+  padding: 10px 12px;
+}
+
+.url-cell {
+  max-width: 160px;
+}
+
+.url-cell a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.consent-yes {
+  color: var(--success);
+  font-weight: 700;
+}
+
+.consent-no {
+  color: var(--danger);
+  font-weight: 700;
+}
+
+.actions-cell {
+  white-space: nowrap;
+  min-width: 160px;
+}
+
+.btn-edit,
+.btn-delete,
+.btn-save,
+.btn-cancel {
+  padding: 8px 12px;
+  margin-right: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.pagination-controls {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+.btn-pagination {
+  padding: 10px 14px;
+}
