@@ -73,7 +73,7 @@ export default function YouGet() {
 					<li className="js-you-get-card bg-linear-to-b max-md:flex-col from-[#313a39] to-[#7f8180] rounded-3xl text-white md:col-span-2 md:min-h-125 max-md:p-6 md:pl-15 flex justify-between items-center will-change-transform">
 						<h3 className="font-semibold leading-[1.3] -tracking-[0.01em] md:py-15">
 							Самый высокий
-							% агентских вознаграждений дизайнерам на рынке умных домов.
+							% вознаграждений дизайнерам на рынке умных домов.
 						</h3>
 						<Image
 							src="/images/for-designers-page/you-get/1.png"

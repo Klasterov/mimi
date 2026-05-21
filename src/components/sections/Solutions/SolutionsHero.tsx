@@ -87,12 +87,9 @@ export default function SolutionsHero() {
 					className="object-cover hidden lg:block xl:object-[center_80%]"
 				/>
 				<div className="relative max-w-236 mx-auto px-4 tracking-[-0.01em]">
-					<h3 className="animate-fade-up leading-tight mb-4 font-bold text-[24px] md:text-[28px] lg:text-[32px]">
-						В современном доме действительно нужна централизованная система управления умный дом, которая не только принесет комфорт и уют.
+					<h3 className="animate-fade-up leading-tight mb-14 lg:mb-42 font-bold text-[24px] md:text-[28px] lg:text-[32px]">
+						В современном доме действительно нужна централизованная система управления Умный дом, которая не только принесет комфорт и уют.
 					</h3>
-					<div className="font-helvetica animate-fade-up mb-10 lg:mb-38 -tracking-[0.035em] text-[17px] leading-tight md:max-w-116">
-						Настоящий умный дом - это система слаженного автоматизированного управления всеми инженерными системами дома
-					</div>
 
 					<ul className="animate-fade-up font-helvetica grid md:grid-cols-2 gap-10 text-[15px] lg:text-[16px] -tracking-[0.035em]">
 						<li className="max-w-88">

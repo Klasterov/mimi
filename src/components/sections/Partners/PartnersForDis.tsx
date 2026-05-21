@@ -19,7 +19,7 @@ const titleTextClass =
 const benefits = [
 	{
 		icon: "/images/partners-page/for-dis/icon-1.svg",
-		text: "Самый высокий % агентских вознаграждений дизайнерам на рынке умных домов",
+		text: "Самый высокий % вознаграждений дизайнерам на рынке умных домов",
 		iconClassName: "gap-3.75",
 	},
 	{

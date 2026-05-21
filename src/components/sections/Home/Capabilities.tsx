@@ -154,7 +154,7 @@ export default function Capabilities() {
 						<h3 className="hidden">Безопасность</h3>
 						<div className="relative flex justify-between gap-4 items-end">
 							<p className="font-helvetica text-[16px] max-w-85 leading-snug tracing-[-0.01em] text-[#95979e]">
-								Защита от протечек воды, охранная сигнализация, имитацция присутствия
+								Защита от протечек воды, охранная сигнализация, имитация присутствия
 							</p>
 							<Link href="/security" className="group shadow-[inset_-3px_-3px_6px_1px_rgba(255,255,255,0.5),inset_3px_3px_6px_0_#eaeaea] cursor-pointer rounded-[50px] leading-none flex px-11 py-2 border border-white items-center justify-center uppercase gap-1.5 font-semibold text-[13px] bg-[#f0f4f6] tracking-[-0.02em] text-[#0a051a] hover:opacity-80 transition-opacity">
 								Подробнее
@@ -183,7 +183,7 @@ export default function Capabilities() {
 						<h3 className="hidden">Шторы</h3>
 						<div className="relative flex justify-between gap-4 items-end">
 							<p className="font-helvetica text-[16px] max-w-85 leading-snug tracing-[-0.01em] text-[#58595d]">
-								Управляем любыми видами отопления, теплых полов и конвекторов. В каждой комнате своя, комфортная каждому температура.
+								Управляйте шторами с одного клика в приложении умного дома.
 							</p>
 							<Link href="/curtains" className="group cursor-pointer rounded-[50px] leading-none flex px-11 py-2 border border-white items-center justify-center uppercase gap-1.5 font-semibold text-[13px] bg-[#f0f4f6] tracking-[-0.02em] text-[#0a051a] hover:opacity-80 transition-opacity">
 								Подробнее
@@ -446,7 +446,7 @@ export default function Capabilities() {
 								</div>
 								<div className="relative flex justify-between gap-4 items-start sm:items-end flex-col sm:flex-row">
 									<p className="font-helvetica text-[16px] sm:max-w-85 leading-snug tracing-[-0.01em] text-[#95979e]">
-										Защита от протечек воды, охранная сигнализация, имитацция присутствия
+										Защита от протечек воды, охранная сигнализация, имитация присутствия
 									</p>
 									<Link href="/" className="shadow-[inset_-3px_-3px_6px_1px_rgba(255,255,255,0.5),inset_3px_3px_6px_0_#eaeaea] cursor-pointer rounded-[50px] leading-none flex px-11 py-2 border border-white items-center justify-center uppercase gap-1.5 font-semibold text-[13px] bg-[#f0f4f6] tracking-[-0.02em] text-[#0a051a]">
 										Подробнее
@@ -488,7 +488,7 @@ export default function Capabilities() {
 								</div>
 								<div className="relative flex justify-between gap-4 items-start sm:items-end flex-col sm:flex-row">
 									<p className="font-helvetica text-[16px] sm:max-w-85 leading-snug tracing-[-0.01em] text-[#58595d]">
-										Управляем любыми видами отопления, теплых полов и конвекторов. В каждой комнате своя, комфортная каждому температура.
+										Управляйте шторами с одного клика в приложении умного дома.
 									</p>
 									<Link href="/" className="cursor-pointer rounded-[50px] leading-none flex px-11 py-2 border border-white items-center justify-center uppercase gap-1.5 font-semibold text-[13px] bg-[#f0f4f6] tracking-[-0.02em] text-[#0a051a]">
 										Подробнее

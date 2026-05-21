@@ -70,7 +70,7 @@ export default function CinemaTV() {
 			<div className="max-w-308 mx-auto px-4 relative flex flex-col items-center">
 				<Title className="mb-4 text-white relative z-10">Эстетика</Title>
 				<div className="max-w-143 relative z-10 text-[17px] leading-tight -tracking-[0.01em] text-brand-gray font-helvetica">
-					Несмотря на большое количество колонок, вы не увидите в интерьере ничего лишнего. Все оборудование и коммуникации скрыты от глаз или хорошо сочетается с интерьером.
+					Несмотря на большое количество колонок, вы не увидите в интерьере ничего лишнего. Все оборудование и коммуникации скрыты от глаз или хорошо сочетаются с интерьером.
 				</div>
 			</div>
 		</section>

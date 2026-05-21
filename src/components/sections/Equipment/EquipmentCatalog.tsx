@@ -12,7 +12,7 @@ export default function EquipmentCatalog() {
 						Каталог
 						<span className="lg:-mt-10 text-[40px] md:text-[60px] lg:text-[80px] xl:text-[100px]">умного дома.</span>
 					</h2>
-					<div className="text-[17px] leading-tight max-w-143 font-helvetica">Система децентрализована, не имеет "центрального мозга", что позволяет поднять надежность системы на новый уровень.</div>
+					<div className="text-[17px] leading-tight max-w-143 font-helvetica">Безопасность и уют - под вашим контролем. Управляйте инженерными системами легко и интуитивно.</div>
 				</div>
 				<div className="flex xl:pr-7 lg:items-center lg:flex-row flex-col-reverse gap-15 lg:gap-23">
 					<div className="relative flex-none sm:w-88.25 aspect-353/478">

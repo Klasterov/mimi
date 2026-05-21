@@ -15,12 +15,11 @@ export default function AudioVideo() {
 			<div className="max-w-235.5 w-full text-white px-4 relative mx-auto">
 				<div className="max-w-135 space-y-6">
 					<Title>
-						Наслаждайтесь видеоконтентом
-						в любой точке дома
+						Автоматизируйте медиа-пространство с помощью системы умный дом.
 					</Title>
-					<div className="font-helvetica text-[17px] leading-[1.4] -tracking-[0.01em]">
+					{/* <div className="font-helvetica text-[17px] leading-[1.4] -tracking-[0.01em]">
 						Управление воротами в умном доме производится через домашнюю сеть WiFi, удаленно через интернет, и как резервный способ - через GSM-канал по звонку на номер вашего Умного дома.
-					</div>
+					</div> */}
 					<div className="flex gap-4">
 						<Image
 							width={147}

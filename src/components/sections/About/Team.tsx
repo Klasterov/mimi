@@ -37,7 +37,7 @@ export default function Team() {
 			<div className="py-22.5 lg:py-0 max-w-308 mx-auto px-4 flex lg:items-center flex-col lg:flex-row gap-20 lg:gap-10 justify-between">
 				<div className="lg:py-20 flex-none lg:w-110 xl:w-135 relative">
 					<Title className="mb-4 bg-linear-to-br from-white to-[#999] bg-clip-text text-transparent">Креативная команда MiMiSmart</Title>
-					<div className="font-helvetica text-[17px] leading-snug tracking-[-0.01em] max-w-89 text-brand-gray">Выкатили пятое поколение нашего приложения, которое считаем самым успешным и удобным.</div>
+					<div className="font-helvetica text-[17px] leading-snug tracking-[-0.01em] max-w-89 text-brand-gray">Релизнули пятое поколение нашего приложения, которое считаем самым успешным и удобным.</div>
 				</div>
 				<div className="relative xl:-mr-20 flex lg:flex-row flex-col gap-1 md:gap-5 lg:max-h-195 px-4 -mx-4 lg:px-0 lg:mx-0">
 					<div className="z-10 bg-linear-to-r lg:bg-linear-to-b from-[#0B0D10] from-18% to-transparent absolute top-0 left-0 w-11.5 lg:w-full lg:h-26.25 h-full"></div>

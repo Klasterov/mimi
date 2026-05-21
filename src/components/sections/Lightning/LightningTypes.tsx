@@ -79,7 +79,7 @@ export default function LightningTypes() {
 								Локальное освещение
 							</h3>
 							<p className="relative text-[15px] font-helvetica">
-								Используется для освещения отдельной зоны и решения отдельных задач.
+								Используются для освещения отдельной зоны и решения отдельных задач.
 							</p>
 						</div>
 					</li>
@@ -153,7 +153,7 @@ export default function LightningTypes() {
 									Локальное освещение
 								</h3>
 								<p className="relative text-[15px] font-helvetica">
-									Используется для освещения отдельной зоны и решения отдельных задач.
+									Используются для освещения отдельной зоны и решения отдельных задач.
 								</p>
 							</div>
 						</SwiperSlide>

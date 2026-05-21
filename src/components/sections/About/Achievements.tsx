@@ -45,7 +45,7 @@ export default function Achievements() {
 								<div className="absolute top-1/2 -right-1.5 -translate-y-1/2 border-t-[5px] border-b-[5px] border-l-[5px] border-t-transparent border-b-transparent border-l-[#d9d9d9]"></div>
 							</div>
 							<div className="font-bold text-[44px] md:text-[54px] leading-tight">400+</div>
-							<p className="font-helvetica tracking-[0.01em] text-[15px]">дизайнеров и дилеров рекомендуют систему MimiSmart</p>
+							<p className="font-helvetica tracking-[0.01em] text-[15px]">дизайнеров и дилеров рекомендуют систему MiMiSmart</p>
 						</li>
 					</ul>
 					<Button className="mb-4 justify-center">Хотите улучшить свой дом?</Button>
@@ -72,7 +72,7 @@ export default function Achievements() {
 					<div className="w-90 flex-none pl-8 pt-5 flex flex-col relative">
 						<div className="mt-auto mb-7">
 							<div className="font-bold text-[64px] leading-tight">400+</div>
-							<p className="font-helvetica -tracking-[0.01em] leading-snug">дизайнеров и дилеров <br /> рекомендуют систему MimiSmart</p>
+							<p className="font-helvetica -tracking-[0.01em] leading-snug">дизайнеров и дилеров <br /> рекомендуют систему MiMiSmart</p>
 						</div>
 
 						<div className="absolute top-0 left-0 h-full border-r border-dashed border-[#d9d9d9] mt-1.5">

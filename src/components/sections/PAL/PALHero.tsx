@@ -65,7 +65,7 @@ export default function PALHero() {
 				<div ref={textRef} className="flex flex-col items-center">
 					<Title className="mb-6">Защита от протечек</Title>
 					<div className="max-w-xl font-helvetica text-[17px] leading-[1.3] -tracking-[0.01em]">
-						Открывайте и закрывайте ворота с помощью специальных устройств, подключенных к центральной системе управления умного дома.
+						Забудьте о риске протечки, умный дом возьмет безопасность под свой контроль.
 					</div>
 				</div>
 

@@ -10,7 +10,9 @@ export default function SolutionsCaseOffice() {
 				<div className="space-y-6 max-w-95.75">
 					<Title className="bg-linear-to-r from-foreground to-[#516076] bg-clip-text text-transparent">Внутреннее
 						освещение</Title>
-					<div className="font-helvetica text-[17px] leading-[1.3] -tracking-[0.01em]">Для каждой зоны заданы сценарии, яркость и цвет меняются по датчикам присутствия и дневного света. Освещение синхронизируется с жалюзи и вентиляцией, управление - на панелях и в приложении, понятно любому сотруднику.</div>
+					<div className="font-helvetica text-[17px] leading-[1.3] -tracking-[0.01em]">
+						Для каждой зоны заданы сценарии: яркость и цвет меняются в зависимости от датчиков присутствия и дневного света. Освещение синхронизируется с жалюзи и вентиляцией, управление — на панелях и в приложении, понятно любому человеку.
+					</div>
 					<Link href="/lightning" className="inline-flex hover:text-foreground transition-colors duration-300 items-center gap-1 text-[15px] font-medium text-brand-blue group">
 						Узнать больше
 						<RightArrowIcon className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />

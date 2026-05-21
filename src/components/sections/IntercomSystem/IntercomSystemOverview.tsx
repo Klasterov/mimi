@@ -105,7 +105,7 @@ export default function IntercomSystemOverview() {
 								IP-видеодомофон
 							</h3>
 							<div className="text-[15px] leading-[1.4] -tracking-[0.01em] font-helvetica">
-								Работает без интернета и Bluetooth
+								Система способна подключить к себе разных производителей.
 							</div>
 						</div>
 						<div className="absolute right-0 bottom-0 aspect-614/368 w-full md:w-[67.5%]">
@@ -162,7 +162,7 @@ export default function IntercomSystemOverview() {
 								alt=""
 							/>
 							<h3 className="font-semibold text-[22px] md:text-[28px] lg:text-[32px] leading-[1.3] -tracking-[0.01em]">
-								Умный дом полностью в одном приложении
+								Ваш умный дом всегда под рукой.
 							</h3>
 							<div className="text-[15px] leading-[1.4] -tracking-[0.01em] font-helvetica">
 								Управляйте освещением, климатом и всеми остальными функциями умного дома

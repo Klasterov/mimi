@@ -152,7 +152,7 @@ export default function CurtainsTypes() {
 						/>
 						<div className="mt-auto">
 							<h3 className="relative font-medium text-[17px] mb-2">Подъемные шторы</h3>
-							<p className="relative text-[15px] font-helvetica">Используется для освещения отдельной зоны и решения отдельных задач.</p>
+							<p className="relative text-[15px] font-helvetica">Используются для освещения отдельной зоны и решения отдельных задач.</p>
 						</div>
 					</li>
 					<li className="flex flex-col tracking-[-0.01em] p-5 rounded-[20px] overflow-hidden relative aspect-387/600">
@@ -210,7 +210,7 @@ export default function CurtainsTypes() {
 								/>
 								<div className="mt-auto">
 									<h3 className="relative font-medium text-[17px] mb-2">Подъемные шторы</h3>
-									<p className="relative text-[15px] font-helvetica">Используется для освещения отдельной зоны и решения отдельных задач.</p>
+									<p className="relative text-[15px] font-helvetica">Используются для освещения отдельной зоны и решения отдельных задач.</p>
 								</div>
 							</SwiperSlide>
 							<SwiperSlide className="tracking-[-0.01em] flex! flex-col p-5 rounded-[20px] overflow-hidden relative aspect-342/540">
@@ -245,7 +245,7 @@ export default function CurtainsTypes() {
 						className="mb-10 lg:mb-6"
 					/>
 					<div className="max-w-207.5 font-semibold text-[17px] leading-snug tracking-[-0.01em]">
-						<p>Работает система за счет электропривода, который вмонтирован в карниз.
+						<p>Система работает за счет электропривода, который вмонтирован в карниз.
 							Помимо стандартного открытия и закрытия, в системе умный дом есть возможность настройки определенного положения ламелей для пропуска строго определенного количества света.</p>
 					</div>
 				</div>

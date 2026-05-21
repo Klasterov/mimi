@@ -132,9 +132,6 @@ export default function AppBenefits() {
 								<br />
 								в любой точке
 							</h3>
-							<div className="text-[15px] leading-[1.4] -tracking-[0.01em] font-helvetica">
-								Работает без интернета и Bluetooth
-							</div>
 						</div>
 						<div className="absolute right-0 bottom-0 aspect-614/368 w-full md:w-[67.5%]">
 							<Image
@@ -156,7 +153,7 @@ export default function AppBenefits() {
 								Дом на ваших устройствах.
 							</h3>
 							<div className="text-[15px] leading-[1.4] -tracking-[0.01em] font-helvetica">
-								iOS, Android, ПК, часы - один аккаунт и синхронизация настроек.
+								iOS, Android, ПК - один аккаунт и синхронизация настроек.
 							</div>
 						</div>
 						<div className="flex flex-col self-center items-center justify-center gap-10">

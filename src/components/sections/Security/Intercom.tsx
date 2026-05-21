@@ -38,7 +38,7 @@ export default function Intercom() {
 				<div className="flex flex-col text-center gap-6 items-center">
 					<Title>Домофон</Title>
 					<div className="text-[17px] font-helvetica leading-tight -tracking-[0.01em] lg:max-w-153">
-						Изображение с камер выводится напрямую в приложение. Вы с телефона, компьютера или планшета увидете кто пришел, можете принять вызов, поговорить с гостем и в один клик откроете дверь гостю.
+						Изображение с камер выводится напрямую в приложение. С телефона, компьютера или планшета вы увидите, кто пришёл, сможете принять вызов, поговорить с гостем и в один клик открыть дверь.
 					</div>
 					<Link href="/intercom-system" className="mb-10 inline-flex items-center gap-1 -tracking-[0.01em] text-[15px] font-medium text-brand-blue group">
 						Узнать больше

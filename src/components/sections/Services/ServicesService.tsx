@@ -47,7 +47,7 @@ export default function ServicesService() {
 					/>
 					<div>
 						<div className="mb-6 font-semibold leading-[1.4] -tracking-[0.01em]">
-							Работает система за счет электропривода, который вмонтирован в карниз.
+							Система работает за счет электропривода, который вмонтирован в карниз.
 							Помимо стандартного открытия и закрытия, в системе умный дом есть возможность настройки определенного положения ламелей для пропуска строго определенного количества света.
 						</div>
 						<LeadModalTrigger formType="services-service" buttonClassName="justify-center py-1.75!">

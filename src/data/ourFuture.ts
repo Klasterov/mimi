@@ -3,7 +3,7 @@ import type { OurFutureItem } from "@/types/ourFuture";
 export const ourFutureList: OurFutureItem[] = [
 	{
 		title: "2023 год",
-		description: "Выкатили пятое поколение нашего приложения, которое считаем самым успешным и удобным.",
+		description: "Релизнули пятое поколение нашего приложения, которое считаем самым успешным и удобным.",
 		src: "/images/our-future/1.jpg",
 	},
 	{

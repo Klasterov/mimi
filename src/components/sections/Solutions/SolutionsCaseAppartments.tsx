@@ -12,7 +12,7 @@ export default function SolutionsCase() {
 						Аварийные сценарии
 					</Title>
 					<div className="font-helvetica text-[17px] leading-[1.3] -tracking-[0.01em]">
-						Датчики дыма/протечки/газа/открытия работают в общей логике: включаются маршруты света, разблокируются двери, перекрываются вода/газ, вентиляция реагирует по регламенту.
+						Датчики дыма, протечки, газа и открытия работают в общей логике: включаются маршруты света, разблокируются двери, перекрывается вода и газ, вентиляция реагирует по регламенту.
 					</div>
 					<Link href="/detector" className="inline-flex hover:text-foreground transition-colors duration-300 items-center gap-1 text-[15px] font-medium text-brand-blue group">
 						Узнать больше

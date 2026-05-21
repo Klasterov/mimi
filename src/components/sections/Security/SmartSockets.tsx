@@ -63,7 +63,8 @@ export default function SmartSockets() {
 					<div className="sm:max-w-142.5 mb-20 lg:mb-30">
 						<Title className="mb-6">Управляемые розетки</Title>
 						<div className="mb-6 md:mb-4 font-helvetica text-[17px] leading-tight -tracking-[0.01em]">
-							Сигнализация в системе Умный дом реализуется за счет комплекса датчиков, которые покрывают всю охраняемую площадь.
+							Отключайте приборы удалённо - управляемые розетки для безопасности и экономии.
+
 						</div>
 						<Link href="/sockets" className="inline-flex hover:text-foreground transition-colors duration-300 items-center gap-1 text-[15px] font-helvetica font-medium text-brand-blue group">
 							Узнать больше

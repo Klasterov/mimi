@@ -212,12 +212,12 @@ function normalizeProjectDetails(item: unknown): ProjectDetails | null {
     sections: normalizeSections(item.sections),
     relatedProjectSlugs: Array.isArray(item.relatedProjectSlugs)
       ? item.relatedProjectSlugs.filter(
-          (entry): entry is string => typeof entry === "string" && entry.trim().length > 0
-        )
+        (entry): entry is string => typeof entry === "string" && entry.trim().length > 0
+      )
       : Array.isArray(item.related_project_slugs)
         ? item.related_project_slugs.filter(
-            (entry): entry is string => typeof entry === "string" && entry.trim().length > 0
-          )
+          (entry): entry is string => typeof entry === "string" && entry.trim().length > 0
+        )
         : [],
   }
 }

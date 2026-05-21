@@ -95,7 +95,7 @@ export default function ForAgenciesFormat() {
 					</li>
 
 					<li className="js-format-card min-h-125 md:min-h-150 flex flex-col max-md:p-6 md:px-15 md:py-9.25 rounded-3xl bg-white text-[22px] md:text-[26px] lg:text-[32px] font-semibold leading-[1.3] -tracking-[0.01em] gap-35 will-change-transform">
-						<h3>Белые договора.</h3>
+						<h3>Прозрачные договора.</h3>
 						<div className="self-center min-h-50 flex items-center">
 							<Image
 								src="/images/for-agencies-page/format/3.png"

@@ -21,7 +21,7 @@ const ADVANTAGES_DATA = [
 	{
 		id: 3,
 		title: "5000+ объектов",
-		description: "53 представительства по всему Миру. Огромный опыт реализации проектов по всему миру — от небольших квартир до огромных резиденций. 53 представительства гарантируют сервис в любой точке мира."
+		description: "20 представительств по всему Миру. Огромный опыт реализации проектов по всему миру — от небольших квартир до огромных резиденций. 20 представительств гарантируют сервис в любой точке мира."
 	},
 	{
 		id: 4,
@@ -112,7 +112,7 @@ export default function Advantages({ textLink }: { textLink?: string }) {
 					<li className="lg:ml-auto lg:w-[22%] lg:z-10 tracking-[-0.01em] p-6 min-h-65 rounded-[20px] bg-[#0f1015] overflow-hidden relative">
 						<Image src="/images/advantages/3.png" quality={95} alt="background" fill className="object-cover" />
 						<h3 className="relative mb-1 font-medium text-white text-[16px]">5000+ объектов.</h3>
-						<p className="relative font-helvetica text-[15px] text-brand-gray">53 представительства по всему Миру.</p>
+						<p className="relative font-helvetica text-[15px] text-brand-gray">20 представительств по всему Миру.</p>
 						<PlusButton onClick={() => setActiveId(3)} />
 					</li>
 
