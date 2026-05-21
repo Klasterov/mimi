@@ -81,7 +81,7 @@ export default function ForDesignersClientGet() {
 						<div className="aspect-square relative flex flex-col items-center justify-center text-white text-center overflow-hidden max-w-96.5 rounded-full gap-10 p-6">
 							<Image fill alt="" src="/images/for-designers-page/client-get/3-bg.jpg" className="object-cover" />
 							<Image src="/images/for-designers-page/client-get/3.png" width={59} height={59} alt="" className="relative" />
-							<h3 className="max-w-[50%] relative font-semibold text-[22px] md:text-[28px] lg:text-[32px] -tracking-[0.01em]">
+							<h3 className="max-w-[80%] relative font-semibold text-[22px] md:text-[28px] lg:text-[32px] -tracking-[0.01em]">
 								Пожизненная гарантия на все услуги.
 							</h3>
 						</div>

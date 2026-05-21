@@ -13,7 +13,7 @@ export default function CinemaAdvantages() {
 				<ul className="grid sm:grid-cols-2 lg:flex gap-4 sm:gap-5 flex-wrap relative">
 					<li className="shadow-[0_1px_2px_0_rgba(0,0,0,0.06),0_1px_3px_0_rgba(0,0,0,0.1)] tracking-[-0.01em] lg:w-[32%] p-6 min-h-65 rounded-[20px] bg-[#d8d8d8] overflow-hidden relative">
 						<Image
-							src="/images/cinema-page/advantages/1.jpg"
+							src="/images/cinema-page/advantages/1.png"
 							quality={95}
 							alt=""
 							fill

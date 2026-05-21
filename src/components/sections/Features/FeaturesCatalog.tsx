@@ -168,7 +168,9 @@ export default function FeaturesCatalog() {
 										alt=""
 									/>
 								</div>
-								<div className="text-[17px] mt-auto lg:mt-0 -tracking-[0.01em] lg:flex-auto leading-tight font-helvetica">Плавная регулировка яркости от ночника до рабочего уровня без рывков и мерцания. Мягкое включение и затухание, равномерные переходы, управление с кнопки, панели или голосом.</div>
+								<div className="text-[17px] mt-auto lg:mt-0 -tracking-[0.01em] lg:flex-auto leading-tight font-helvetica">
+									Всё под контролем: от освещения и микроклимата до защиты от протечек. Управляйте домом легко и удобно - со смартфона или голосом.
+								</div>
 								<ButtonLink href="/climate" className="justify-center py-1.75!">Узнать больше</ButtonLink>
 							</div>
 							<ul className="relative flex-none w-100 flex-col gap-2 hidden lg:flex">
