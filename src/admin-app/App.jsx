@@ -9,25 +9,35 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('adminToken');
+    async function checkSession() {
+      const token = localStorage.getItem('adminToken') || localStorage.getItem('authToken');
 
-    if (token) {
-      setIsLoggedIn(true);
-      setLoading(false);
-      return;
-    }
-
-    fetch('/api/admin/session', { credentials: 'include' })
-      .then((response) => response.json())
-      .then((data) => {
-        setIsLoggedIn(Boolean(data?.authenticated));
-      })
-      .catch(() => {
-        setIsLoggedIn(false);
-      })
-      .finally(() => {
+      if (token) {
+        setIsLoggedIn(true);
         setLoading(false);
-      });
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/admin/session', { credentials: 'include' });
+        const data = await response.json();
+        
+        if (data?.authenticated && data?.admin) {
+          localStorage.setItem('adminUsername', data.admin.username);
+          localStorage.setItem('adminId', data.admin.id);
+          setIsLoggedIn(true);
+        } else {
+          setIsLoggedIn(false);
+        }
+      } catch (err) {
+        console.error('Ошибка при проверке сессии:', err);
+        setIsLoggedIn(false);
+      } finally {
+        setLoading(false);
+      }
+    }
+    
+    checkSession();
   }, []);
 
   if (loading) {

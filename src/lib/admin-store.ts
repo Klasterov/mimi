@@ -299,6 +299,9 @@ async function readCollection<T extends AdminEntity>(entity: T): Promise<EntityM
   const filePath = entityPath(entity)
 
   try {
+    // Убедимся, что директория существует перед попыткой чтения
+    await ensureStorageDir()
+    
     const fileContents = await readFile(filePath, "utf8")
     const parsed = JSON.parse(fileContents) as unknown
 

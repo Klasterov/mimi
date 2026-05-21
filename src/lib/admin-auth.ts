@@ -39,13 +39,20 @@ function verifyPassword(password: string, user: Pick<AdminUserRecord, "passwordH
 }
 
 function createDefaultAdmin(): AdminUserRecord {
-  return {
+  const record = {
     id: "default-admin",
     username: DEFAULT_ADMIN_USERNAME,
     salt: "default-admin-salt",
     passwordHash: hashPassword(DEFAULT_ADMIN_PASSWORD, "default-admin-salt"),
     createdAt: new Date().toISOString(),
   }
+  
+  console.log(`[Auth] Создан дефолтный администратор:`)
+  console.log(`  Логин: ${record.username}`)
+  console.log(`  Ожидаемый пароль: ${DEFAULT_ADMIN_PASSWORD}`)
+  console.log(`  Хеш пароля: ${record.passwordHash}`)
+  
+  return record
 }
 
 export function sessionCookieName() {
@@ -104,10 +111,19 @@ export async function findAdminByUsername(username: string) {
 export async function authenticateAdmin(username: string, password: string) {
   const admin = await findAdminByUsername(username)
 
-  if (!admin || !verifyPassword(password, admin)) {
+  if (!admin) {
+    console.log(`[Auth] Администратор не найден: "${username}"`)
     return null
   }
 
+  const isPasswordValid = verifyPassword(password, admin)
+  
+  if (!isPasswordValid) {
+    console.log(`[Auth] Неверный пароль для администратора: "${username}"`)
+    return null
+  }
+
+  console.log(`[Auth] Успешная аутентификация: "${username}"`)
   return {
     id: admin.id,
     username: admin.username,

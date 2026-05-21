@@ -14,6 +14,7 @@ function LoginPage({ onLoginSuccess }) {
 
     try {
       const response = await authAPI.login(username, password);
+
       if (response.data?.token) {
         localStorage.setItem('adminToken', response.data.token);
       }
@@ -22,7 +23,13 @@ function LoginPage({ onLoginSuccess }) {
         localStorage.setItem('adminId', String(response.data.adminId));
       }
 
-      localStorage.setItem('adminUsername', username);
+      if (response.data?.admin) {
+        localStorage.setItem('adminUsername', response.data.admin.username);
+        localStorage.setItem('adminId', response.data.admin.id);
+      } else {
+        localStorage.setItem('adminUsername', username);
+      }
+
       onLoginSuccess();
     } catch (err) {
       setError(err.response?.data?.error || 'Не удалось войти. Проверьте логин и пароль.');
