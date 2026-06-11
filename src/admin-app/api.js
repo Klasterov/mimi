@@ -34,11 +34,7 @@ function toUrl(path, params) {
     })
   }
 
-  if (typeof window !== "undefined") {
-    return `${url.pathname}${url.search}`
-  }
-
-  return url.toString()
+  return `${url.pathname}${url.search}`
 }
 
 async function parseResponse(response, responseType) {
@@ -71,7 +67,9 @@ async function request(method, path, options = {}) {
     headers.set("Content-Type", "application/json")
   }
 
-  const response = await fetch(toUrl(path, options.params), {
+  const url = toUrl(path, options.params)
+
+  const fetchOptions = {
     method,
     headers,
     body:
@@ -80,8 +78,9 @@ async function request(method, path, options = {}) {
         : options.data !== undefined
           ? JSON.stringify(options.data)
           : undefined,
-    credentials: "include",
-  })
+  }
+
+  const response = await fetch(url, fetchOptions)
 
   const payload = await parseResponse(response, options.responseType)
 

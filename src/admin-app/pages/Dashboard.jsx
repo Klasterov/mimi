@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import LeadsTab from '../components/LeadsTab';
 import StatsTab from '../components/StatsTab';
 import ExportTab from '../components/ExportTab';
-import SensorForm from '../components/SensorForm';
 import EquipmentPage from './EquipmentPage';
 import ProjectsTab from '../components/ProjectsTab';
 import ArticleForm from '../components/ArticleForm';
@@ -11,7 +10,6 @@ import AdminsTab from '../components/AdminsTab';
 
 const TABS = [
   { id: 'leads', label: 'Лиды', hint: 'Заявки и обращения' },
-  { id: 'sensors', label: 'Датчики', hint: 'Каталог устройств' },
   { id: 'controllers', label: 'Контроллеры', hint: 'Управление моделями' },
   { id: 'projects', label: 'Проекты', hint: 'Портфолио и кейсы' },
   { id: 'articles', label: 'Статьи', hint: 'Контент и публикации' },
@@ -70,7 +68,6 @@ function Dashboard({ onLogout }) {
 
         <div className="tabs-content">
           {activeTab === 'leads' && <LeadsTab />}
-          {activeTab === 'sensors' && <SensorForm />}
           {activeTab === 'controllers' && <EquipmentPage />}
           {activeTab === 'projects' && <ProjectsTab />}
           {activeTab === 'articles' && <ArticleForm />}

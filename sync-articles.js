@@ -3,7 +3,6 @@ const path = require('path');
 
 const API_BASE_URL =
 	process.env.API_BASE_URL?.trim().replace(/\/+$/, '') ||
-	process.env.NEXT_PUBLIC_API_BASE_URL?.trim().replace(/\/+$/, '') ||
 	'https://mimi-back-73qq.onrender.com';
 
 const ADMIN_USERNAME = process.env.ADMIN_DEFAULT_USERNAME?.trim() || 'admin';
