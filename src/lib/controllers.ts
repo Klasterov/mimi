@@ -62,7 +62,12 @@ function resolveImageSource(value: string | null) {
     return "/images/products/1.png"
   }
 
-  if (value.startsWith("http://") || value.startsWith("https://") || value.startsWith("/images/")) {
+  if (
+    value.startsWith("http://") ||
+    value.startsWith("https://") ||
+    value.startsWith("/images/") ||
+    value.startsWith("/uploads/")
+  ) {
     return value
   }
 

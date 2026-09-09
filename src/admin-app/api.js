@@ -72,6 +72,7 @@ async function request(method, path, options = {}) {
   const fetchOptions = {
     method,
     headers,
+    credentials: "include",
     body:
       options.data instanceof FormData
         ? options.data
@@ -93,7 +94,7 @@ async function request(method, path, options = {}) {
       data: payload,
     }
 
-    if (response.status === 401 && typeof window !== "undefined") {
+    if (response.status === 401 && !options.skipUnauthorizedRedirect && typeof window !== "undefined") {
       clearStoredAuth()
       window.location.href = "/admin"
     }
@@ -150,6 +151,7 @@ export const uploadAPI = {
   uploadImage: formData =>
     api.post("/upload/image", formData, {
       headers: {},
+      skipUnauthorizedRedirect: true,
     }),
 }
 

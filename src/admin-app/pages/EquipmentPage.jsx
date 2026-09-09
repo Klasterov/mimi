@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { uploadAPI } from '../api';
 import '../components/CRUDForm.css';
 
 const DEFAULT_TYPES = [
@@ -28,6 +29,7 @@ function EquipmentPage() {
   const [showForm, setShowForm] = useState(false);
   const [selectedType, setSelectedType] = useState('all');
   const [formData, setFormData] = useState(EMPTY_FORM);
+  const [uploadingField, setUploadingField] = useState('');
 
   const token = localStorage.getItem('adminToken') || localStorage.getItem('authToken');
 
@@ -126,6 +128,33 @@ function EquipmentPage() {
       fetchEquipment();
     } catch (err) {
       setError(err.message);
+    }
+  };
+
+  const handleImageUpload = async (field, file) => {
+    if (!file) return;
+
+    setUploadingField(field);
+    setError(null);
+
+    try {
+      const uploadFormData = new FormData();
+      uploadFormData.append('image', file);
+      uploadFormData.append('folder', 'equipment');
+
+      const response = await uploadAPI.uploadImage(uploadFormData);
+      const imageUrl = response.data?.file?.url || response.data?.url || response.data?.imageUrl || '';
+
+      if (!imageUrl) {
+        throw new Error('Сервер не вернул ссылку на изображение');
+      }
+
+      setFormData((prev) => ({ ...prev, [field]: imageUrl }));
+    } catch (err) {
+      console.error('Upload error:', err);
+      setError(err.response?.data?.error || err.message || 'Не удалось загрузить изображение.');
+    } finally {
+      setUploadingField('');
     }
   };
 
@@ -287,6 +316,14 @@ function EquipmentPage() {
                 onChange={(e) => setFormData({ ...formData, image: e.target.value })}
                 placeholder="/images/products/1.png"
               />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleImageUpload('image', e.target.files?.[0])}
+              />
+              {uploadingField === 'image' && (
+                <span className="field-help">Загрузка изображения...</span>
+              )}
             </div>
 
             {formData.image && (
