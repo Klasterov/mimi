@@ -183,6 +183,29 @@
   box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
 }
 
+.form-grid input[type='file'] {
+  padding: 8px 0 0;
+  border: none;
+}
+
+.field-help {
+  display: inline-block;
+  margin-top: 8px;
+  color: #666;
+  font-size: 12px;
+}
+
+.admin-image-preview {
+  display: block;
+  max-width: 220px;
+  max-height: 160px;
+  object-fit: contain;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #f8f8f8;
+}
+
 /* Subsections */
 .subsection {
   background: #f9f9f9;

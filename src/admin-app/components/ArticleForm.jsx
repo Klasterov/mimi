@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import api from '../api';
+import api, { uploadAPI } from '../api';
 
 const ARTICLE_STATUS_LABELS = {
   draft: 'Черновик',
@@ -41,6 +41,7 @@ function ArticleForm() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [formData, setFormData] = useState(createInitialFormData);
+  const [uploadingField, setUploadingField] = useState('');
 
   useEffect(() => {
     fetchArticles();
@@ -190,6 +191,39 @@ function ArticleForm() {
     updateNestedField('sections', sections);
   };
 
+  const handleImageUpload = async (field, file, sectionIndex = null) => {
+    if (!file) return;
+
+    const uploadKey = sectionIndex === null ? field : `${field}-${sectionIndex}`;
+    setUploadingField(uploadKey);
+    setError('');
+    setSuccess('');
+
+    try {
+      const uploadFormData = new FormData();
+      uploadFormData.append('image', file);
+      uploadFormData.append('folder', 'articles');
+
+      const response = await uploadAPI.uploadImage(uploadFormData);
+      const imageUrl = response.data?.file?.url || response.data?.url || response.data?.imageUrl || '';
+
+      if (!imageUrl) {
+        throw new Error('Сервер не вернул ссылку на изображение');
+      }
+
+      if (sectionIndex === null) {
+        setFormData((prev) => ({ ...prev, [field]: imageUrl }));
+      } else {
+        updateSection(sectionIndex, field, imageUrl);
+      }
+    } catch (err) {
+      console.error('Upload error:', err);
+      setError(err.response?.data?.error || err.message || 'Не удалось загрузить изображение.');
+    } finally {
+      setUploadingField('');
+    }
+  };
+
   if (loading) return <div className="article-form-container">Загрузка...</div>;
 
   return (
@@ -317,6 +351,17 @@ function ArticleForm() {
                   onChange={(e) => setFormData({ ...formData, image: e.target.value })}
                   placeholder="/images/article/main.jpg"
                 />
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageUpload('image', e.target.files?.[0])}
+                />
+                {uploadingField === 'image' && (
+                  <span className="field-help">Загрузка изображения...</span>
+                )}
+                {formData.image && (
+                  <img src={formData.image} alt="Preview" className="admin-image-preview" />
+                )}
               </div>
             </div>
           </div>
@@ -415,6 +460,17 @@ function ArticleForm() {
                       onChange={(e) => updateSection(idx, 'image', e.target.value)}
                       placeholder="/images/article/section.jpg"
                     />
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleImageUpload('image', e.target.files?.[0], idx)}
+                    />
+                    {uploadingField === `image-${idx}` && (
+                      <span className="field-help">Загрузка изображения...</span>
+                    )}
+                    {section.image && (
+                      <img src={section.image} alt="Preview" className="admin-image-preview" />
+                    )}
                   </div>
                 </div>
               </div>

@@ -46,7 +46,12 @@ function resolveAssetUrl(value: string | null, fallback: string) {
     return fallback
   }
 
-  if (value.startsWith("http://") || value.startsWith("https://") || value.startsWith("/images/")) {
+  if (
+    value.startsWith("http://") ||
+    value.startsWith("https://") ||
+    value.startsWith("/images/") ||
+    value.startsWith("/uploads/")
+  ) {
     return value
   }
 
