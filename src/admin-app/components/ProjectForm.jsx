@@ -41,6 +41,7 @@ const createInitialFormData = () => ({
   city: '',
   heroImage: '',
   status: 'active',
+  sort_order: 0,
   steps: [],
   sections: [],
   relatedProjectSlugsText: '',
@@ -77,6 +78,7 @@ function normalizeProject(project) {
       project.image ||
       '',
     status: project.status || 'active',
+    sort_order: project.sort_order ?? 0,
     steps:
       Array.isArray(project.steps) && project.steps.length > 0
         ? project.steps.map((step) => ({
@@ -311,6 +313,7 @@ function ProjectForm() {
     city: formData.city.trim(),
     heroImage: formData.heroImage.trim(),
     status: formData.status,
+    sort_order: Number(formData.sort_order) || 0,
     steps: formData.steps
       .map((step) => ({
         title: step.title.trim(),
@@ -408,6 +411,15 @@ function ProjectForm() {
                   <option value="draft">Черновик</option>
                   <option value="archived">Архив</option>
                 </select>
+              </div>
+              <div>
+                <label>Порядок вывода</label>
+                <input
+                  type="number"
+                  value={formData.sort_order}
+                  onChange={(e) => updateField('sort_order', Number(e.target.value))}
+                  placeholder="0"
+                />
               </div>
               <div className="full-width">
                 <label>Заголовок *</label>
@@ -752,6 +764,7 @@ function ProjectForm() {
                 </p>
                 <div className="project-meta">
                   {project.slug && <span>{project.slug}</span>}
+                  <span>Порядок: {project.sort_order ?? 0}</span>
                   {(project.object_type || project.objectType) && (
                     <span>{project.object_type || project.objectType}</span>
                   )}

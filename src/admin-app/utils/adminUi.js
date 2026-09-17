@@ -41,6 +41,7 @@ export const FIELD_LABELS = {
   likes: 'Лайки',
   specifications: 'Характеристики',
   steps: 'Шаги',
+  sort_order: 'Порядок вывода',
 };
 
 export const PROJECT_STATUS_LABELS = {

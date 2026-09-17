@@ -23,7 +23,12 @@ function CrudTable({ entity, fields, title, icon }) {
   const normalizedFields = fields.map((field) =>
     typeof field === 'string'
       ? { key: field, label: getFieldLabel(field), type: 'text' }
-      : { key: field.key, label: field.label || getFieldLabel(field.key), type: field.type || 'text' }
+      : {
+          key: field.key,
+          label: field.label || getFieldLabel(field.key),
+          type: field.type || 'text',
+          options: field.options || null,
+        }
   );
 
   const getDisplayFields = () =>
@@ -35,9 +40,10 @@ function CrudTable({ entity, fields, title, icon }) {
   const isTextAreaField = (field) =>
     field.type === 'textarea' || ['description', 'content', 'descr', 'full_description'].includes(field.key);
   const isJsonField = (field) => field.type === 'json';
-  const isBooleanStatusField = (field) => field.type === 'checkbox' || field.key === 'status';
+  const isBooleanStatusField = (field) => field.type === 'checkbox';
   const isDateField = (field) => field.type === 'date' || field.key.includes('date');
-  const isNumberField = (field) => field.type === 'number' || field.key.includes('budget');
+  const isNumberField = (field) =>
+    field.type === 'number' || field.key.includes('budget') || field.key === 'sort_order';
 
   const normalizeValue = (field, value) => {
     if (value === '') {
@@ -247,6 +253,21 @@ function CrudTable({ entity, fields, title, icon }) {
           placeholder={`Введите ${label}`}
           rows={4}
         />
+      );
+    }
+
+    if (field.type === 'select' && Array.isArray(field.options)) {
+      return (
+        <select
+          value={String(value ?? field.options[0]?.value ?? '')}
+          onChange={(e) => setFormFieldValue(mode, field, e.target.value)}
+        >
+          {field.options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
       );
     }
 

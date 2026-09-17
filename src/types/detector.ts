@@ -50,6 +50,8 @@ export type Detector = {
 	bg: string
 	linkHover: string
 	isWide?: boolean
+	status?: boolean
+	sort_order?: number
 	detectorExample?: DetectorExampleData
 	info?: DetectorInfo
 	hero?: DetectorHero

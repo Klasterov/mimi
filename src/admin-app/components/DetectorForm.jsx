@@ -5,6 +5,7 @@ import {
   getDetectors,
   updateDetector,
 } from '../api/detectors';
+import { uploadAPI } from '../api';
 
 const createInitialFormData = () => ({
   slug: '',
@@ -15,6 +16,8 @@ const createInitialFormData = () => ({
   bg: '',
   linkHover: '',
   isWide: false,
+  status: true,
+  sort_order: 0,
   detectorExample: {
     title: '',
     text: '',
@@ -53,6 +56,7 @@ function DetectorForm() {
   const [editingId, setEditingId] = useState(null);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [uploadingField, setUploadingField] = useState('');
   const [formData, setFormData] = useState(createInitialFormData);
 
   useEffect(() => {
@@ -72,7 +76,27 @@ function DetectorForm() {
   };
 
   const handleEdit = (detector) => {
-    setFormData(detector);
+    setFormData({
+      ...createInitialFormData(),
+      ...detector,
+      status: detector.status ?? true,
+      sort_order: detector.sort_order ?? 0,
+      detectorExample: {
+        ...createInitialFormData().detectorExample,
+        ...(detector.detectorExample || {}),
+      },
+      hero: {
+        ...createInitialFormData().hero,
+        ...(detector.hero || {}),
+      },
+      info: {
+        ...createInitialFormData().info,
+        ...(detector.info || {}),
+        sections: detector.info?.sections?.length
+          ? detector.info.sections
+          : createInitialFormData().info.sections,
+      },
+    });
     setEditingId(detector.id);
     setShowForm(true);
   };
@@ -134,6 +158,34 @@ function DetectorForm() {
       current[keys[keys.length - 1]] = value;
       return obj;
     });
+  };
+
+  const handleImageUpload = async (path, file) => {
+    if (!file) return;
+
+    setUploadingField(path);
+    setError('');
+    setSuccess('');
+
+    try {
+      const uploadFormData = new FormData();
+      uploadFormData.append('image', file);
+      uploadFormData.append('folder', 'detectors');
+
+      const response = await uploadAPI.uploadImage(uploadFormData);
+      const imageUrl = response.data.file.url;
+
+      if (path.includes('.')) {
+        updateNestedField(path, imageUrl);
+      } else {
+        setFormData((prev) => ({ ...prev, [path]: imageUrl }));
+      }
+    } catch (err) {
+      console.error('Upload error:', err);
+      setError(err.response?.data?.error || err.message || 'Не удалось загрузить изображение.');
+    } finally {
+      setUploadingField('');
+    }
   };
 
   const addSection = () => {
@@ -216,6 +268,14 @@ function DetectorForm() {
                   onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
                   placeholder="/images/detector-page/icons/1.svg"
                 />
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageUpload('icon', e.target.files?.[0])}
+                />
+                {uploadingField === 'icon' && (
+                  <span className="field-help">Загрузка изображения...</span>
+                )}
               </div>
               <div>
                 <label>URL изображения</label>
@@ -225,6 +285,14 @@ function DetectorForm() {
                   onChange={(e) => setFormData({ ...formData, image: e.target.value })}
                   placeholder="/images/detector-page/cols/1.png"
                 />
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageUpload('image', e.target.files?.[0])}
+                />
+                {uploadingField === 'image' && (
+                  <span className="field-help">Загрузка изображения...</span>
+                )}
               </div>
               <div>
                 <label>CSS-класс фона</label>
@@ -243,6 +311,29 @@ function DetectorForm() {
                   onChange={(e) => setFormData({ ...formData, linkHover: e.target.value })}
                   placeholder="hover:text-foreground"
                 />
+              </div>
+              <div>
+                <label>Порядок вывода</label>
+                <input
+                  type="number"
+                  value={formData.sort_order}
+                  onChange={(e) =>
+                    setFormData({ ...formData, sort_order: Number(e.target.value) })
+                  }
+                  placeholder="0"
+                />
+              </div>
+              <div>
+                <label>Статус публикации</label>
+                <select
+                  value={String(formData.status ?? true)}
+                  onChange={(e) =>
+                    setFormData({ ...formData, status: e.target.value === 'true' })
+                  }
+                >
+                  <option value="true">Опубликовано</option>
+                  <option value="false">Скрыто</option>
+                </select>
               </div>
               <div>
                 <label>
@@ -286,6 +377,16 @@ function DetectorForm() {
                   onChange={(e) => updateNestedField('detectorExample.image', e.target.value)}
                   placeholder="/images/detector-page/example/1.png"
                 />
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) =>
+                    handleImageUpload('detectorExample.image', e.target.files?.[0])
+                  }
+                />
+                {uploadingField === 'detectorExample.image' && (
+                  <span className="field-help">Загрузка изображения...</span>
+                )}
               </div>
               <div>
                 <label>Ширина изображения</label>
@@ -349,6 +450,14 @@ function DetectorForm() {
                   onChange={(e) => updateNestedField('hero.image', e.target.value)}
                   placeholder="/images/detector-page/hero/01.png"
                 />
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageUpload('hero.image', e.target.files?.[0])}
+                />
+                {uploadingField === 'hero.image' && (
+                  <span className="field-help">Загрузка изображения...</span>
+                )}
               </div>
               <div>
                 <label>Ширина изображения</label>
@@ -496,6 +605,10 @@ function DetectorForm() {
                   <span className="detector-slug">{detector.slug}</span>
                 </div>
                 <p className="detector-subtitle">{detector.subtitle}</p>
+                <div className="project-meta">
+                  <span>{detector.status === false ? 'Скрыто' : 'Опубликовано'}</span>
+                  <span>Порядок: {detector.sort_order ?? 0}</span>
+                </div>
                 <div className="detector-actions">
                   <button className="btn btn-edit" onClick={() => handleEdit(detector)}>
                     Изменить

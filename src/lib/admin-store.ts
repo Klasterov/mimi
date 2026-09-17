@@ -15,6 +15,7 @@ export type ArticleRecord = Article & {
   author: string
   category: string
   status: "draft" | "published" | "archived"
+  sort_order: number
   createdAt: string
   updatedAt: string
 }
@@ -22,6 +23,7 @@ export type ArticleRecord = Article & {
 export type ControllerRecord = CatalogItem & {
   id: number | string
   status: boolean
+  sort_order: number
   createdAt: string
   updatedAt: string
 }
@@ -29,6 +31,7 @@ export type ControllerRecord = CatalogItem & {
 export type DetectorRecord = Detector & {
   id: number | string
   status: boolean
+  sort_order: number
   createdAt: string
   updatedAt: string
 }
@@ -51,12 +54,14 @@ export type EquipmentRecord = {
     content: string
   }>
   status: boolean
+  sort_order: number
   createdAt: string
   updatedAt: string
 }
 
 export type ProjectRecord = ProjectDetails & {
   status: "active" | "draft" | "archived"
+  sort_order: number
   createdAt: string
   updatedAt: string
 }
@@ -282,6 +287,7 @@ function ensureProjectDetails(record: Partial<ProjectRecord>, index = 0): Projec
       record.status === "draft" || record.status === "archived" || record.status === "active"
         ? record.status
         : "active",
+    sort_order: readSortOrder(record.sort_order, index),
     createdAt,
     updatedAt,
   }
@@ -405,17 +411,47 @@ function paginateItems<T>(items: T[], options: SearchOptions): PaginatedResponse
   }
 }
 
-function normalizeArticleRecord(input: Partial<ArticleRecord>, existing?: ArticleRecord): ArticleRecord {
+function readSortOrder(value: unknown, fallback: number) {
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return value
+  }
+
+  if (typeof value === "string" && value.trim()) {
+    const parsed = Number(value)
+
+    if (Number.isFinite(parsed)) {
+      return parsed
+    }
+  }
+
+  return fallback
+}
+
+function compareBySortOrder<T extends { sort_order?: number; updatedAt?: string; date?: string }>(a: T, b: T) {
+  const leftOrder = typeof a.sort_order === "number" ? a.sort_order : Number.MAX_SAFE_INTEGER
+  const rightOrder = typeof b.sort_order === "number" ? b.sort_order : Number.MAX_SAFE_INTEGER
+
+  if (leftOrder !== rightOrder) {
+    return leftOrder - rightOrder
+  }
+
+  const leftDate = a.updatedAt ?? a.date ?? ""
+  const rightDate = b.updatedAt ?? b.date ?? ""
+  return String(rightDate).localeCompare(String(leftDate))
+}
+
+function normalizeArticleRecord(input: Partial<ArticleRecord>, existing?: ArticleRecord, index = 0): ArticleRecord {
   const createdAt = existing?.createdAt ?? text(input.createdAt, nowIso())
   const updatedAt = nowIso()
   const title = text(input.title, existing?.title || "")
+  const rawInput = input as Partial<ArticleRecord> & { image_url?: unknown }
 
   return {
     id: input.id ?? existing?.id ?? Date.now(),
     tag: text(input.tag, existing?.tag || "Тег"),
     title,
     description: text(input.description, existing?.description || ""),
-    image: text(input.image, existing?.image || "/images/articles/1.jpg"),
+    image: text(input.image ?? rawInput.image_url, existing?.image || "/images/articles/1.jpg"),
     date: text(input.date, existing?.date || new Date().toISOString().slice(0, 10)),
     isWide: bool(input.isWide, existing?.isWide ?? false),
     slug: text(input.slug, existing?.slug || slugify(title || `article-${Date.now()}`)),
@@ -425,6 +461,7 @@ function normalizeArticleRecord(input: Partial<ArticleRecord>, existing?: Articl
       input.status === "draft" || input.status === "archived" || input.status === "published"
         ? input.status
         : existing?.status ?? "published",
+    sort_order: readSortOrder(input.sort_order, existing?.sort_order ?? index),
     createdAt,
     updatedAt,
   }
@@ -451,6 +488,7 @@ function normalizeControllerRecord(
       height: numberValue(imageInput.height, imageExisting?.height || 266),
     },
     status: bool(input.status, existing?.status ?? true),
+    sort_order: readSortOrder(input.sort_order, existing?.sort_order ?? index),
     createdAt,
     updatedAt,
   }
@@ -481,6 +519,7 @@ function normalizeDetectorRecord(
     hero: isObject(input.hero) ? (input.hero as Detector["hero"]) : existing?.hero,
     info: isObject(input.info) ? (input.info as Detector["info"]) : existing?.info,
     status: bool(input.status, existing?.status ?? true),
+    sort_order: readSortOrder(input.sort_order, existing?.sort_order ?? index),
     createdAt,
     updatedAt,
   }
@@ -505,6 +544,7 @@ function normalizeEquipmentRecord(
     specifications: equipmentSpecifications(input.specifications ?? existing?.specifications),
     steps: equipmentSteps(input.steps ?? existing?.steps),
     status: bool(input.status, existing?.status ?? true),
+    sort_order: readSortOrder(input.sort_order, existing?.sort_order ?? index),
     createdAt,
     updatedAt,
   }
@@ -535,6 +575,7 @@ function normalizeProjectRecord(input: Partial<ProjectRecord>, existing?: Projec
         input.status === "active" || input.status === "draft" || input.status === "archived"
           ? input.status
           : existing?.status ?? "active",
+      sort_order: readSortOrder(input.sort_order, existing?.sort_order ?? index),
       createdAt: existing?.createdAt ?? nowIso(),
       updatedAt: nowIso(),
     },
@@ -569,11 +610,7 @@ export async function listEntity<T extends Exclude<AdminEntity, "admins">>(
   const items = await readCollection(entity)
   const filtered = filterEntityItems(entity, items, text(options.search).toLowerCase())
 
-  const sorted = [...filtered].sort((a, b) => {
-    const left = "updatedAt" in a ? String(a.updatedAt) : ""
-    const right = "updatedAt" in b ? String(b.updatedAt) : ""
-    return right.localeCompare(left)
-  })
+  const sorted = [...filtered].sort(compareBySortOrder)
 
   return paginateItems(sorted, options)
 }
@@ -597,7 +634,9 @@ export async function createEntityItem<T extends Exclude<AdminEntity, "admins">>
   switch (entity) {
     case "articles":
       created = normalizeArticleRecord(
-        { ...(input as Partial<ArticleRecord>), id: nextNumericId(items as Array<{ id: number | string }>) }
+        { ...(input as Partial<ArticleRecord>), id: nextNumericId(items as Array<{ id: number | string }>) },
+        undefined,
+        items.length
       ) as EntityMap[T]
       break
     case "controllers":
@@ -648,7 +687,7 @@ export async function updateEntityItem<T extends Exclude<AdminEntity, "admins">>
 
   switch (entity) {
     case "articles":
-      updated = normalizeArticleRecord(input as Partial<ArticleRecord>, existing as ArticleRecord) as EntityMap[T]
+      updated = normalizeArticleRecord(input as Partial<ArticleRecord>, existing as ArticleRecord, index) as EntityMap[T]
       break
     case "controllers":
       updated = normalizeControllerRecord(
@@ -706,19 +745,19 @@ export async function getPublicArticles(): Promise<ArticleRecord[]> {
   console.log('[getPublicArticles] Read items:', items.length)
   const filtered = items
     .filter(item => item.status === "published")
-    .sort((a, b) => new Date(`${b.date}T00:00:00`).getTime() - new Date(`${a.date}T00:00:00`).getTime())
+    .sort(compareBySortOrder)
   console.log('[getPublicArticles] After filter:', filtered.length)
   return filtered
 }
 
 export async function getPublicControllers(): Promise<ControllerRecord[]> {
   const items = await readCollection("controllers")
-  return items.filter(item => item.status)
+  return items.filter(item => item.status).sort(compareBySortOrder)
 }
 
 export async function getPublicDetectors(): Promise<DetectorRecord[]> {
   const items = await readCollection("detectors")
-  return items.filter(item => item.status)
+  return items.filter(item => item.status).sort(compareBySortOrder)
 }
 
 export async function getPublicProjects(): Promise<ProjectRecord[]> {
@@ -727,7 +766,7 @@ export async function getPublicProjects(): Promise<ProjectRecord[]> {
   }
 
   const items = await readCollection("projects")
-  return items.filter(item => item.status === "active")
+  return items.filter(item => item.status === "active").sort(compareBySortOrder)
 }
 
 export async function getPublicProjectBySlug(slug: string): Promise<ProjectRecord | null> {
