@@ -19,6 +19,7 @@ const createInitialFormData = () => ({
   image: '',
   category: 'article',
   status: 'draft',
+  sort_order: 0,
   likes: 0,
   tgLink: '',
   dzenLink: '',
@@ -52,7 +53,23 @@ function ArticleForm() {
     setLoading(true);
     try {
       const response = await api.get('/articles');
-      setArticles(response.data.data || []);
+      const nextArticles = response.data.data || [];
+      const publishedArticles = nextArticles
+        .filter((article) => isVisibleByEntity('articles', article))
+        .sort((left, right) => (
+          Number(left.sort_order ?? 0) - Number(right.sort_order ?? 0) ||
+          Number(left.id) - Number(right.id)
+        ));
+
+      await Promise.all(publishedArticles.map(async (article, index) => {
+        const nextSortOrder = index + 1;
+        if (Number(article.sort_order) === nextSortOrder) return;
+
+        const response = await api.put(`/articles/${article.id}`, { sort_order: nextSortOrder });
+        if (response.data) article.sort_order = nextSortOrder;
+      }));
+
+      setArticles(nextArticles);
     } catch (err) {
       setError('Не удалось загрузить статьи.');
       console.error(err);
@@ -73,6 +90,7 @@ function ArticleForm() {
       image: article.image || '',
       category: article.category || 'article',
       status: article.status || 'draft',
+      sort_order: article.sort_order ?? 0,
       likes: article.likes || 0,
       tgLink: article.tg_link || '',
       dzenLink: article.dzen_link || '',
@@ -130,6 +148,7 @@ function ArticleForm() {
         image: formData.image,
         category: formData.category,
         status: formData.status,
+        sort_order: Number(formData.sort_order) || 0,
         likes: parseInt(formData.likes, 10) || 0,
         tg_link: formData.tgLink,
         dzen_link: formData.dzenLink,
@@ -141,6 +160,30 @@ function ArticleForm() {
 
       if (editingId) {
         await api.put(`/articles/${editingId}`, payload);
+
+        const savedArticle = {
+          ...articles.find((article) => article.id === editingId),
+          ...payload,
+          id: editingId,
+        };
+        const publishedArticles = articles
+          .filter((article) => article.id !== editingId && isVisibleByEntity('articles', article))
+          .sort((left, right) => (
+            Number(left.sort_order ?? 0) - Number(right.sort_order ?? 0) ||
+            Number(left.id) - Number(right.id)
+          ));
+
+        if (isVisibleByEntity('articles', savedArticle)) {
+          const targetIndex = Math.max(0, Math.min(payload.sort_order - 1, publishedArticles.length));
+          publishedArticles.splice(targetIndex, 0, savedArticle);
+        }
+
+        await Promise.all(publishedArticles.map((article, index) => {
+          const nextSortOrder = index + 1;
+          return Number(article.sort_order) === nextSortOrder
+            ? Promise.resolve()
+            : api.put(`/articles/${article.id}`, { sort_order: nextSortOrder });
+        }));
         setSuccess('Статья успешно обновлена.');
       } else {
         await api.post('/articles', payload);
@@ -333,6 +376,15 @@ function ArticleForm() {
                   <option value="published">Опубликовано</option>
                   <option value="archived">Архив</option>
                 </select>
+              </div>
+              <div>
+                <label>Порядок вывода</label>
+                <input
+                  type="number"
+                  min="1"
+                  value={formData.sort_order}
+                  onChange={(e) => setFormData({ ...formData, sort_order: e.target.value })}
+                />
               </div>
               <div className="full-width">
                 <label>Описание</label>

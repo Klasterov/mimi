@@ -32,6 +32,10 @@ export async function toggleOrderedVisibility({ entity, item, items, update }) {
     visibleItems.push(item);
   }
 
+  if (entity === 'equipment') {
+    visibleItems.sort((left, right) => Number(left.id) - Number(right.id));
+  }
+
   for (const [index, candidate] of visibleItems.entries()) {
     const sortOrder = index + 1;
     if (Number(candidate.sort_order) === sortOrder) continue;

@@ -65,7 +65,30 @@ function EquipmentPage() {
       if (!response.ok) throw new Error('Не удалось загрузить оборудование');
 
       const data = await response.json();
-      setEquipmentList(Array.isArray(data.data) ? data.data : Array.isArray(data) ? data : []);
+      const items = Array.isArray(data.data) ? data.data : Array.isArray(data) ? data : [];
+      const orderedVisibleItems = items
+        .filter((item) => isEquipmentVisible(item))
+        .sort((left, right) => (
+          getSortOrder(left) - getSortOrder(right) || Number(left.id) - Number(right.id)
+        ));
+
+      await Promise.all(orderedVisibleItems.map(async (item, index) => {
+        const nextSortOrder = index + 1;
+        if (Number(item.sort_order) === nextSortOrder) return;
+
+        const orderResponse = await fetch(`/api/admin/equipment/${item.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ sort_order: nextSortOrder }),
+        });
+
+        if (orderResponse.ok) item.sort_order = nextSortOrder;
+      }));
+
+      setEquipmentList(items);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -154,6 +177,40 @@ function EquipmentPage() {
       });
 
       if (!response.ok) throw new Error(`Не удалось ${editingId ? 'обновить' : 'создать'} оборудование`);
+
+      if (editingId && Number.isFinite(payload.sort_order)) {
+        const savedItem = {
+          ...equipmentList.find((item) => item.id === editingId),
+          ...payload,
+          id: editingId,
+        };
+        const visibleItems = equipmentList
+          .filter((item) => item.id !== editingId && isEquipmentVisible(item))
+          .sort((left, right) => (
+            getSortOrder(left) - getSortOrder(right) || Number(left.id) - Number(right.id)
+          ));
+
+        if (isEquipmentVisible(savedItem)) {
+          const targetIndex = Math.max(0, Math.min(payload.sort_order - 1, visibleItems.length));
+          visibleItems.splice(targetIndex, 0, savedItem);
+        }
+
+        for (const [index, item] of visibleItems.entries()) {
+          const nextSortOrder = index + 1;
+          if (Number(item.sort_order) === nextSortOrder) continue;
+
+          const orderResponse = await fetch(`/api/admin/equipment/${item.id}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ sort_order: nextSortOrder }),
+          });
+
+          if (!orderResponse.ok) throw new Error('Не удалось обновить порядок контроллеров');
+        }
+      }
 
       setShowForm(false);
       setEditingId(null);
