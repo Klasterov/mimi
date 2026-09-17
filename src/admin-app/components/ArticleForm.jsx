@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api, { uploadAPI } from '../api';
+import { isVisibleByEntity, toggleOrderedVisibility } from '../utils/orderedVisibility';
 
 const ARTICLE_STATUS_LABELS = {
   draft: 'Черновик',
@@ -96,6 +97,20 @@ function ArticleForm() {
     } catch (err) {
       console.error('Delete error:', err);
       setError(err.response?.data?.error || err.message || 'Не удалось удалить статью.');
+    }
+  };
+
+  const handleToggleVisibility = async (article) => {
+    try {
+      await toggleOrderedVisibility({
+        entity: 'articles',
+        item: article,
+        items: articles,
+        update: (id, payload) => api.put(`/articles/${id}`, payload),
+      });
+      await fetchArticles();
+    } catch (err) {
+      setError(err.response?.data?.error || err.message || 'Не удалось изменить видимость статьи.');
     }
   };
 
@@ -529,12 +544,16 @@ function ArticleForm() {
                 <p className="article-description">{article.description}</p>
                 <div className="article-meta">
                   {article.date && <span>{article.date}</span>}
+                  <span>Порядок: {article.sort_order ?? 0}</span>
                   {article.tag && <span>{article.tag}</span>}
                   {article.author && <span>{article.author}</span>}
                 </div>
                 <div className="article-actions">
                   <button className="btn btn-edit" onClick={() => handleEdit(article)}>
                     Изменить
+                  </button>
+                  <button className="btn btn-secondary" onClick={() => handleToggleVisibility(article)}>
+                    {isVisibleByEntity('articles', article) ? 'Скрыть' : 'Восстановить'}
                   </button>
                   <button className="btn btn-delete" onClick={() => handleDelete(article.id)}>
                     Удалить

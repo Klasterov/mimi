@@ -48,6 +48,10 @@ function appendForwardedHeaders(source: Headers, target: NextResponse) {
   })
 }
 
+function getBackendAdminPath(pathname: string) {
+  return pathname.replace(/^\/api\/admin\/equipment(?=\/|$)/, "/api/admin/controllers")
+}
+
 export function getAdminBackendBaseUrl() {
   return getBackendBaseUrl()
 }
@@ -57,8 +61,7 @@ export function shouldProxyAdminBackend() {
 }
 
 function buildTargetUrl(request: NextRequest) {
-  const normalizedPath = request.nextUrl.pathname.replace(/^\/api\/admin\/equipment(?=\/|$)/, "/api/equipment")
-  const targetUrl = new URL(buildBackendUrl(normalizedPath))
+  const targetUrl = new URL(buildBackendUrl(getBackendAdminPath(request.nextUrl.pathname)))
   targetUrl.search = request.nextUrl.search
   return targetUrl
 }

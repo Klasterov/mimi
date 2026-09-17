@@ -141,6 +141,19 @@ function bool(value: unknown, fallback = false) {
   return typeof value === "boolean" ? value : fallback
 }
 
+function isPublicStatus(value: unknown) {
+  if (typeof value === "boolean") {
+    return value
+  }
+
+  if (typeof value === "string") {
+    const normalizedStatus = value.trim().toLowerCase()
+    return ["published", "active", "true", "1"].includes(normalizedStatus)
+  }
+
+  return false
+}
+
 function numberValue(value: unknown, fallback: number) {
   return typeof value === "number" && Number.isFinite(value) ? value : fallback
 }
@@ -752,12 +765,12 @@ export async function getPublicArticles(): Promise<ArticleRecord[]> {
 
 export async function getPublicControllers(): Promise<ControllerRecord[]> {
   const items = await readCollection("controllers")
-  return items.filter(item => item.status).sort(compareBySortOrder)
+  return items.filter(item => isPublicStatus(item.status)).sort(compareBySortOrder)
 }
 
 export async function getPublicDetectors(): Promise<DetectorRecord[]> {
   const items = await readCollection("detectors")
-  return items.filter(item => item.status).sort(compareBySortOrder)
+  return items.filter(item => isPublicStatus(item.status)).sort(compareBySortOrder)
 }
 
 export async function getPublicProjects(): Promise<ProjectRecord[]> {

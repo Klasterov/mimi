@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api, { uploadAPI } from '../api';
+import { isVisibleByEntity, toggleOrderedVisibility } from '../utils/orderedVisibility';
 
 const ALLOWED_TAGS = [
   'Освещение',
@@ -184,6 +185,20 @@ function ProjectForm() {
     } catch (err) {
       console.error('Delete error:', err);
       setError(err.response?.data?.error || err.message || 'Не удалось удалить проект.');
+    }
+  };
+
+  const handleToggleVisibility = async (project) => {
+    try {
+      await toggleOrderedVisibility({
+        entity: 'projects',
+        item: project,
+        items: projects,
+        update: (id, payload) => api.put(`/projects/${id}`, payload),
+      });
+      await fetchProjects();
+    } catch (err) {
+      setError(err.response?.data?.error || err.message || 'Не удалось изменить видимость проекта.');
     }
   };
 
@@ -781,6 +796,9 @@ function ProjectForm() {
                 <div className="project-actions">
                   <button className="btn btn-edit" onClick={() => handleEdit(project)}>
                     Изменить
+                  </button>
+                  <button className="btn btn-secondary" onClick={() => handleToggleVisibility(project)}>
+                    {isVisibleByEntity('projects', project) ? 'Скрыть' : 'Восстановить'}
                   </button>
                   <button className="btn btn-delete" onClick={() => handleDelete(project.id)}>
                     Удалить

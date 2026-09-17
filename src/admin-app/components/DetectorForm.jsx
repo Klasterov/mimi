@@ -6,6 +6,7 @@ import {
   updateDetector,
 } from '../api/detectors';
 import { uploadAPI } from '../api';
+import { isVisibleByEntity, toggleOrderedVisibility } from '../utils/orderedVisibility';
 
 const createInitialFormData = () => ({
   slug: '',
@@ -112,6 +113,20 @@ function DetectorForm() {
     } catch (err) {
       console.error('Delete error:', err);
       setError(err.response?.data?.error || err.message || 'Не удалось удалить детектор.');
+    }
+  };
+
+  const handleToggleVisibility = async (detector) => {
+    try {
+      await toggleOrderedVisibility({
+        entity: 'detectors',
+        item: detector,
+        items: detectors,
+        update: updateDetector,
+      });
+      await fetchDetectors();
+    } catch (err) {
+      setError(err.response?.data?.error || err.message || 'Не удалось изменить видимость детектора.');
     }
   };
 
@@ -612,6 +627,9 @@ function DetectorForm() {
                 <div className="detector-actions">
                   <button className="btn btn-edit" onClick={() => handleEdit(detector)}>
                     Изменить
+                  </button>
+                  <button className="btn btn-secondary" onClick={() => handleToggleVisibility(detector)}>
+                    {isVisibleByEntity('detectors', detector) ? 'Скрыть' : 'Восстановить'}
                   </button>
                   <button className="btn btn-delete" onClick={() => handleDelete(detector.id)}>
                     Удалить

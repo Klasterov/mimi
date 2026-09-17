@@ -25,6 +25,45 @@ function extractId(record: Record<string, unknown>) {
   return match?.[1] ?? undefined
 }
 
+function isVisibleController(record: Record<string, unknown>) {
+  if (record.hidden === true || record.visible === false || record.isVisible === false || record.published === false) {
+    return false
+  }
+
+  const status = record.status
+
+  if (typeof status === "boolean") {
+    return status
+  }
+
+  if (typeof status === "string") {
+    const normalizedStatus = status.trim().toLowerCase()
+    return !["hidden", "draft", "archived", "inactive", "disabled", "deleted", "false", "0"].includes(normalizedStatus)
+  }
+
+  return true
+}
+
+function getNumber(obj: Record<string, unknown>, keys: string[]): number | undefined {
+  for (const key of keys) {
+    const value = obj[key]
+
+    if (typeof value === "number" && Number.isFinite(value)) {
+      return value
+    }
+
+    if (typeof value === "string" && value.trim()) {
+      const parsed = Number(value)
+
+      if (Number.isFinite(parsed)) {
+        return parsed
+      }
+    }
+  }
+
+  return undefined
+}
+
 function buildControllerUrl(path: string) {
   const normalizedPath = path.replace(/^\/+/, "")
 
@@ -123,8 +162,13 @@ export async function getAllControllers(limit = 100, offset = 0): Promise<{
     const response = await res.json()
     const rawData = Array.isArray(response?.data) ? response.data : Array.isArray(response) ? response : []
 
+    const items: CatalogItem[] = rawData
+      .map(normalizeController)
+      .filter((item: CatalogItem | null): item is CatalogItem => item !== null)
+      .sort((a: CatalogItem, b: CatalogItem) => (a.sort_order ?? 0) - (b.sort_order ?? 0))
+
     return {
-      data: rawData.map(normalizeController).filter((item: CatalogItem | null): item is CatalogItem => item !== null),
+      data: items,
       total: response?.total || response?.pagination?.total || rawData.length,
     }
   } catch (error) {
@@ -211,6 +255,10 @@ function normalizeController(item: unknown): CatalogItem | null {
       ? ((item as { data: Record<string, unknown> }).data as Record<string, unknown>)
       : (item as Record<string, unknown>)
 
+  if (!isVisibleController(record)) {
+    return null
+  }
+
   const cap = getString(record, ["cap", "title", "name", "model"])
   const normalizedId = extractId(record)
   const descr = getString(record, ["descr", "description", "summary", "content"]) ?? ""
@@ -233,6 +281,7 @@ function normalizeController(item: unknown): CatalogItem | null {
     model,
     descr,
     link,
+    sort_order: getNumber(record, ["sort_order", "sortOrder", "order", "position"]),
     image: {
       src: imageUrl,
       width: 197,

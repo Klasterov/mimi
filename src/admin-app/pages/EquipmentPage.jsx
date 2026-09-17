@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { uploadAPI } from '../api';
 import '../components/CRUDForm.css';
+import { toggleOrderedVisibility } from '../utils/orderedVisibility';
 
 const DEFAULT_TYPES = [
   { id: 'controller', label: 'Контроллеры' },
@@ -19,6 +20,23 @@ const EMPTY_FORM = {
   image: '',
   specifications: [],
   steps: [],
+  status: true,
+  sort_order: '',
+};
+
+const isEquipmentVisible = (item) => {
+  if (typeof item.status === 'boolean') return item.status;
+  if (typeof item.status === 'number') return item.status !== 0;
+  if (typeof item.status === 'string') {
+    return !['hidden', 'draft', 'archived', 'inactive', 'disabled', 'deleted', 'false', '0']
+      .includes(item.status.trim().toLowerCase());
+  }
+  return true;
+};
+
+const getSortOrder = (item) => {
+  const value = Number(item.sort_order);
+  return Number.isFinite(value) ? value : Number.MAX_SAFE_INTEGER;
 };
 
 function EquipmentPage() {
@@ -28,6 +46,7 @@ function EquipmentPage() {
   const [editingId, setEditingId] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [selectedType, setSelectedType] = useState('all');
+  const [visibilityFilter, setVisibilityFilter] = useState('published');
   const [formData, setFormData] = useState(EMPTY_FORM);
   const [uploadingField, setUploadingField] = useState('');
 
@@ -40,7 +59,9 @@ function EquipmentPage() {
   const fetchEquipment = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch('/api/admin/equipment');
+      const response = await fetch('/api/admin/equipment?limit=500', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       if (!response.ok) throw new Error('Не удалось загрузить оборудование');
 
       const data = await response.json();
@@ -67,12 +88,20 @@ function EquipmentPage() {
   }, [equipmentList]);
 
   const visibleEquipment = useMemo(() => {
-    if (selectedType === 'all') {
-      return equipmentList;
-    }
+    return equipmentList
+      .filter((item) => selectedType === 'all' || (item.type || '').trim() === selectedType)
+      .filter((item) => visibilityFilter === 'published' ? isEquipmentVisible(item) : !isEquipmentVisible(item))
+      .sort((a, b) => getSortOrder(a) - getSortOrder(b));
+  }, [equipmentList, selectedType, visibilityFilter]);
 
-    return equipmentList.filter((item) => (item.type || '').trim() === selectedType);
-  }, [equipmentList, selectedType]);
+  const visibilityCounts = useMemo(() => ({
+    published: equipmentList.filter((item) => (
+      (selectedType === 'all' || (item.type || '').trim() === selectedType) && isEquipmentVisible(item)
+    )).length,
+    hidden: equipmentList.filter((item) => (
+      (selectedType === 'all' || (item.type || '').trim() === selectedType) && !isEquipmentVisible(item)
+    )).length,
+  }), [equipmentList, selectedType]);
 
   const resetForm = (nextType = selectedType) => {
     setFormData({
@@ -91,6 +120,8 @@ function EquipmentPage() {
       image: item.image || '',
       specifications: Array.isArray(item.specifications) ? item.specifications : [],
       steps: Array.isArray(item.steps) ? item.steps : [],
+      status: isEquipmentVisible(item),
+      sort_order: item.sort_order ?? '',
     });
     setEditingId(item.id);
     setShowForm(true);
@@ -107,6 +138,7 @@ function EquipmentPage() {
       const payload = {
         ...formData,
         type: formData.type.trim(),
+        sort_order: formData.sort_order === '' ? undefined : Number(formData.sort_order),
       };
 
       const url = `/api/admin/equipment${editingId ? `/${editingId}` : ''}`;
@@ -170,9 +202,36 @@ function EquipmentPage() {
       });
 
       if (!response.ok) throw new Error('Не удалось удалить оборудование');
-      fetchEquipment();
+      await fetchEquipment();
     } catch (err) {
       setError(err.message);
+    }
+  };
+
+  const handleToggleVisibility = async (item) => {
+    try {
+      setError(null);
+      await toggleOrderedVisibility({
+        entity: 'equipment',
+        item,
+        items: equipmentList,
+        update: async (id, payload) => {
+          const response = await fetch(`/api/admin/equipment/${id}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(payload),
+          });
+          if (!response.ok) throw new Error('Не удалось обновить видимость записи');
+        },
+      });
+
+      await fetchEquipment();
+    } catch (err) {
+      setError(err.message);
+      await fetchEquipment();
     }
   };
 
@@ -250,6 +309,23 @@ function EquipmentPage() {
             {type.label}
           </button>
         ))}
+      </div>
+
+      <div className="crud-filters" style={{ marginBottom: '24px', display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+        <button
+          type="button"
+          className={`btn ${visibilityFilter === 'published' ? 'btn-primary' : 'btn-secondary'}`}
+          onClick={() => setVisibilityFilter('published')}
+        >
+          Опубликованные ({visibilityCounts.published})
+        </button>
+        <button
+          type="button"
+          className={`btn ${visibilityFilter === 'hidden' ? 'btn-primary' : 'btn-secondary'}`}
+          onClick={() => setVisibilityFilter('hidden')}
+        >
+          Скрытые ({visibilityCounts.hidden})
+        </button>
       </div>
 
       {error && <div className="alert alert-error">{error}</div>}
@@ -332,6 +408,27 @@ function EquipmentPage() {
               </div>
             )}
 
+            <div className="form-group">
+              <label>Порядок вывода</label>
+              <input
+                type="number"
+                value={formData.sort_order}
+                onChange={(e) => setFormData({ ...formData, sort_order: e.target.value })}
+                placeholder="0"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Видимость на сайте</label>
+              <select
+                value={formData.status ? 'true' : 'false'}
+                onChange={(e) => setFormData({ ...formData, status: e.target.value === 'true' })}
+              >
+                <option value="true">Показывать</option>
+                <option value="false">Скрыть</option>
+              </select>
+            </div>
+
             <div className="form-section">
               <h3>Характеристики</h3>
               {(formData.specifications || []).map((spec, idx) => (
@@ -413,6 +510,8 @@ function EquipmentPage() {
           <thead>
             <tr>
               <th>ID</th>
+              <th>Порядок</th>
+              <th>Статус</th>
               <th>Тип</th>
               <th>Название</th>
               <th>Модель</th>
@@ -425,6 +524,8 @@ function EquipmentPage() {
             {visibleEquipment.map((item) => (
               <tr key={item.id}>
                 <td>{item.id}</td>
+                <td>{item.sort_order ?? '-'}</td>
+                <td>{isEquipmentVisible(item) ? 'Опубликовано' : 'Скрыто'}</td>
                 <td>{item.type || '-'}</td>
                 <td>{item.cap}</td>
                 <td>{item.model || '-'}</td>
@@ -438,12 +539,22 @@ function EquipmentPage() {
                   <button className="btn btn-sm btn-info" onClick={() => handleEdit(item)}>
                     Изменить
                   </button>
+                  <button className="btn btn-sm btn-secondary" onClick={() => handleToggleVisibility(item)}>
+                    {isEquipmentVisible(item) ? 'Скрыть' : 'Восстановить'}
+                  </button>
                   <button className="btn btn-sm btn-danger" onClick={() => handleDelete(item.id)}>
                     Удалить
                   </button>
                 </td>
               </tr>
             ))}
+            {visibleEquipment.length === 0 && (
+              <tr>
+                <td colSpan="9" style={{ textAlign: 'center', padding: '24px' }}>
+                  {visibilityFilter === 'hidden' ? 'Скрытых записей нет' : 'Опубликованных записей нет'}
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

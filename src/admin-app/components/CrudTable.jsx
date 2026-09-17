@@ -6,6 +6,7 @@ import {
   translateArticleCategory,
   translateStatus,
 } from '../utils/adminUi';
+import { isVisibleByEntity, toggleOrderedVisibility } from '../utils/orderedVisibility';
 
 function CrudTable({ entity, fields, title, icon }) {
   const [items, setItems] = useState([]);
@@ -178,6 +179,23 @@ function CrudTable({ entity, fields, title, icon }) {
         setError(`Не удалось удалить ${getEntityLabel(entity, 'singular')}.`);
         console.error(err);
       }
+    }
+  };
+
+  const handleToggleVisibility = async (item) => {
+    try {
+      setError('');
+      await toggleOrderedVisibility({
+        entity,
+        item,
+        items,
+        update: (id, payload) => api.put(`/${entity}/${id}`, payload),
+      });
+      await fetchItems(currentPage);
+    } catch (err) {
+      setError(`Не удалось изменить видимость ${getEntityLabel(entity, 'singular')}.`);
+      console.error(err);
+      await fetchItems(currentPage);
     }
   };
 
@@ -432,6 +450,9 @@ function CrudTable({ entity, fields, title, icon }) {
                         <>
                           <button className="btn-edit" onClick={() => handleEdit(item)}>
                             Изменить
+                          </button>
+                          <button className="btn-edit" onClick={() => handleToggleVisibility(item)}>
+                            {isVisibleByEntity(entity, item) ? 'Скрыть' : 'Восстановить'}
                           </button>
                           <button className="btn-delete" onClick={() => handleDelete(item.id)}>
                             Удалить

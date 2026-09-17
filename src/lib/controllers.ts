@@ -57,6 +57,43 @@ function extractControllerId(item: UnknownRecord) {
   return match?.[1] ?? null
 }
 
+function isVisibleControllerItem(item: UnknownRecord) {
+  if (item.hidden === true || item.visible === false || item.isVisible === false || item.published === false) {
+    return false
+  }
+
+  const status = item.status
+
+  if (typeof status === "boolean") {
+    return status
+  }
+
+  if (typeof status === "string") {
+    const normalizedStatus = status.trim().toLowerCase()
+    return !["hidden", "draft", "archived", "inactive", "disabled", "deleted", "false", "0"].includes(normalizedStatus)
+  }
+
+  return true
+}
+
+function readControllerSortOrder(item: UnknownRecord, fallback: number) {
+  const value = item.sort_order ?? item.sortOrder ?? item.order ?? item.position
+
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return value
+  }
+
+  if (typeof value === "string" && value.trim()) {
+    const parsed = Number(value)
+
+    if (Number.isFinite(parsed)) {
+      return parsed
+    }
+  }
+
+  return fallback
+}
+
 function resolveImageSource(value: string | null) {
   if (!value) {
     return "/images/products/1.png"
@@ -107,6 +144,10 @@ function normalizeControllerItem(item: unknown, index: number): CatalogItem | nu
     return null
   }
 
+  if (!isVisibleControllerItem(item)) {
+    return null
+  }
+
   const normalizedId = extractControllerId(item)
   const title = firstString(item, ["cap", "title", "name", "model"])
   const description = firstString(item, ["descr", "description", "summary", "content"]) ?? ""
@@ -139,6 +180,7 @@ function normalizeControllerItem(item: unknown, index: number): CatalogItem | nu
     type: type ?? undefined,
     descr: description,
     link,
+    sort_order: readControllerSortOrder(item, index),
     fullDescription: fullDescription !== description ? fullDescription : undefined,
     specifications: specifications as Array<{
       name: string
@@ -188,7 +230,7 @@ export async function getControllerCatalogItems(): Promise<CatalogItem[]> {
   const backendItems = await getBackendControllers()
 
   if (backendItems) {
-    return backendItems
+    return [...backendItems].sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0))
   }
 
   console.log("[Controllers] Using fallback: loading from local storage")

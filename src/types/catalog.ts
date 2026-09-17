@@ -10,6 +10,7 @@ export type CatalogItem = {
   model?: string
   descr: string
   link: string
+  sort_order?: number
   fullDescription?: string
   specifications?: Array<{
     name: string
