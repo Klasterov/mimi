@@ -5,6 +5,7 @@ import Image from "next/image"
 import { Title } from "@/components/UI/Title"
 import { Button } from "@/components/UI/Button"
 import gsap from "gsap"
+import { LeadModalTrigger } from "@/components/modals/LeadModalTrigger"
 // 1440/934
 
 const heroImages = [
@@ -191,7 +192,9 @@ export default function SmartSwitchesHero() {
 				</div>
 
 				<div ref={buttonRef}>
-					<Button className="justify-center py-1.75!">Подобрать дизайн</Button>
+					<LeadModalTrigger formType="hero" buttonClassName="justify-center py-1.75!">
+						Подобрать дизайн
+					</LeadModalTrigger>
 				</div>
 			</div>
 		</section>

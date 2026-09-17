@@ -1,3 +1,4 @@
+import { LeadModalTrigger } from "@/components/modals/LeadModalTrigger";
 import { Button } from "@/components/UI/Button";
 import { Title } from "@/components/UI/Title";
 import Image from "next/image";
@@ -19,7 +20,10 @@ export default function PowerSupplyHero() {
 				<div className="font-helvetica text-[17px] leading-[1.3] -tracking-[0.01em] max-w-135.5 mb-6">
 					Дом остаётся на связи при отключении электричества.
 				</div>
-				<Button className="justify-center py-1.75!">РАССЧИТАТЬ РЕЗЕРВ</Button>
+
+				<LeadModalTrigger formType="hero" buttonClassName="justify-center py-1.75!">
+					РАССЧИТАТЬ РЕЗЕРВ
+				</LeadModalTrigger>
 			</div>
 		</section>
 	);

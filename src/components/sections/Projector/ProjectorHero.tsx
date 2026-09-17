@@ -1,3 +1,4 @@
+import { LeadModalTrigger } from "@/components/modals/LeadModalTrigger";
 import { Button } from "@/components/UI/Button";
 import { Title } from "@/components/UI/Title";
 import Image from "next/image";
@@ -7,7 +8,9 @@ export default function ProjectorHero() {
 		<section className="pt-22.5 lg:pt-17 pb-15 lg:pb-22.5 overflow-hidden">
 			<div className="max-w-308 px-4 mx-auto text-center flex flex-col items-center">
 				<Title className="mb-6">Короткий слоган</Title>
-				<Button className="justify-center py-1.75! mb-5 lg:mb-15">Подобрать проектор</Button>
+				<LeadModalTrigger formType="hero" buttonClassName="justify-center py-1.75! mb-5 lg:mb-15">
+					Подобрать проектор
+				</LeadModalTrigger>
 				<div className="relative w-160 sm:w-300 aspect-1200/500">
 
 					<Image

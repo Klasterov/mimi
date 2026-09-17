@@ -1,6 +1,7 @@
 
 'use client'
 
+import { LeadModalTrigger } from "@/components/modals/LeadModalTrigger";
 import { Button } from "@/components/UI/Button";
 import { Title } from "@/components/UI/Title";
 import { brand } from "@/config/brand";
@@ -188,7 +189,9 @@ export default function Contacts() {
 						)
 					})}
 				</nav>
-				<Button className='lg:min-w-80 py-1.75! px-6! justify-between mb-2.5'>Связаться с нами</Button>
+				<LeadModalTrigger formType="hero" buttonClassName="lg:min-w-80 py-1.75! px-6! justify-between mb-2.5">
+					Связаться с нами
+				</LeadModalTrigger>
 				<div className='flex items-center gap-1 text-[14px] text-[#acacac] -tracking-[0.01em] leading-normal pl-6'>
 					<span>Мы на связи сейчас</span>
 					<span className='w-2 h-2 rounded-full bg-[#27ca40] shadow-[0_4px_4px_0_rgba(39,202,64,0.25)]'></span>

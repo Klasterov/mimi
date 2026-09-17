@@ -29,7 +29,10 @@ export default function Header() {
 	}, [isOpen])
 	return (
 		<header
-			onMouseLeave={() => setShowFunctional(false)}
+			onMouseLeave={() => {
+				setShowFunctional(false)
+				setIsOpen(false)
+			}}
 			className={`lg:relative z-2 font-helvetica transition-colors duration-400 lg:backdrop-blur-md bg-black : 'bg-[rgba(244, 244, 244)]/95 py-2`}
 		>
 			<div className="max-w-308 mx-auto px-4 flex items-center lg:justify-between gap-5">
@@ -49,7 +52,10 @@ export default function Header() {
 						)}
 					</nav>
 					<button
-						onClick={() => setIsOpen(prev => !prev)}
+						onClick={() => {
+							setIsOpen(prev => !prev)
+							setShowFunctional(prev => !prev)
+						}}
 						className={`relative z-12 text-white w-6 h-6 basis-6 cursor-pointer transitions-colors duration-300 hover:text-brand-light-gray`}
 					>
 						<svg className={`${isOpen && "opacity-0"} transition-opacity duration-300`} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -1,3 +1,4 @@
+import { LeadModalTrigger } from "@/components/modals/LeadModalTrigger";
 import { Button } from "@/components/UI/Button";
 import { Title } from "@/components/UI/Title";
 import { BenefitIcon } from "@/icons/for-partners/BenefitIcon";
@@ -55,7 +56,9 @@ export default function ForAgenciesHero() {
 						<div className="max-w-140 font-helvetica text-[17px] leading-[1.3] -tracking-[0.01em] mb-10">
 							Комиссия и готовые решения для объектов бизнес/премиум.
 						</div>
-						<Button className="justify-center py-1.75!">Партнерская программа</Button>
+						<LeadModalTrigger formType="hero" buttonClassName="justify-center py-1.75!">
+							Партнерская программа
+						</LeadModalTrigger>
 					</div>
 				</div>
 				<ul className="grid sm:grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-15">

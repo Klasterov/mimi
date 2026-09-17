@@ -31,7 +31,10 @@ export default function Header() {
 	const { enabled } = useTheme()
 	return (
 		<header
-			onMouseLeave={() => setShowFunctional(false)}
+			onMouseLeave={() => {
+				setShowFunctional(false)
+				setIsOpen(false)
+			}}
 			className={`lg:relative z-2 font-helvetica transition-colors duration-400 lg:backdrop-blur-md ${enabled ? 'bg-foreground border-foreground' : 'bg-[rgba(244, 244, 244)]/95 md:bg-white'} py-2`}
 		>
 			<div className="max-w-308 mx-auto px-4 flex items-center lg:justify-between gap-5">
@@ -51,7 +54,10 @@ export default function Header() {
 						)}
 					</nav>
 					<button
-						onClick={() => setIsOpen(prev => !prev)}
+						onClick={() => {
+							setIsOpen(prev => !prev)
+							setShowFunctional(prev => !prev)
+						}}
 						className={`relative z-12 ${enabled ? 'text-white' : 'text-brand-light-gray'} lg:text-[#777777] w-6 h-6 basis-6 cursor-pointer transitions-colors duration-300 hover:text-brand-light-gray`}
 					>
 						<svg className={`${isOpen && "opacity-0"} transition-opacity duration-300`} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -121,8 +127,8 @@ export default function Header() {
 									key={item.label}
 									href={item.href}
 									className={`text-[16px] transition duration-300 ${enabled
-											? "text-white hover:opacity-70"
-											: "text-black hover:opacity-70"
+										? "text-white hover:opacity-70"
+										: "text-black hover:opacity-70"
 										}`}
 								>
 									{item.label}

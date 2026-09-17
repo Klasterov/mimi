@@ -5,6 +5,7 @@ import { Title } from "@/components/UI/Title"
 import Image from "next/image"
 import { useLayoutEffect, useRef } from "react"
 import gsap from "gsap"
+import { LeadModalTrigger } from "@/components/modals/LeadModalTrigger"
 
 export default function VentilationHero() {
 	const imageRef = useRef<HTMLDivElement | null>(null)
@@ -77,9 +78,9 @@ export default function VentilationHero() {
 					</div>
 
 					<div className="mb-20">
-						<Button className="justify-center py-1.75!">
+						<LeadModalTrigger formType="hero" buttonClassName="justify-center py-1.75!">
 							Подобрать ткань и привод
-						</Button>
+						</LeadModalTrigger>
 					</div>
 
 					<div className="font-helvetica text-[17px] leading-[1.3] -tracking-[0.01em]">

@@ -1,3 +1,4 @@
+import { LeadModalTrigger } from "@/components/modals/LeadModalTrigger";
 import { Button } from "@/components/UI/Button";
 import { Title } from "@/components/UI/Title";
 import { ApprovalIcon } from "@/icons/designing/ApprovalIcon";
@@ -86,7 +87,9 @@ export default function DesigningStages() {
 								</div>
 							</div>
 						</div>
-						<Button className="justify-center py-1.75!">Хочу так же</Button>
+						<LeadModalTrigger formType="hero" buttonClassName="justify-center py-1.75!">
+							Хочу так же
+						</LeadModalTrigger>
 					</div>
 				</div>
 			</div>

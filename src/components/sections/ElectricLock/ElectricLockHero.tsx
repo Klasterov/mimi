@@ -5,6 +5,7 @@ import { Title } from "@/components/UI/Title"
 import Image from "next/image"
 import { useLayoutEffect, useRef } from "react"
 import gsap from "gsap"
+import { LeadModalTrigger } from "@/components/modals/LeadModalTrigger"
 
 export default function ElectricLockHero() {
 	const doorRef = useRef<HTMLDivElement | null>(null)
@@ -63,9 +64,9 @@ export default function ElectricLockHero() {
 					<Title>Электрозамок</Title>
 				</div>
 
-				<Button className="justify-center py-1.75!">
+				<LeadModalTrigger formType="hero" buttonClassName="justify-center py-1.75!">
 					Подобрать замок
-				</Button>
+				</LeadModalTrigger>
 			</div>
 		</section>
 	)

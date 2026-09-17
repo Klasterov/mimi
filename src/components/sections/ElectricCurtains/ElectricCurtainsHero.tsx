@@ -5,6 +5,7 @@ import { Title } from "@/components/UI/Title"
 import Image from "next/image"
 import { useEffect, useRef } from "react"
 import gsap from "gsap"
+import { LeadModalTrigger } from "@/components/modals/LeadModalTrigger"
 
 export default function ElectricCurtainsHero() {
 	const imageRef = useRef<HTMLDivElement | null>(null)
@@ -52,11 +53,9 @@ export default function ElectricCurtainsHero() {
 				<div className="mb-6 opacity-0" ref={titleRef}>
 					<Title>Короткий слоган</Title>
 				</div>
-
-				<Button className="justify-center py-1.75! mb-10">
+				<LeadModalTrigger formType="hero" buttonClassName="justify-center py-1.75! mb-10">
 					Подобрать ткань и привод
-				</Button>
-
+				</LeadModalTrigger>
 				<div ref={imageRef} className="mb-10 opacity-0">
 					<Image
 						src="/images/electric-curtains-page/hero/decor.png"

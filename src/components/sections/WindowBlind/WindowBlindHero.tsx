@@ -5,6 +5,7 @@ import { Title } from "@/components/UI/Title"
 import Image from "next/image"
 import { useEffect, useRef } from "react"
 import gsap from "gsap"
+import { LeadModalTrigger } from "@/components/modals/LeadModalTrigger"
 
 export default function WindowBlindHero() {
 	const imageRef = useRef<HTMLDivElement | null>(null)
@@ -61,9 +62,9 @@ export default function WindowBlindHero() {
 					<Title>Короткий слоган</Title>
 				</div>
 
-				<Button className="justify-center py-1.75!">
+				<LeadModalTrigger formType="hero" buttonClassName="justify-center py-1.75!">
 					Подобрать ткань и привод
-				</Button>
+				</LeadModalTrigger>
 
 				<div className="font-helvetica text-[17px] mt-20 leading-[1.3] -tracking-[0.01em] max-w-135.5">
 					Нехитрая система подъема...

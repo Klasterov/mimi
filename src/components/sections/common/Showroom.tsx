@@ -10,6 +10,7 @@ import { brand } from '@/config/brand';
 import { PlayIcon } from '@/icons/PlayIcon';
 import { MimiLogo } from '@/components/UI/MimiLogo';
 import { ButtonLink } from '@/components/UI/ButtonLink';
+import { LeadModalTrigger } from '@/components/modals/LeadModalTrigger';
 
 export default function Showroom() {
 	const gradientRef = useRef<HTMLDivElement>(null)
@@ -124,7 +125,9 @@ export default function Showroom() {
 							{brand.address}
 						</a>
 					</div>
-					<ButtonLink href="/showroom" className='justify-center'>Записаться в шоурум</ButtonLink>
+					<LeadModalTrigger formType="hero" buttonClassName="justify-center">
+						Оставить заявку
+					</LeadModalTrigger>
 				</div>
 
 			</div>
