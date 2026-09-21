@@ -61,10 +61,12 @@ export default function Features({ title }: { title: string }) {
 							<p className="leading-snug mb-2 text-[15px] text-brand-gray font-helvetica">
 								{item.description}
 							</p>
-							<a href="#" className="inline-flex items-center gap-1 text-[15px] font-medium text-brand-blue group">
-								Узнать больше
-								<RightArrowIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300"></RightArrowIcon>
-							</a>
+							{item.href && (
+								<a href={item.href} className="inline-flex items-center gap-1 text-[15px] font-medium text-brand-blue group">
+									Узнать больше
+									<RightArrowIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+								</a>
+							)}
 						</SwiperSlide>
 					))}
 				</Swiper>

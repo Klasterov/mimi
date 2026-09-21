@@ -14,12 +14,12 @@ export const contacts: Contacts = {
 	apps: [
 		{
 			label: 'App Store',
-			href: '',
+			href: 'https://apps.apple.com/tr/app/mimismart/id6444528782',
 			icon: AppStoreIcon
 		},
 		{
 			label: 'Google Play',
-			href: '',
+			href: 'https://play.google.com/store/apps/details?id=com.mimismart.app',
 			icon: GooglePlayIcon
 		},
 	],

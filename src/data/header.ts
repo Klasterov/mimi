@@ -5,11 +5,6 @@ export const menuItems = [
 		desktop: true
 	},
 	{
-		label: 'Услуги',
-		href: '/',
-		desktop: true
-	},
-	{
 		label: 'Функционал',
 		action: 'openFunctional',
 		desktop: true
@@ -21,7 +16,7 @@ export const menuItems = [
 	},
 	{
 		label: 'Фурнитура',
-		href: '/',
+		href: '/smart-switches',
 		desktop: true
 	},
 	{

@@ -24,7 +24,7 @@ const features = [
 			],
 			link: {
 				text: 'Домашний кинотеатр',
-				url: '/',
+				url: '/cinema-home',
 			}
 		},
 		image: '/images/cinema-page/features/1.png',
@@ -42,7 +42,7 @@ const features = [
 			],
 			link: {
 				text: 'Мультирум',
-				url: '/',
+				url: '/multiroom',
 			}
 		},
 		image: '/images/cinema-page/features/2.png',
@@ -60,7 +60,7 @@ const features = [
 			],
 			link: {
 				text: 'Проекторы',
-				url: '/',
+				url: '/prjector',
 			}
 		},
 		image: '/images/cinema-page/features/3.png',
@@ -72,7 +72,7 @@ const features = [
 			text: 'Вам не придется отрываться от прослушивания любимой композиции только потому, что нужно пойти в другую комнату. Система создает эффект следования музыки за вами, получая данные с датчиков движения.',
 			link: {
 				text: 'Узнать больше про аудио',
-				url: '/',
+				url: '/audio',
 			}
 		},
 		image: '/images/cinema-page/features/5.png',

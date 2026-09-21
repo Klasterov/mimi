@@ -5,11 +5,13 @@ export const features: Feature[] = [
 		title: "Приложение",
 		description: "Вся электрика в доме теперь в вашем смартфоне. Делай десятки действий одним кликом.",
 		src: "/images/features/1.jpg",
+		href: "/app",
 	},
 	{
 		title: "Выключатели",
 		description: "Управляйте так, как привыкли. Почти как классические выключатели. На одну кнопку можно разместить десятки действий.",
 		src: "/images/features/2.jpg",
+		href: "/smart-switches",
 
 	},
 	{
