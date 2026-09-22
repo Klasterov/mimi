@@ -60,7 +60,7 @@ export default function VentilationHero() {
 	}, [])
 
 	return (
-		<section className="pb-22.5 lg:pb-30 overflow-hidden">
+		<section className="pb-22.5 lg:pb-30">
 			<div className="max-w-368 px-4 mx-auto flex flex-col items-center">
 
 				<div ref={imageRef} className="opacity-0 mb-20 min-w-229">
@@ -77,13 +77,10 @@ export default function VentilationHero() {
 						<Title>Вентиляция</Title>
 					</div>
 
-					<div className="mb-20">
-						<LeadModalTrigger formType="hero" buttonClassName="justify-center py-1.75!">
-							Подобрать ткань и привод
-						</LeadModalTrigger>
-					</div>
-
-					<div className="font-helvetica text-[17px] leading-[1.3] -tracking-[0.01em]">
+					<LeadModalTrigger formType="hero" buttonClassName="justify-center py-1.75!">
+						Подобрать ткань и привод
+					</LeadModalTrigger>
+					<div className="font-helvetica mt-20 text-[17px] leading-[1.3] -tracking-[0.01em]">
 						Нехитрая система подъема, позволяющая им подниматься вверх или опускаться вниз с помощью системы шнуров и электропривода..
 						Часто популярны на кухне, лоджиях и других местах, где из за особенностей помещения нецелесообразно устанавливать раздвижные шторы.
 					</div>

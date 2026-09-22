@@ -6,6 +6,7 @@ import { Button } from '../UI/Button';
 import { useEffect } from 'react';
 import { useTheme } from '@/context/ThemeContext';
 import { ButtonLink } from '../UI/ButtonLink';
+import { ButtonLinkTrigger } from '../UI/ButtonLinkTrigger';
 
 function LivingRoom() {
 	const { enabled } = useTheme();
@@ -281,7 +282,9 @@ export default function SmartHome() {
 						Производство и монтаж современной электрики. <br />
 						Автоматическое управление всеми системами дома.
 					</p>
-					<ButtonLink href='/' className='justify-center'>Узнать больше</ButtonLink>
+					<ButtonLinkTrigger className="justify-center" formType="hero">
+						Узнать больше
+					</ButtonLinkTrigger>
 				</div>
 			</div>
 		</section>

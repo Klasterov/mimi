@@ -93,7 +93,7 @@ export function ApplicationModal({ onClose, formType }: ApplicationModalProps) {
 								alt={brand.address}
 							/>
 						</div>
-						<div className="text-[15px] max-w-49">
+						<div className="text-[15px] max-w-49 text-left">
 							<span className="text-brand-blue">{brand.address}</span>
 						</div>
 					</div>
@@ -119,13 +119,12 @@ export function ApplicationModal({ onClose, formType }: ApplicationModalProps) {
 
 				{message && (
 					<div
-						className={`mb-5 rounded-2xl px-4 py-3 text-[14px] leading-[1.35] ${
-							isSuccess
+						className={`mb-5 rounded-2xl px-4 py-3 text-[14px] leading-[1.35] ${isSuccess
 								? "bg-[#e9fff3] text-[#0f7a43]"
 								: isError
 									? "bg-[#fff1f1] text-[#c03030]"
 									: "bg-white text-foreground"
-						}`}
+							}`}
 					>
 						{message}
 					</div>
