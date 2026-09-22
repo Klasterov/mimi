@@ -80,11 +80,13 @@ function DetectorForm() {
     setFormData({
       ...createInitialFormData(),
       ...detector,
+      linkHover: detector.linkHover ?? detector.link_hover ?? '',
+      isWide: detector.isWide ?? detector.is_wide ?? false,
       status: detector.status ?? true,
       sort_order: detector.sort_order ?? 0,
       detectorExample: {
         ...createInitialFormData().detectorExample,
-        ...(detector.detectorExample || {}),
+        ...(detector.detectorExample ?? detector.detector_example ?? {}),
       },
       hero: {
         ...createInitialFormData().hero,
