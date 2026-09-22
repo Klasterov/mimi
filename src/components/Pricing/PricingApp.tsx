@@ -1,6 +1,7 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
+import { submitLead, validateLeadFormValues } from '@/services/leads'
 import ArrowLink from '../UI/ArrowLink'
 
 // ---------------------------------------------------------------------------
@@ -70,7 +71,7 @@ const CATEGORIES: Category[] = [
 
 const AREA_BREAKPOINTS = [50, 100, 150, 200, 300, 400, 500, 700, 900, 1000]
 const AREA_LABELS = ['50 м²', '100 м²', '150 м²', '200 м²', '300 м²', '400 м²', '500 м²', '700 м²', '900 м²', '> 1000 м²']
-const DEFAULT_SELECTED = ['dimmable', 'climate_control', 'access_control', 'multiroom']
+const DEFAULT_SELECTED = ['1', '7', '13', '18']
 const DEFAULT_SLIDER_POS = 3.22 // sits between the 200 м² and 300 м² marks, i.e. ~222 м²
 
 function sliderPosToArea(pos: number) {
@@ -97,6 +98,9 @@ export default function PricingApp() {
 	const [phone, setPhone] = useState('')
 	const [email, setEmail] = useState('')
 	const [submitted, setSubmitted] = useState(false)
+	const [submitting, setSubmitting] = useState(false)
+	const [error, setError] = useState('')
+	const submissionLock = useRef(false)
 
 	const isMaxArea = sliderPos >= AREA_BREAKPOINTS.length - 1
 	const area = isMaxArea ? AREA_BREAKPOINTS[AREA_BREAKPOINTS.length - 1] : sliderPosToArea(sliderPos)
@@ -120,13 +124,51 @@ export default function PricingApp() {
 		})
 	}
 
-	function handleSubmit() {
-		if (!name.trim() || !phone.trim()) return
-		// TODO: wire this up to your backend / CRM endpoint.
-		setSubmitted(true)
+	async function handleSubmit() {
+		if (submissionLock.current || submitted) return
+		setError('')
+		const validation = validateLeadFormValues({ name, phone, comment: '', consent: true })
+		if (Object.keys(validation).length) {
+			setError('Укажите имя и корректный номер телефона (от 7 до 20 цифр).')
+			return
+		}
+		if (email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+			setError('Проверьте адрес email.')
+			return
+		}
+		const services = CATEGORIES.flatMap(category => category.items)
+			.filter(item => selected.has(item.id))
+		if (!services.length) {
+			setError('Выберите хотя бы одну услугу.')
+			return
+		}
+		const comment = [
+			'Конфигуратор стоимости',
+			email.trim() ? 'Email: ' + email.trim() : '',
+			'Площадь: ' + areaLabel,
+			'Услуги:',
+			...services.map(item => '• ' + item.label + ' — ' + formatPrice(item.pricePerSqm) + ' ₽/м²'),
+			'Количество услуг: ' + services.length,
+			'Предварительная стоимость: ' + formatPrice(total) + ' ₽',
+		].filter(Boolean).join('\n')
+		submissionLock.current = true
+		setSubmitting(true)
+		try {
+			const result = await submitLead({
+				name: name.trim(), phone: phone.trim(), comment,
+				consent: true, pageUrl: window.location.href, formType: 'pricing-configurator',
+			})
+			if (!result.stored) throw new Error('Lead was not stored')
+			setSubmitted(true)
+		} catch {
+			setError('Не удалось отправить заявку. Попробуйте ещё раз.')
+		} finally {
+			submissionLock.current = false
+			setSubmitting(false)
+		}
 	}
 
-	const canSubmit = name.trim().length > 0 && phone.trim().length > 0
+	const canSubmit = name.trim().length > 0 && phone.trim().length > 0 && selected.size > 0
 
 	return (
 		<section className="min-h-screen bg-black px-4 py-8 text-white md:px-8 md:py-12">
@@ -161,6 +203,8 @@ export default function PricingApp() {
 						onSubmit={handleSubmit}
 						canSubmit={canSubmit}
 						submitted={submitted}
+						submitting={submitting}
+						error={error}
 						className="lg:hidden"
 					/>
 				</main>
@@ -174,6 +218,8 @@ export default function PricingApp() {
 						onSubmit={handleSubmit}
 						canSubmit={canSubmit}
 						submitted={submitted}
+						submitting={submitting}
+						error={error}
 					/>
 				</aside>
 			</div>
@@ -310,7 +356,7 @@ function ServiceRow({
 					{checked && <img src={`${ICONS_PATH}/check.svg`} alt="" className="h-5 w-5" />}
 				</span>
 
-				<img src={`images/pricing-page/${item.id}.svg`} alt="" className="h-4.5 w-4.5 shrink-0" />
+				<img src={`/images/pricing-page/${item.id}.svg`} alt="" className="h-4.5 w-4.5 shrink-0" />
 
 				<span className=" text-[17px] text-[#f6f9ff]">{item.label}</span>
 			</button>
@@ -397,6 +443,8 @@ function SummaryCard({
 	onSubmit,
 	canSubmit,
 	submitted,
+	submitting,
+	error,
 	className = '',
 }: {
 	total: number
@@ -405,10 +453,12 @@ function SummaryCard({
 	onSubmit: () => void
 	canSubmit: boolean
 	submitted: boolean
+	submitting: boolean
+	error: string
 	className?: string
 }) {
 	return (
-		<>
+		<div className={className} aria-busy={submitting}>
 			<div className="mb-4 flex text-white items-center justify-between">
 				<span className="tracking-[0.04em]">Итого:</span>
 				<span className="text-[32px] font-bold">
@@ -430,15 +480,17 @@ function SummaryCard({
 			<button
 				type="button"
 				onClick={onSubmit}
-				disabled={!canSubmit}
+				disabled={!canSubmit || submitting || submitted}
 				className="mt-6 w-full rounded-full bg-cyan-400 py-3.5 text-sm font-medium text-[#0a0a0a] transition-colors hover:bg-cyan-300 disabled:cursor-not-allowed disabled:bg-cyan-400/30 disabled:text-white/40"
 			>
-				{submitted ? 'Заявка отправлена' : 'Отправить заявку'}
+				{submitting ? 'Отправляем…' : submitted ? 'Заявка отправлена' : 'Отправить заявку'}
 			</button>
+
+			{error && <p role="alert" className="mt-3 text-sm text-red-300">{error}</p>}
 
 			{!canSubmit && (
 				<p className="mt-3 text-center text-xs text-white/30">Укажите имя и телефон, чтобы продолжить</p>
 			)}
-		</>
+		</div>
 	)
 }

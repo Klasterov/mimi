@@ -130,6 +130,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(data ?? { stored: true }, { status: response.status })
   }
 
+  if (getBackendBaseUrl()) {
+    return NextResponse.json(
+      { error: "Не удалось сохранить заявку. Попробуйте позже." },
+      { status: 503 }
+    )
+  }
+
   const lead = await createLead({
     name: body.name!.trim(),
     phone: body.phone!.trim(),

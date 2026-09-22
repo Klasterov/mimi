@@ -172,7 +172,7 @@ function LeadsTab() {
                           className="comment-input"
                         />
                       ) : (
-                        <span className="comment-text">{lead.comment || '-'}</span>
+                        <span className="comment-text" style={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>{lead.comment || '-'}</span>
                       )}
                     </td>
                     <td>
