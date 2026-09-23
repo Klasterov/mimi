@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { uploadAPI } from '../api';
+import api, { uploadAPI } from '../api';
+import { loadAllItems, matchesEquipment } from '../utils/contentFilters';
 import '../components/CRUDForm.css';
 import { toggleOrderedVisibility } from '../utils/orderedVisibility';
 
@@ -46,6 +47,7 @@ function EquipmentPage() {
   const [editingId, setEditingId] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [selectedType, setSelectedType] = useState('all');
+  const [search, setSearch] = useState('');
   const [visibilityFilter, setVisibilityFilter] = useState('published');
   const [formData, setFormData] = useState(EMPTY_FORM);
   const [uploadingField, setUploadingField] = useState('');
@@ -59,13 +61,7 @@ function EquipmentPage() {
   const fetchEquipment = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch('/api/admin/equipment?limit=500', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!response.ok) throw new Error('Не удалось загрузить оборудование');
-
-      const data = await response.json();
-      const items = Array.isArray(data.data) ? data.data : Array.isArray(data) ? data : [];
+      const items = await loadAllItems(api, 'equipment');
       const orderedVisibleItems = items
         .filter((item) => isEquipmentVisible(item))
         .sort((left, right) => (
@@ -112,10 +108,11 @@ function EquipmentPage() {
 
   const visibleEquipment = useMemo(() => {
     return equipmentList
+      .filter((item) => matchesEquipment(item, search))
       .filter((item) => selectedType === 'all' || (item.type || '').trim() === selectedType)
       .filter((item) => visibilityFilter === 'published' ? isEquipmentVisible(item) : !isEquipmentVisible(item))
       .sort((a, b) => getSortOrder(a) - getSortOrder(b));
-  }, [equipmentList, selectedType, visibilityFilter]);
+  }, [equipmentList, selectedType, visibilityFilter, search]);
 
   const visibilityCounts = useMemo(() => ({
     published: equipmentList.filter((item) => (
@@ -563,6 +560,13 @@ function EquipmentPage() {
       )}
 
       <div className="crud-list">
+        <div className="crud-filters">
+          <input type="search" className="search-input" aria-label="Поиск контроллеров и оборудования"
+            placeholder="Поиск по названию, модели или описанию" value={search} onChange={(e) => setSearch(e.target.value)} />
+          <button type="button" className="btn btn-secondary" disabled={!search} onClick={() => setSearch('')}>Сбросить поиск</button>
+        </div>
+        <p role="status">Найдено: {visibleEquipment.length}</p>
+        <div className="equipment-table-scroll" role="region" aria-label="Таблица оборудования, горизонтальная прокрутка" tabIndex={0}>
         <table>
           <thead>
             <tr>
@@ -608,12 +612,13 @@ function EquipmentPage() {
             {visibleEquipment.length === 0 && (
               <tr>
                 <td colSpan="9" style={{ textAlign: 'center', padding: '24px' }}>
-                  {visibilityFilter === 'hidden' ? 'Скрытых записей нет' : 'Опубликованных записей нет'}
+                  {search.trim() ? 'Оборудование не найдено. Измените поиск или фильтры.' : visibilityFilter === 'hidden' ? 'Скрытых записей нет' : 'Опубликованных записей нет'}
                 </td>
               </tr>
             )}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );

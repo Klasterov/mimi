@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import api, { uploadAPI } from '../api';
+import { loadAllItems, matchesProject, projectField } from '../utils/contentFilters';
 import { isVisibleByEntity, toggleOrderedVisibility } from '../utils/orderedVisibility';
+
+const EMPTY_FILTERS = { objectType: '', housingClass: '', city: '', tag: '', areaMin: '', areaMax: '' };
 
 const ALLOWED_TAGS = [
   'Освещение',
@@ -38,6 +41,7 @@ const createInitialFormData = () => ({
   imageMain: '',
   tags: [],
   objectType: '',
+  housingClass: '',
   area: '',
   city: '',
   heroImage: '',
@@ -69,6 +73,7 @@ function normalizeProject(project) {
       ? project.tags.filter((tag) => ALLOWED_TAGS.includes(tag))
       : [],
     objectType: project.object_type || project.objectType || '',
+    housingClass: projectField(project, 'housingClass'),
     area: project.area || '',
     city: project.city || '',
     heroImage:
@@ -114,6 +119,11 @@ function ProjectForm() {
   const [success, setSuccess] = useState('');
   const [uploadingField, setUploadingField] = useState('');
   const [search, setSearch] = useState('');
+  const [filters, setFilters] = useState(EMPTY_FILTERS);
+  const filteredProjects = projects.filter((project) => matchesProject(project, search, filters));
+  const hasFilters = search.trim() || Object.values(filters).some(Boolean);
+  const updateFilter = (key, value) => setFilters((previous) => ({ ...previous, [key]: value }));
+  const filterOptions = (key) => [...new Set(projects.map((project) => projectField(project, key)).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ru'));
   const [formData, setFormData] = useState(createInitialFormData);
 
   useEffect(() => {
@@ -123,26 +133,13 @@ function ProjectForm() {
   const fetchProjects = async () => {
     setLoading(true);
     try {
-      const response = await api.get('/projects');
-      setProjects(response.data.data || []);
+      setProjects(await loadAllItems(api, 'projects'));
     } catch (err) {
       setError('Не удалось загрузить проекты.');
       console.error(err);
     } finally {
       setLoading(false);
     }
-  };
-
-  const getFilteredProjects = () => {
-    if (!search.trim()) return projects;
-    const searchLower = search.toLowerCase();
-    return projects.filter(
-      (project) =>
-        (project.title || project.name || '').toLowerCase().includes(searchLower) ||
-        (project.slug || '').toLowerCase().includes(searchLower) ||
-        (project.description || '').toLowerCase().includes(searchLower) ||
-        (project.city || '').toLowerCase().includes(searchLower),
-    );
   };
 
   const resetForm = () => {
@@ -324,6 +321,7 @@ function ProjectForm() {
     imageMain: formData.imageMain.trim(),
     tags: formData.tags,
     objectType: formData.objectType.trim(),
+    housingClass: formData.housingClass.trim(),
     area: formData.area.trim(),
     city: formData.city.trim(),
     heroImage: formData.heroImage.trim(),
@@ -463,6 +461,11 @@ function ProjectForm() {
                   onChange={(e) => updateField('objectType', e.target.value)}
                   placeholder="Дом"
                 />
+              </div>
+              <div>
+                <label htmlFor="project-housing-class">Класс жилья</label>
+                <input id="project-housing-class" type="text" value={formData.housingClass}
+                  onChange={(e) => updateField('housingClass', e.target.value)} placeholder="Например, бизнес" />
               </div>
               <div>
                 <label>Площадь</label>
@@ -750,23 +753,49 @@ function ProjectForm() {
       )}
 
       <div className="projects-list">
-        <h3>Все проекты ({projects.length})</h3>
+        <h3>Проекты ({filteredProjects.length} из {projects.length})</h3>
         
         <div className="projects-filters">
           <input
             type="text"
-            placeholder="Поиск по названию, городу или slug..."
+            aria-label="Поиск проектов"
+            placeholder="Поиск по названию, описанию, городу или slug..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="search-input"
           />
+          {[['objectType', 'Тип объекта'], ['housingClass', 'Класс жилья'], ['city', 'Город']].map(([key, label]) => (
+            <label key={key}>{label}
+              <select value={filters[key]} onChange={(e) => updateFilter(key, e.target.value)}>
+                <option value="">Все</option>
+                {filterOptions(key).map((value) => <option key={value} value={value}>{value}</option>)}
+              </select>
+            </label>
+          ))}
+          <label>Тег
+            <select value={filters.tag} onChange={(e) => updateFilter('tag', e.target.value)}>
+              <option value="">Все</option>
+              {ALLOWED_TAGS.map((tag) => <option key={tag} value={tag}>{tag}</option>)}
+            </select>
+          </label>
+          <label>Площадь от, м²
+            <input type="number" min="0" step="any" value={filters.areaMin} onChange={(e) => updateFilter('areaMin', e.target.value)} />
+          </label>
+          <label>Площадь до, м²
+            <input type="number" min="0" step="any" value={filters.areaMax} onChange={(e) => updateFilter('areaMax', e.target.value)} />
+          </label>
+          <button type="button" className="btn btn-secondary" disabled={!hasFilters}
+            onClick={() => { setSearch(''); setFilters(EMPTY_FILTERS); }}>Сбросить фильтры</button>
         </div>
+        {filters.areaMin !== '' && filters.areaMax !== '' && Number(filters.areaMin) > Number(filters.areaMax) && (
+          <p role="alert">Минимальная площадь не должна превышать максимальную.</p>
+        )}
 
-        {getFilteredProjects().length === 0 ? (
-          <p>{search ? 'Проектов не найдено' : 'Проектов пока нет'}</p>
+        {filteredProjects.length === 0 ? (
+          <p>{hasFilters ? 'Проектов не найдено' : 'Проектов пока нет'}</p>
         ) : (
           <div className="projects-table">
-            {getFilteredProjects().map((project) => (
+            {filteredProjects.map((project) => (
               <div key={project.id} className="project-card">
                 <div className="project-card-header">
                   <h4>{project.title || project.name}</h4>
@@ -784,6 +813,7 @@ function ProjectForm() {
                     <span>{project.object_type || project.objectType}</span>
                   )}
                   {project.area && <span>{project.area}</span>}
+                  {projectField(project, 'housingClass') && <span>{projectField(project, 'housingClass')}</span>}
                   {project.city && <span>{project.city}</span>}
                 </div>
                 <div className="project-tags">

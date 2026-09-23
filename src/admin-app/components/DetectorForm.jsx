@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import {
   createDetector,
   deleteDetector,
-  getDetectors,
   updateDetector,
 } from '../api/detectors';
-import { uploadAPI } from '../api';
+import api, { uploadAPI } from '../api';
+import { loadAllItems, matchesDetector } from '../utils/contentFilters';
 import { isVisibleByEntity, toggleOrderedVisibility } from '../utils/orderedVisibility';
 
 const createInitialFormData = () => ({
@@ -52,6 +52,8 @@ const createInitialFormData = () => ({
 
 function DetectorForm() {
   const [detectors, setDetectors] = useState([]);
+  const [search, setSearch] = useState('');
+  const filteredDetectors = detectors.filter((detector) => matchesDetector(detector, search));
   const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
@@ -67,7 +69,7 @@ function DetectorForm() {
   const fetchDetectors = async () => {
     setLoading(true);
     try {
-      const data = await getDetectors();
+      const data = await loadAllItems(api, 'detectors');
       setDetectors(data);
     } catch (err) {
       setError('Не удалось загрузить детекторы.');
@@ -610,12 +612,17 @@ function DetectorForm() {
       )}
 
       <div className="detectors-list">
-        <h3>Все детекторы ({detectors.length})</h3>
-        {detectors.length === 0 ? (
-          <p>Детекторов пока нет</p>
+        <h3>Детекторы ({filteredDetectors.length} из {detectors.length})</h3>
+        <div className="crud-filters">
+          <input type="search" className="search-input" aria-label="Поиск детекторов"
+            placeholder="Поиск по названию, описанию или slug" value={search} onChange={(e) => setSearch(e.target.value)} />
+          <button type="button" className="btn btn-secondary" disabled={!search} onClick={() => setSearch('')}>Сбросить поиск</button>
+        </div>
+        {filteredDetectors.length === 0 ? (
+          <p>{search.trim() ? 'Детекторов не найдено' : 'Детекторов пока нет'}</p>
         ) : (
           <div className="detectors-table">
-            {detectors.map((detector) => (
+            {filteredDetectors.map((detector) => (
               <div key={detector.id} className="detector-card">
                 <div className="detector-card-header">
                   <h4>{detector.title}</h4>

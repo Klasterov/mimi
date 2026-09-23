@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api, { uploadAPI } from '../api';
+import { loadAllItems, matchesArticle } from '../utils/contentFilters';
 import { isVisibleByEntity, toggleOrderedVisibility } from '../utils/orderedVisibility';
 
 const ARTICLE_STATUS_LABELS = {
@@ -37,6 +38,8 @@ const createInitialFormData = () => ({
 
 function ArticleForm() {
   const [articles, setArticles] = useState([]);
+  const [search, setSearch] = useState('');
+  const filteredArticles = articles.filter((article) => matchesArticle(article, search));
   const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
@@ -52,8 +55,7 @@ function ArticleForm() {
   const fetchArticles = async () => {
     setLoading(true);
     try {
-      const response = await api.get('/articles');
-      const nextArticles = response.data.data || [];
+      const nextArticles = await loadAllItems(api, 'articles');
       const publishedArticles = nextArticles
         .filter((article) => isVisibleByEntity('articles', article))
         .sort((left, right) => (
@@ -580,12 +582,17 @@ function ArticleForm() {
       )}
 
       <div className="articles-list">
-        <h3>Все статьи ({articles.length})</h3>
-        {articles.length === 0 ? (
-          <p>Статей пока нет</p>
+        <h3>Статьи ({filteredArticles.length} из {articles.length})</h3>
+        <div className="crud-filters">
+          <input type="search" className="search-input" aria-label="Поиск статей"
+            placeholder="Поиск по заголовку и краткому описанию" value={search} onChange={(e) => setSearch(e.target.value)} />
+          <button type="button" className="btn btn-secondary" disabled={!search} onClick={() => setSearch('')}>Сбросить поиск</button>
+        </div>
+        {filteredArticles.length === 0 ? (
+          <p>{search.trim() ? 'Статей не найдено' : 'Статей пока нет'}</p>
         ) : (
           <div className="articles-table">
-            {articles.map((article) => (
+            {filteredArticles.map((article) => (
               <div key={article.id} className="article-card">
                 <div className="article-card-header">
                   <h4>{article.title}</h4>

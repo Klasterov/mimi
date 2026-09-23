@@ -284,10 +284,36 @@
 }
 
 .projects-filters {
+  align-items: flex-end;
   display: flex;
   gap: 12px;
   margin-bottom: 24px;
   flex-wrap: wrap;
+}
+
+.projects-filters label {
+  display: flex;
+  flex: 1 1 150px;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  min-width: 0;
+}
+
+.projects-filters label input,
+.projects-filters label select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: white;
+  color: var(--text);
+}
+
+.projects-filters label input:focus,
+.projects-filters label select:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .projects-filters .search-input {

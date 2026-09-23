@@ -20,6 +20,7 @@ export type ProjectSummary = {
 	imageMain: string
 	tags: string[]
 	objectType: string
+	housingClass?: string
 	area: string
 	city?: string
 }
