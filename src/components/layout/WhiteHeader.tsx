@@ -137,21 +137,7 @@ export default function Header() {
 						</div>
 					</div>
 					<div className="text-[15px] ml-auto basis-67 text-brand-blue tracking-[-0.01em]">
-						<address className="not-italic">{brand.address}</address>
-						{contacts.rating && (
-							<p className={`flex items-center gap-1 transition duration-300 ${enabled ? "text-white" : "text-foreground"}  mb-6`}>
-								<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-									<path
-										d="M8.64363 1.72126C8.6765 1.65486 8.72728 1.59896 8.79022 1.55988C8.85317 1.5208 8.92579 1.50009 8.99988 1.50009C9.07398 1.50009 9.1466 1.5208 9.20955 1.55988C9.27249 1.59896 9.32327 1.65486 9.35614 1.72126L11.0886 5.23051C11.2028 5.46149 11.3712 5.66132 11.5796 5.81285C11.788 5.96439 12.03 6.0631 12.2849 6.10051L16.1594 6.66751C16.2328 6.67815 16.3018 6.70912 16.3585 6.75691C16.4152 6.80471 16.4575 6.86742 16.4804 6.93797C16.5033 7.00851 16.5061 7.08407 16.4883 7.15609C16.4706 7.22811 16.433 7.29373 16.3799 7.34551L13.5779 10.074C13.3931 10.2541 13.2548 10.4764 13.175 10.7217C13.0952 10.9671 13.0762 11.2282 13.1196 11.4825L13.7811 15.3375C13.7941 15.4109 13.7862 15.4864 13.7583 15.5555C13.7303 15.6246 13.6836 15.6845 13.6233 15.7283C13.563 15.772 13.4916 15.798 13.4173 15.8032C13.3429 15.8084 13.2687 15.7925 13.2029 15.7575L9.73938 13.9365C9.51117 13.8167 9.25727 13.7541 8.99951 13.7541C8.74175 13.7541 8.48785 13.8167 8.25963 13.9365L4.79688 15.7575C4.73113 15.7923 4.65693 15.808 4.58272 15.8027C4.50851 15.7974 4.43727 15.7714 4.37711 15.7277C4.31694 15.6839 4.27026 15.6242 4.24238 15.5552C4.21449 15.4862 4.20653 15.4108 4.21938 15.3375L4.88013 11.4833C4.92378 11.2288 4.90487 10.9676 4.82504 10.722C4.7452 10.4765 4.60684 10.2541 4.42188 10.074L1.61988 7.34626C1.56633 7.29454 1.52838 7.22881 1.51036 7.15657C1.49233 7.08433 1.49496 7.00847 1.51794 6.93765C1.54093 6.86683 1.58334 6.80389 1.64034 6.756C1.69735 6.70811 1.76666 6.67719 1.84038 6.66676L5.71413 6.10051C5.96933 6.06339 6.21168 5.9648 6.42032 5.81325C6.62897 5.6617 6.79766 5.46171 6.91188 5.23051L8.64363 1.72126Z"
-										fill="#E27500"
-										stroke="#E27500"
-										strokeLinecap="round"
-										strokeLinejoin="round"
-									/>
-								</svg>
-								<span>{contacts.rating} рейтинг</span>
-							</p>
-						)}
+						<address className="not-italic mb-3">{brand.address}</address>
 						<div className='mb-6'>
 							<a className={`transition-colors duration-300 ${enabled ? "hover:text-white" : "hover:text-foreground"}`} href={`tel:${phoneClean}`}>{contacts.phone}</a> <br />
 							<span className="text-[#acacac]">Время работы: {contacts.workingHours}</span>
@@ -219,7 +205,7 @@ export default function Header() {
 								/>
 							</div>
 							<div>
-								<div className="mb-1 text-brand-blue max-w-[74%]">
+								<div className="mb-4 text-brand-blue max-w-[74%]">
 									{brand.address}
 								</div>
 								<p className={`flex items-center gap-1 ${enabled ? "text-white" : "text-foreground"}`}>
@@ -232,7 +218,6 @@ export default function Header() {
 											strokeLinejoin="round"
 										/>
 									</svg>
-									<span>{contacts.rating} рейтинг</span>
 								</p>
 							</div>
 						</div>

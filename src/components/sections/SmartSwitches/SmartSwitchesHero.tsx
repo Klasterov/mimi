@@ -61,7 +61,6 @@ export default function SmartSwitchesHero() {
 	const bgRef = useRef<HTMLDivElement | null>(null)
 	const titleRef = useRef<HTMLDivElement | null>(null)
 	const textRef = useRef<HTMLDivElement | null>(null)
-	const buttonRef = useRef<HTMLDivElement | null>(null)
 	const imageRefs = useRef<(HTMLDivElement | null)[]>([])
 
 	useLayoutEffect(() => {
@@ -75,7 +74,7 @@ export default function SmartSwitchesHero() {
 				})
 			})
 
-			gsap.set([titleRef.current, textRef.current, buttonRef.current], {
+			gsap.set([titleRef.current, textRef.current], {
 				opacity: 0,
 				y: 24,
 			})
@@ -132,16 +131,6 @@ export default function SmartSwitchesHero() {
 					},
 					0.48
 				)
-				.to(
-					buttonRef.current,
-					{
-						opacity: 1,
-						y: 0,
-						duration: 0.7,
-						ease: "power3.out",
-					},
-					0.6
-				)
 		}, sectionRef)
 
 		return () => ctx.revert()
@@ -191,11 +180,9 @@ export default function SmartSwitchesHero() {
 					Управление светом и сценариями в эстетичном исполнении.
 				</div>
 
-				<div ref={buttonRef}>
-					<LeadModalTrigger formType="hero" buttonClassName="justify-center py-1.75!">
-						Подобрать дизайн
-					</LeadModalTrigger>
-				</div>
+				<LeadModalTrigger formType="hero" buttonClassName="justify-center py-1.75!">
+					Подобрать дизайн
+				</LeadModalTrigger>
 			</div>
 		</section>
 	)

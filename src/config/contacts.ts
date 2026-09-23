@@ -26,18 +26,18 @@ export const contacts: Contacts = {
 	socials: [
 		{
 			name: 'Telegram',
-			href: '/',
+			href: 'https://t.me/mimismart_russia',
 			icon: TgIcon,
 		},
 		{
 			name: 'YouTube',
-			href: '/',
+			href: 'https://www.youtube.com/@MiMiSmart-ru',
 			icon: YoutubeIcon,
 		},
-		{
-			name: 'VK',
-			href: '/',
-			icon: VkIcon,
-		},
+		// {
+		// 	name: 'VK',
+		// 	href: '/',
+		// 	icon: VkIcon,
+		// },
 	]
 }
