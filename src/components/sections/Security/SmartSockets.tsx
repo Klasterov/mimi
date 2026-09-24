@@ -5,7 +5,7 @@ import { RightArrowIcon } from "@/icons/RightArrowIcon";
 import Image from "next/image";
 import { SliderNavigation } from "@/components/UI/SliderNavigation";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Mousewheel, Navigation } from "swiper/modules";
 
 import "swiper/css";
 import { useState } from "react";
@@ -98,7 +98,11 @@ export default function SmartSockets() {
 					<div className="xl:-mr-16">
 						<h3 className="mb-10 font-helvetica font-bold text-[24px] md:text-[28px] lg:text-[32px] -tracking-[0.01em]">Где применять?</h3>
 						<Swiper
-							modules={[Navigation]}
+							modules={[Navigation, Mousewheel]}
+							mousewheel={{
+								releaseOnEdges: true,
+								forceToAxis: true,
+							}}
 							navigation={{
 								prevEl: prevEl,
 								nextEl: nextEl,

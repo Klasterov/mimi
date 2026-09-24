@@ -4,7 +4,7 @@ import { Title } from "@/components/UI/Title";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { EffectFade, Pagination } from 'swiper/modules';
+import { EffectFade, Mousewheel, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import Link from "next/link";
@@ -47,26 +47,26 @@ const features = [
 		},
 		image: '/images/cinema-page/features/2.png',
 	},
+	// {
+	// 	id: 2,
+	// 	title: 'Проекторы',
+	// 	content: {
+	// 		list: [
+	// 			"Планируем размещение акустики",
+	// 			"Грамотно располагаем свет",
+	// 			"Планируем работу микроклимата",
+	// 			"Подбираем проектор и экран",
+	// 			"Часто все элементы скрыты и выезжают при необходимости",
+	// 		],
+	// 		link: {
+	// 			text: 'Проекторы',
+	// 			url: '/prjector',
+	// 		}
+	// 	},
+	// 	image: '/images/cinema-page/features/3.png',
+	// },
 	{
 		id: 2,
-		title: 'Проекторы',
-		content: {
-			list: [
-				"Планируем размещение акустики",
-				"Грамотно располагаем свет",
-				"Планируем работу микроклимата",
-				"Подбираем проектор и экран",
-				"Часто все элементы скрыты и выезжают при необходимости",
-			],
-			link: {
-				text: 'Проекторы',
-				url: '/prjector',
-			}
-		},
-		image: '/images/cinema-page/features/3.png',
-	},
-	{
-		id: 3,
 		title: 'Аудио',
 		content: {
 			text: 'Вам не придется отрываться от прослушивания любимой композиции только потому, что нужно пойти в другую комнату. Система создает эффект следования музыки за вами, получая данные с датчиков движения.',
@@ -162,7 +162,11 @@ export default function CinemaFeatures() {
 					</div>
 					<div className="flex-auto min-w-0 self-stretch">
 						<Swiper
-							modules={[EffectFade]}
+							modules={[EffectFade, Mousewheel]}
+							mousewheel={{
+								releaseOnEdges: true,
+								forceToAxis: true,
+							}}
 							effect="fade"
 							onSwiper={(swiper) => (swiperRef.current = swiper)}
 							onSlideChange={(s) => setActiveIndex(s.activeIndex)}

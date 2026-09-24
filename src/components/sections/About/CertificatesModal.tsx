@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { Swiper, SwiperSlide } from "swiper/react"
-import { Navigation } from "swiper/modules"
+import { Mousewheel, Navigation } from "swiper/modules"
 import Image from "next/image"
 
 import "swiper/css"
@@ -73,7 +73,11 @@ export function CertificatesModal({ certificates, activeIndex, onClose }: Certif
 				</button>
 
 				<Swiper
-					modules={[Navigation]}
+					modules={[Navigation, Mousewheel]}
+					mousewheel={{
+						releaseOnEdges: true,
+						forceToAxis: true,
+					}}
 					navigation={{ prevEl, nextEl }}
 					initialSlide={activeIndex}
 					spaceBetween={30}

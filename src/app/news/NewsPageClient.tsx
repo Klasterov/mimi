@@ -6,6 +6,7 @@ import Header from "@/components/layout/Header"
 import Footer from "@/components/layout/Footer"
 import { Title } from "@/components/UI/Title"
 import { ArticleCard } from "@/components/UI/ArticleCard"
+import { ArticleSearch } from "@/components/UI/ArticleSearch"
 
 import type { Article } from "@/types/article"
 
@@ -70,7 +71,14 @@ export function NewsPageClient({ articles }: NewsPageClientProps) {
 			<main>
 				<section className="pt-17.5 pb-22.5">
 					<div className="max-w-308 px-4 mx-auto">
-						<Title className="mb-10">Полезные статьи</Title>
+
+						<div className="mb-10 flex flex-col gap-6 md:flex-row md:items-center md:justify-between md:gap-10">
+							<Title >Полезные статьи</Title>
+							<ArticleSearch
+								articles={sortedArticles}
+								className="md:max-w-105 lg:max-w-120"
+							/>
+						</div>
 
 						<div className="flex max-lg:flex-col lg:items-start gap-10 lg:gap-15">
 							<div className="grow-0 max-lg:w-full shrink-0 w-40 lg:space-y-3 max-lg:flex gap-3 flex-wrap">

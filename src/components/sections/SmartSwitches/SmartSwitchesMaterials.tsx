@@ -6,7 +6,7 @@ import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
 
 import { Swiper, SwiperSlide } from "swiper/react"
-import { Navigation } from "swiper/modules"
+import { Mousewheel, Navigation } from "swiper/modules"
 import "swiper/css"
 
 import gsap from "gsap"
@@ -99,7 +99,12 @@ export default function SmartSwitchesMaterials() {
 
 				<div ref={slidesWrapRef}>
 					<Swiper
-						modules={[Navigation]}
+
+						modules={[Navigation, Mousewheel]}
+						mousewheel={{
+							releaseOnEdges: true,
+							forceToAxis: true,
+						}}
 						navigation={{ prevEl, nextEl }}
 						className="overflow-visible!"
 						breakpoints={{

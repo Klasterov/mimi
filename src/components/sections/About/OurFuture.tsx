@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { Swiper, SwiperSlide } from "swiper/react"
-import { Navigation } from "swiper/modules"
+import { Mousewheel, Navigation } from "swiper/modules"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 
@@ -80,7 +80,12 @@ export default function OurFuture() {
 
 				<div ref={sliderRef}>
 					<Swiper
-						modules={[Navigation]}
+
+						modules={[Navigation, Mousewheel]}
+						mousewheel={{
+							releaseOnEdges: true,
+							forceToAxis: true,
+						}}
 						breakpoints={{
 							320: { slidesPerView: 1, spaceBetween: 16 },
 							768: { slidesPerView: 2, spaceBetween: 20 },

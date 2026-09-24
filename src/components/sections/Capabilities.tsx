@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import { Title } from '../UI/Title'
-import { Pagination } from 'swiper/modules'
+import { Mousewheel, Pagination } from 'swiper/modules'
 import { BtnArrowIcon } from '@/icons/BtnArrowIcon'
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
@@ -567,7 +567,11 @@ export default function Capabilities({
 				</div>
 				<div>
 					<Swiper
-						modules={[Pagination]}
+						modules={[Pagination, Mousewheel]}
+						mousewheel={{
+							releaseOnEdges: true,
+							forceToAxis: true,
+						}}
 						pagination={{ clickable: true }}
 						spaceBetween={16}
 						slidesPerView={1}

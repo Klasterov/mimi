@@ -6,7 +6,7 @@ import Image from "next/image"
 import { useState, useLayoutEffect, useRef } from "react"
 
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation } from 'swiper/modules'
+import { Mousewheel, Navigation } from 'swiper/modules'
 import 'swiper/css'
 import { RightArrowIcon } from "@/icons/RightArrowIcon"
 
@@ -107,7 +107,12 @@ export default function CustomizationConnect() {
 
 				<div ref={sliderRef}>
 					<Swiper
-						modules={[Navigation]}
+
+						modules={[Navigation, Mousewheel]}
+						mousewheel={{
+							releaseOnEdges: true,
+							forceToAxis: true,
+						}}
 						navigation={{ prevEl, nextEl }}
 						className="overflow-visible!"
 						breakpoints={{

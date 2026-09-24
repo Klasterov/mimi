@@ -3,7 +3,7 @@
 import { Title } from "@/components/UI/Title"
 import { SliderNavigation } from "@/components/UI/SliderNavigation"
 import { Swiper, SwiperSlide } from "swiper/react"
-import { Navigation } from "swiper/modules"
+import { Mousewheel, Navigation } from "swiper/modules"
 import "swiper/css"
 
 import { useState, useRef, useLayoutEffect } from "react"
@@ -106,7 +106,11 @@ export default function LightningTypes() {
 
 				<div className="lg:hidden mb-22.5">
 					<Swiper
-						modules={[Navigation]}
+						modules={[Navigation, Mousewheel]}
+						mousewheel={{
+							releaseOnEdges: true,
+							forceToAxis: true,
+						}}
 						breakpoints={{
 							320: {
 								slidesPerView: 1,

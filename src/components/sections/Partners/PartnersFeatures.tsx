@@ -6,7 +6,7 @@ import Image from "next/image"
 import { useState, useRef, useLayoutEffect } from "react"
 
 import { Swiper, SwiperSlide } from "swiper/react"
-import { Navigation } from "swiper/modules"
+import { Mousewheel, Navigation } from "swiper/modules"
 import "swiper/css"
 
 import gsap from "gsap"
@@ -97,7 +97,12 @@ export default function PartnersFeatures({ title, slides }: Props) {
 					style={{ opacity: 0, transform: "translateY(60px)" }}
 				>
 					<Swiper
-						modules={[Navigation]}
+
+						modules={[Navigation, Mousewheel]}
+						mousewheel={{
+							releaseOnEdges: true,
+							forceToAxis: true,
+						}}
 						navigation={{ prevEl, nextEl }}
 						className="overflow-visible!"
 						breakpoints={{

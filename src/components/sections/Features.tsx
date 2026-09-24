@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Mousewheel, Navigation } from "swiper/modules";
 
 import "swiper/css";
 import { Title } from "../UI/Title";
@@ -20,7 +20,11 @@ export default function Features({ title }: { title: string }) {
 			<div className="max-w-308 lg:max-w-238 mx-auto px-4">
 				<Title className="mb-10">{title}</Title>
 				<Swiper
-					modules={[Navigation]}
+					modules={[Navigation, Mousewheel]}
+					mousewheel={{
+						releaseOnEdges: true,
+						forceToAxis: true,
+					}}
 					navigation={{
 						prevEl: prevEl,
 						nextEl: nextEl,

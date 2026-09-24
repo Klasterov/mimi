@@ -10,7 +10,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger"
 gsap.registerPlugin(ScrollTrigger)
 
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation } from 'swiper/modules'
+import { Mousewheel, Navigation } from 'swiper/modules'
 import 'swiper/css'
 
 export const slides = [
@@ -89,7 +89,11 @@ export default function ProjectorTypes() {
 
 				<div ref={sliderRef}>
 					<Swiper
-						modules={[Navigation]}
+						modules={[Navigation, Mousewheel]}
+						mousewheel={{
+							releaseOnEdges: true,
+							forceToAxis: true,
+						}}
 						navigation={{
 							prevEl: prevEl,
 							nextEl: nextEl,

@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Swiper, SwiperSlide } from "swiper/react"
-import { Navigation } from "swiper/modules"
+import { Mousewheel, Navigation } from "swiper/modules"
 import "swiper/css"
 
 import { Title } from "../UI/Title"
@@ -65,9 +65,14 @@ export default function Articles({
 				{mobileView === "slider" && (
 					<div className="lg:hidden">
 						<Swiper
+
+							modules={[Navigation, Mousewheel]}
+							mousewheel={{
+								releaseOnEdges: true,
+								forceToAxis: true,
+							}}
 							spaceBetween={20}
 							slidesPerView={1}
-							modules={[Navigation]}
 							navigation={{
 								prevEl,
 								nextEl,

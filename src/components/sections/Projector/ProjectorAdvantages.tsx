@@ -6,7 +6,7 @@ import Image from "next/image"
 import { useState, useRef, useEffect } from "react"
 
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation } from 'swiper/modules'
+import { Mousewheel, Navigation } from 'swiper/modules'
 import 'swiper/css'
 
 import gsap from "gsap"
@@ -88,7 +88,11 @@ export default function ProjectorAdvantages() {
 
 				<div ref={sliderRef}>
 					<Swiper
-						modules={[Navigation]}
+						modules={[Navigation, Mousewheel]}
+						mousewheel={{
+							releaseOnEdges: true,
+							forceToAxis: true,
+						}}
 						slidesPerView='auto'
 						navigation={{ prevEl, nextEl }}
 						className="overflow-visible!"

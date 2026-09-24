@@ -5,7 +5,7 @@ import { Title } from "@/components/UI/Title";
 import Image from "next/image";
 
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation } from 'swiper/modules'
+import { Mousewheel, Navigation } from 'swiper/modules'
 import 'swiper/css'
 import { useState, useRef, useEffect } from "react"
 import gsap from "gsap"
@@ -83,7 +83,11 @@ export default function ElectricCurtainsTypes() {
 
 				<div ref={sliderRef}>
 					<Swiper
-						modules={[Navigation]}
+						modules={[Navigation, Mousewheel]}
+						mousewheel={{
+							releaseOnEdges: true,
+							forceToAxis: true,
+						}}
 						slidesPerView='auto'
 						navigation={{ prevEl, nextEl }}
 						className="overflow-visible!"

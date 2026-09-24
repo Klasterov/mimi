@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation } from 'swiper/modules'
+import { Mousewheel, Navigation } from 'swiper/modules'
 import 'swiper/css'
 import { cases } from '@/data/cases'
 
@@ -131,7 +131,11 @@ export default function Cases({ title, theme, hasFilter, limit, items }: Props) 
 				)}
 
 				<Swiper
-					modules={[Navigation]}
+					modules={[Navigation, Mousewheel]}
+					mousewheel={{
+						releaseOnEdges: true,
+						forceToAxis: true,
+					}}
 					spaceBetween={60}
 					slidesPerView={1}
 					navigation={shouldShowNavigation ? { prevEl, nextEl } : false}

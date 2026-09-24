@@ -6,7 +6,7 @@ import { useState } from "react"
 import { RightArrowIcon } from "@/icons/RightArrowIcon"
 
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { EffectFade, Pagination } from 'swiper/modules';
+import { EffectFade, Mousewheel, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 const features = [
@@ -113,9 +113,13 @@ export default function PowerSupplyZones() {
 
 				<div className="lg:hidden px-4 -mx-4">
 					<Swiper
+						modules={[Pagination, Mousewheel]}
+						mousewheel={{
+							releaseOnEdges: true,
+							forceToAxis: true,
+						}}
 						className="-mx-4 px-4 overflow-visible!"
 						spaceBetween={16}
-						modules={[Pagination]}
 						pagination={{ clickable: true }}
 						slidesPerView={1}
 					>

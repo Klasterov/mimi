@@ -3,7 +3,7 @@
 import { Title } from "@/components/UI/Title";
 import { SliderNavigation } from "@/components/UI/SliderNavigation";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Mousewheel, Navigation } from "swiper/modules";
 
 import "swiper/css";
 import { RightArrowIcon } from "@/icons/RightArrowIcon";
@@ -172,7 +172,11 @@ export default function CurtainsTypes() {
 				<div className="lg:hidden">
 					<div ref={mobileSliderRef}>
 						<Swiper
-							modules={[Navigation]}
+							modules={[Navigation, Mousewheel]}
+							mousewheel={{
+								releaseOnEdges: true,
+								forceToAxis: true,
+							}}
 							breakpoints={{
 								320: {
 									slidesPerView: 1,

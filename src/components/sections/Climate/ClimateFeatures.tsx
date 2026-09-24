@@ -4,7 +4,7 @@ import { Title } from "@/components/UI/Title";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { EffectFade, Pagination } from 'swiper/modules';
+import { EffectFade, Mousewheel, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import { RightArrowIcon } from "@/icons/RightArrowIcon";
@@ -153,7 +153,11 @@ export default function ClimateFeatures() {
 					</div>
 					<div className="flex-auto min-w-0 self-stretch">
 						<Swiper
-							modules={[EffectFade]}
+							modules={[EffectFade, Mousewheel]}
+							mousewheel={{
+								releaseOnEdges: true,
+								forceToAxis: true,
+							}}
 							effect="fade"
 							onSwiper={(swiper) => (swiperRef.current = swiper)}
 							onSlideChange={(s) => setActiveIndex(s.activeIndex)}
