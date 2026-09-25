@@ -129,8 +129,8 @@ export const authAPI = {
 }
 
 export const leadsAPI = {
-  getLeads: (page = 1, limit = 20, search = "", status = "") =>
-    api.get("/leads", { params: { page, limit, search, status } }),
+  getLeads: (page = 1, limit = 20, search = "", status = "", date = "") =>
+    api.get("/leads", { params: { page, limit, search, status, date } }),
   getLeadById: id => api.get(`/leads/${id}`),
   updateLead: (id, data) => api.put(`/leads/${id}`, data),
   deleteLead: id => api.delete(`/leads/${id}`),

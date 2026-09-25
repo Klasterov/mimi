@@ -21,6 +21,11 @@ const TABS = [
 
 function Dashboard({ onLogout }) {
   const [activeTab, setActiveTab] = useState('leads');
+  const [leadsDate, setLeadsDate] = useState('');
+  const openLeadsForDate = (date) => {
+    setLeadsDate(date);
+    setActiveTab('leads');
+  };
   const currentTab = TABS.find((tab) => tab.id === activeTab);
 
   return (
@@ -67,13 +72,13 @@ function Dashboard({ onLogout }) {
         </nav>
 
         <div className="tabs-content">
-          {activeTab === 'leads' && <LeadsTab />}
+          {activeTab === 'leads' && <LeadsTab date={leadsDate} onDateChange={setLeadsDate} />}
           {activeTab === 'controllers' && <EquipmentPage />}
           {activeTab === 'projects' && <ProjectsTab />}
           {activeTab === 'articles' && <ArticleForm />}
           {activeTab === 'detectors' && <DetectorForm />}
           {activeTab === 'admins' && <AdminsTab />}
-          {activeTab === 'stats' && <StatsTab />}
+          {activeTab === 'stats' && <StatsTab onOpenLeads={openLeadsForDate} />}
           {activeTab === 'export' && <ExportTab />}
         </div>
       </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { statsAPI } from '../api';
 
-function StatsTab() {
+function StatsTab({ onOpenLeads }) {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -127,10 +127,22 @@ function StatsTab() {
                   <tbody>
                     {stats.daily.map((item) => {
                       const maxCount = Math.max(...stats.daily.map((d) => d.count));
+                      const date = item.date.slice(0, 10);
+                      const formattedDate = date.split('-').reverse().join('.');
                       return (
                         <tr key={item.date}>
-                          <td>{item.date}</td>
-                          <td className="text-right">{item.count}</td>
+                          <td>{formattedDate}</td>
+                          <td className="text-right">
+                            <button
+                              type="button"
+                              className="daily-leads-link"
+                              title={`Открыть лиды за ${formattedDate}`}
+                              aria-label={`Открыть лиды за ${formattedDate}: ${item.count}`}
+                              onClick={() => onOpenLeads(date)}
+                            >
+                              {item.count}
+                            </button>
+                          </td>
                           <td className="chart-cell">
                             <div
                               className="bar-chart"

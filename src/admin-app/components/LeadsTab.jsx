@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { leadsAPI } from '../api';
 
-function LeadsTab() {
+function LeadsTab({ date = '', onDateChange }) {
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -11,27 +11,32 @@ function LeadsTab() {
   const [currentPage, setCurrentPage] = useState(1);
   const [editingId, setEditingId] = useState(null);
   const [editData, setEditData] = useState({});
+  const requestId = useRef(0);
 
-  const fetchLeads = async (page = 1) => {
+  const fetchLeads = useCallback(async (page = 1) => {
+    const id = ++requestId.current;
     setLoading(true);
     setError('');
     try {
-      const response = await leadsAPI.getLeads(page, 20, search, status);
+      const response = await leadsAPI.getLeads(page, 20, search, status, date);
+      if (id !== requestId.current) return;
       setLeads(response.data.leads);
       setPagination(response.data.pagination);
       setCurrentPage(page);
     } catch (err) {
+      if (id !== requestId.current) return;
       const errorMsg = err.response?.data?.error || err.message || 'Не удалось загрузить лиды';
       setError(`Ошибка: ${errorMsg}`);
       console.error('Leads API Error:', err);
     } finally {
-      setLoading(false);
+      if (id === requestId.current) setLoading(false);
     }
-  };
+  }, [search, status, date]);
 
   useEffect(() => {
     fetchLeads(1);
-  }, [search, status]);
+    return () => { requestId.current += 1; };
+  }, [fetchLeads]);
 
   const handleSearch = (e) => {
     const value = e.target.value;
@@ -95,7 +100,8 @@ function LeadsTab() {
         <div className="filter-group">
           <input
             type="text"
-            placeholder="Поиск по имени или телефону..."
+            placeholder="Поиск по имени, телефону, дате..."
+            aria-label="Поиск заявок, дата в формате ДД.ММ или ДД.ММ.ГГГГ"
             value={search}
             onChange={handleSearch}
             className="search-input"
@@ -108,6 +114,22 @@ function LeadsTab() {
             <option value="true">Согласие получено</option>
             <option value="false">Без согласия</option>
           </select>
+        </div>
+
+        <div className="filter-group lead-date-filter">
+          <label htmlFor="lead-date">Дата заявки</label>
+          <input
+            id="lead-date"
+            type="date"
+            value={date}
+            onChange={(e) => onDateChange(e.target.value)}
+            className="search-input"
+          />
+          {date && (
+            <button type="button" className="btn-pagination" onClick={() => onDateChange('')}>
+              Сбросить дату
+            </button>
+          )}
         </div>
 
         <div className="pagination-info">
