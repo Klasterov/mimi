@@ -26,7 +26,7 @@ export default function Contacts() {
 							/>
 						</div>
 						<div className="text-[15px]">
-							<a className="text-brand-blue" href="" target="_blank">
+							<a className="text-brand-blue" href="https://yandex.ru/maps/org/mimismart/174037338866/?ll=37.625065%2C55.698133&z=16" target="_blank">
 								{brand.address}
 							</a>
 						</div>

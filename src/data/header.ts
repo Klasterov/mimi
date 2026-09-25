@@ -29,21 +29,21 @@ export const menuItems = [
 		href: '/portfolio',
 		desktop: true
 	},
-	{
-		label: 'Цены',
-		href: '/',
-		desktop: false
-	},
+	// {
+	// 	label: 'Цены',
+	// 	href: '/',
+	// 	desktop: false
+	// },
 	{
 		label: 'О компании',
 		href: '/about',
 		desktop: false
 	},
-	{
-		label: 'Партнерам',
-		href: '/',
-		desktop: false
-	},
+	// {
+	// 	label: 'Партнерам',
+	// 	href: '/',
+	// 	desktop: false
+	// },
 	{
 		label: 'Статьи',
 		href: '/news',

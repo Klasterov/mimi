@@ -7,8 +7,8 @@ import { YoutubeIcon } from "@/icons/socials/YoutubeIcon";
 import type { Contacts } from "@/types/contacts";
 
 export const contacts: Contacts = {
-	phone: "+7 (4012) 234-34-34",
-	email: "MiMiSmart@mail.ru",
+	phone: "+7(903) 968 59 11",
+	email: "call@mmsmart.ru",
 	workingHours: '09:00 - 18:00',
 	rating: 4.9,
 	apps: [

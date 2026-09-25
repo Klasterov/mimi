@@ -13,7 +13,7 @@ export const footerColumns: FooterColumnData[] = [
 			{ label: 'Шоурум', href: '/showroom' },
 			{ label: 'Цены', href: '/pricing' },
 			{ label: 'О компании', href: '/about' },
-			{ label: 'Отзывы', href: '/about' },
+			// { label: 'Отзывы', href: '/about' },
 			{ label: 'Сертификаты', href: '/about' },
 			{ label: 'Контакты', href: '/contacts' },
 			{ label: 'Статьи', href: '/news' },

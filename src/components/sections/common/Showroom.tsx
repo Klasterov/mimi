@@ -121,7 +121,7 @@ export default function Showroom() {
 								alt="Address"
 							/>
 						</div>
-						<a href="" className="hover:text-foreground transition-colors duration-300 font-helvetica max-w-45 text-[14px] tracking-[-0.01em] text-brand-blue">
+						<a href="https://yandex.ru/maps/org/mimismart/174037338866/?ll=37.625065%2C55.698133&z=16" className="hover:text-foreground transition-colors duration-300 font-helvetica max-w-45 text-[14px] tracking-[-0.01em] text-brand-blue">
 							{brand.address}
 						</a>
 					</div>

@@ -2,6 +2,8 @@ import { Button } from "@/components/UI/Button";
 import { MimiLogo } from "@/components/UI/MimiLogo";
 import Image from "next/image";
 
+import { LeadModalTrigger } from "@/components/modals/LeadModalTrigger";
+
 export default function Achievements() {
 	return (
 		<section className="py-22.5 lg:py-30 relative bg-white">
@@ -48,7 +50,9 @@ export default function Achievements() {
 							<p className="font-helvetica tracking-[0.01em] text-[15px]">дизайнеров и дилеров рекомендуют систему MiMiSmart</p>
 						</li>
 					</ul>
-					<Button className="mb-4 justify-center">Хотите улучшить свой дом?</Button>
+					<LeadModalTrigger formType="hero" buttonClassName="mb-4 justify-center">
+						Хотите улучшить свой дом?
+					</LeadModalTrigger>
 					<div className='font-helvetica flex items-center gap-2 text-[15px] text-[#acacac] -tracking-[0.01em] leading-normal mb-10'>
 						<span>Мы на связи сейчас</span>
 						<span className='w-2 h-2 rounded-full bg-[#27ca40] box-shadow: 0 4px 4px 0 rgba(39, 202, 64, 0.25);'></span>
@@ -63,7 +67,10 @@ export default function Achievements() {
 							<div className="font-bold text-[64px] leading-tight">5000+</div>
 							<p className="font-helvetica -tracking-[0.01em] leading-snug">реализованных проектов по всему миру на начало 2025 года</p>
 						</div>
-						<Button className="mb-3.5 justify-between min-w-80 sm:py-1.75 sm:px-6">Хотите улучшить свой дом?</Button>
+
+						<LeadModalTrigger formType="hero" buttonClassName="mb-3.5 justify-between min-w-80 sm:py-1.75 sm:px-6">
+							Хотите улучшить свой дом?
+						</LeadModalTrigger>
 						<div className='font-helvetica flex pl-6 items-center gap-2 text-[14px] text-[#acacac] -tracking-[0.01em] leading-normal'>
 							<span>Мы на связи сейчас</span>
 							<span className='w-2 h-2 rounded-full bg-[#27ca40] box-shadow: 0 4px 4px 0 rgba(39, 202, 64, 0.25);'></span>
