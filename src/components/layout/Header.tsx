@@ -188,11 +188,19 @@ export default function Header() {
 			</div>
 
 			<div className={`${enabled ? "bg-foreground" : "bg-white"} ${isOpen ? "right-0 pointer-events-auto" : "-right-full pointer-events-none"} fixed lg:hidden top-0 z-11 w-full overflow-auto h-full px-8 pt-20 pb-10 transitions duration-300 font-helvetica`}>
-
 				<nav className={`${enabled ? "text-white" : "text-foreground"} transitions-colors duration-300 flex flex-col gap-5 text-[20px] pb-10`}>
 					{menuItems.map(item =>
-						item.href ? <Link key={item.label} href={item.href}>{item.label}</Link> :
-							<button key={item.label} className={`cursor-pointer text-left`} onClick={() => setShowFunctional(true)}>{item.label}</button>
+						item.href ? (
+							<Link key={item.label} href={item.href}>{item.label}</Link>
+						) : (
+							<button
+								key={item.label}
+								className="hidden lg:block cursor-pointer text-left"
+								onClick={() => setShowFunctional(true)}
+							>
+								{item.label}
+							</button>
+						)
 					)}
 				</nav>
 				<div className='pt-10 border-t border-[#d9d9d9] leading-tight font-helvetica text-[17px] tracking-[-0.01em]'>

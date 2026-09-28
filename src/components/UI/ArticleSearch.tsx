@@ -45,7 +45,7 @@ function Highlight({ text, tokens }: { text: string; tokens: string[] }) {
 
 export function ArticleSearch({
 	articles,
-	getHref = article => `/news/${article.id}`,
+	getHref = article => `/article/${article.id}`,
 	className = "",
 }: ArticleSearchProps) {
 	const router = useRouter()

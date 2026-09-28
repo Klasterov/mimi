@@ -142,7 +142,7 @@ export default function Capabilities() {
 							alt="Фон"
 							fill
 						/>
-						<div className="pl-1 pt-3 relative">
+						<div className="pl-1 pt-3 relative z-10">
 							<Image
 								src="/images/capabilities/titles/3.png"
 								quality={95}
@@ -372,7 +372,7 @@ export default function Capabilities() {
 										</svg>
 									</Link>
 								</div>
-								<span className="absolute w-98 top-0 -right-20 sm:-right-5 aspect-233/200">
+								<span className="absolute w-80 md:w-98 top-0 -right-18 sm:-right-5 aspect-233/200">
 
 									<Image
 										quality={95}
@@ -395,7 +395,7 @@ export default function Capabilities() {
 										height={90}
 										className="max-h-full w-auto"
 									/>
-								</div>#
+								</div>
 								<div className="flex justify-between gap-4 items-start sm:items-end flex-col sm:flex-row">
 									<p className="font-helvetica text-[16px] sm:max-w-85 leading-snug tracing-[-0.01em] text-[#303236]">
 										Автоматический климат-контроль: <br /> слаженная работа отопления, теплых полов, кондиционеров, вентиляции и увлажнения
@@ -417,8 +417,7 @@ export default function Capabilities() {
 									</Link>
 								</div>
 
-								<span className="absolute w-60 md:w-70 top-7 right-6 aspect-322/303">
-
+								<span className="absolute w-40 sm:w-60 md:w-70 top-13 md:top-7 right-3 sm:right-6 aspect-322/303">
 									<Image
 										quality={95}
 										src="/images/capabilities/decor/2.png"
@@ -438,7 +437,7 @@ export default function Capabilities() {
 									alt="Фон"
 									fill
 								/>
-								<div className="h-9 md:h-12">
+								<div className="h-9 md:h-12 relative z-10">
 									<Image
 										src="/images/capabilities/titles/3.png"
 										quality={95}
@@ -617,7 +616,7 @@ export default function Capabilities() {
 									/>
 								</div>
 								<div className="relative flex justify-between gap-4 items-start sm:items-end flex-col sm:flex-row">
-									<p className="font-helvetica text-[16px] sm:max-w-85 leading-snug tracing-[-0.01em] text-[#303236]">
+									<p className="font-helvetica text-[16px] max-w-[80%] sm:max-w-85 leading-snug tracing-[-0.01em] text-[#303236]">
 										Оборудуем кинозалы и кино в гостиной под ключ. Автоматизируем аппаратуру кино и создаем удобные сценарии
 									</p>
 									<Link href="/" className="cursor-pointer rounded-[50px] leading-none flex px-11 py-2 border border-white items-center justify-center uppercase gap-1.5 font-semibold text-[13px] bg-[#f0f4f6] tracking-[-0.02em] text-[#0a051a]">

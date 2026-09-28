@@ -120,10 +120,10 @@ export function ApplicationModal({ onClose, formType }: ApplicationModalProps) {
 				{message && (
 					<div
 						className={`mb-5 rounded-2xl px-4 py-3 text-[14px] leading-[1.35] ${isSuccess
-								? "bg-[#e9fff3] text-[#0f7a43]"
-								: isError
-									? "bg-[#fff1f1] text-[#c03030]"
-									: "bg-white text-foreground"
+							? "bg-[#e9fff3] text-[#0f7a43]"
+							: isError
+								? "bg-[#fff1f1] text-[#c03030]"
+								: "bg-white text-foreground"
 							}`}
 					>
 						{message}
@@ -176,21 +176,32 @@ export function ApplicationModal({ onClose, formType }: ApplicationModalProps) {
 						</label>
 					</div>
 
-					<label className="flex cursor-pointer items-start gap-3 md:gap-2 mb-5 md:mb-6">
-						<input
-							type="checkbox"
-							name="consent"
-							checked={values.consent}
-							onChange={handleChange}
-							className="mt-0.5 h-5 w-5 shrink-0 appearance-none rounded-sm bg-[#d9d9d9] checked:bg-[#008dff] focus:outline-none focus:ring-2 focus:ring-[#00aeef]"
-						/>
+					<label className="flex cursor-pointer items-start gap-3 md:gap-2 mb-5 md:mb-6 select-none">
+						<span className="relative mt-0.5 h-5 w-5 shrink-0">
+							<input
+								type="checkbox"
+								name="consent"
+								checked={values.consent}
+								onChange={handleChange}
+								className="peer block h-5 w-5 cursor-pointer appearance-none rounded-sm bg-[#d9d9d9] checked:bg-[#008dff] focus:outline-none focus:ring-2 focus:ring-[#00aeef]"
+							/>
+							<svg
+								className="pointer-events-none absolute inset-0 m-auto h-3.5 w-3.5 text-white opacity-0 peer-checked:opacity-100"
+								viewBox="0 0 16 16"
+								fill="none"
+								stroke="currentColor"
+								strokeWidth="2.5"
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								aria-hidden="true"
+							>
+								<path d="M3.5 8.5l3 3 6-7" />
+							</svg>
+						</span>
 
 						<span className="text-[13px] leading-[1.2] text-[#999]">
 							Нажимая на кнопку «Отправить заявку», вы соглашаетесь с{" "}
-							<a
-								href="/privacy"
-								className="text-brand-blue"
-							>
+							<a href="/privacy" className="text-brand-blue">
 								условиями обработки персональных данных
 							</a>
 						</span>

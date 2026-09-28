@@ -30,6 +30,8 @@ const UI_TEXT = {
 	showProjects: "\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u043F\u0440\u043E\u0435\u043A\u0442\u044B",
 	resetFilters: "\u0421\u0431\u0440\u043E\u0441\u0438\u0442\u044C \u0444\u0438\u043B\u044C\u0442\u0440\u044B",
 	smartHomeSystems: "\u0421\u0438\u0441\u0442\u0435\u043C\u044B \u0443\u043C\u043D\u043E\u0433\u043E \u0434\u043E\u043C\u0430",
+	searchCity: "\u041F\u043E\u0438\u0441\u043A \u043F\u043E \u0433\u043E\u0440\u043E\u0434\u0443",
+	cityNotFound: "\u0413\u043E\u0440\u043E\u0434 \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D",
 }
 
 // TODO: replace with the real object-type / housing-class taxonomy once it's
@@ -65,6 +67,85 @@ function SlidersIcon({ className }: { className?: string }) {
 	)
 }
 
+function SearchIcon({ className }: { className?: string }) {
+	return (
+		<svg className={className} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<circle cx="7" cy="7" r="4.5" stroke="currentColor" strokeWidth="1.6" />
+			<path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+		</svg>
+	)
+}
+
+type CitySearchProps = {
+	value: string
+	onChange: (value: string) => void
+	options: string[]
+}
+
+function CitySearch({ value, onChange, options }: CitySearchProps) {
+	const [open, setOpen] = useState(false)
+
+	const suggestions = useMemo(() => {
+		const q = value.trim().toLowerCase()
+		return q ? options.filter(city => city.toLowerCase().includes(q)) : options
+	}, [value, options])
+
+	return (
+		<div className="relative">
+			<PinIcon className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-brand-blue" />
+			<input
+				value={value}
+				onChange={e => {
+					onChange(e.target.value)
+					setOpen(true)
+				}}
+				onFocus={() => setOpen(true)}
+				onBlur={() => setOpen(false)}
+				placeholder={UI_TEXT.searchCity}
+				className="w-full bg-[#fcfdff] border border-[#d9d9d9] rounded-full py-2.5 pl-10 pr-10 text-[14px] font-medium min-w-45 outline-none focus:border-brand-blue transition-colors"
+			/>
+			{value ? (
+				<button
+					type="button"
+					aria-label={UI_TEXT.resetFilters}
+					onMouseDown={e => e.preventDefault()}
+					onClick={() => onChange('')}
+					className="absolute right-3.5 top-1/2 -translate-y-1/2 cursor-pointer text-brand-gray hover:text-brand-blue transition-colors text-[18px] leading-none"
+				>
+					×
+				</button>
+			) : (
+				<SearchIcon className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-brand-gray" />
+			)}
+
+			{open && (
+				<ul className="absolute z-20 left-0 right-0 mt-2 max-h-60 overflow-auto bg-[#fcfdff] border border-[#d9d9d9] rounded-2xl py-1.5 shadow-sm">
+					{suggestions.length === 0 ? (
+						<li className="px-4 py-2 text-[14px] text-brand-gray">{UI_TEXT.cityNotFound}</li>
+					) : (
+						suggestions.map(city => (
+							<li key={city}>
+								<button
+									type="button"
+									// mousedown fires before blur, so the selection isn't lost
+									onMouseDown={e => {
+										e.preventDefault()
+										onChange(city)
+										setOpen(false)
+									}}
+									className="w-full text-left cursor-pointer px-4 py-2 text-[14px] font-medium hover:bg-white hover:text-brand-blue transition-colors"
+								>
+									{city}
+								</button>
+							</li>
+						))
+					)}
+				</ul>
+			)}
+		</div>
+	)
+}
+
 export default function Portfolio({ projects }: PortfolioProps) {
 	const categoriesMap = useMemo(
 		() => Object.fromEntries(categories.map(cat => [cat.label, cat.icon])),
@@ -73,7 +154,7 @@ export default function Portfolio({ projects }: PortfolioProps) {
 
 	// Filter state
 	const [showAdvanced, setShowAdvanced] = useState(false)
-	const [selectedCity, setSelectedCity] = useState<string | null>(null)
+	const [cityQuery, setCityQuery] = useState('')
 	const [objectType, setObjectType] = useState<string | null>(null)
 	const [areaFrom, setAreaFrom] = useState('')
 	const [areaTo, setAreaTo] = useState('')
@@ -103,7 +184,7 @@ export default function Portfolio({ projects }: PortfolioProps) {
 	}
 
 	const resetFilters = () => {
-		setSelectedCity(null)
+		setCityQuery('')
 		setObjectType(null)
 		setAreaFrom('')
 		setAreaTo('')
@@ -112,8 +193,10 @@ export default function Portfolio({ projects }: PortfolioProps) {
 	}
 
 	const filteredCases = useMemo(() => {
+		const q = cityQuery.trim().toLowerCase()
+
 		return projects.filter(item => {
-			if (selectedCity && item.city !== selectedCity) return false
+			if (q && !item.city?.toLowerCase().includes(q)) return false
 			if (activeSystems.length && !activeSystems.some(sys => item.tags.includes(sys))) return false
 
 			// The fields below aren't on ProjectSummary yet; filters are inert until
@@ -130,7 +213,7 @@ export default function Portfolio({ projects }: PortfolioProps) {
 
 			return true
 		})
-	}, [projects, selectedCity, activeSystems, areaFrom, areaTo, objectType, housingClass])
+	}, [projects, cityQuery, activeSystems, areaFrom, areaTo, objectType, housingClass])
 
 	const cityLabel = useMemo(() => {
 		const uniqueCities = Array.from(
@@ -186,10 +269,10 @@ export default function Portfolio({ projects }: PortfolioProps) {
 
 						{showAdvanced ? (
 							<button
-								onClick={() => setSelectedCity(null)}
+								onClick={() => setCityQuery('')}
 								className="flex items-center gap-1.5 text-[15px] text-brand-blue"
 							>
-								<span>{selectedCity ?? cityOptions[0] ?? UI_TEXT.city}</span>
+								<span>{cityQuery || cityOptions[0] || UI_TEXT.city}</span>
 								<PinIcon className="w-4.5 h-4.5" />
 							</button>
 						) : (
@@ -206,20 +289,7 @@ export default function Portfolio({ projects }: PortfolioProps) {
 						<div className="mt-6 flex flex-wrap items-center gap-3">
 							<div className="flex flex-col gap-1.5">
 								<span className="text-[13px] text-brand-gray">{UI_TEXT.city}</span>
-								<div className="relative">
-									<select
-										value={selectedCity ?? ''}
-										onChange={e => setSelectedCity(e.target.value || null)}
-										className="appearance-none cursor-pointer bg-[#fcfdff] border border-[#d9d9d9] rounded-full py-2.5 pl-4 pr-10 text-[14px] font-medium min-w-45"
-									>
-										<option value="">{cityOptions[0] ?? UI_TEXT.city}</option>
-										{cityOptions.map(city => (
-											<option key={city} value={city}>{city}</option>
-										))}
-									</select>
-									<PinIcon className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-brand-blue" />
-									<ChevronDownIcon className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2" />
-								</div>
+								<CitySearch value={cityQuery} onChange={setCityQuery} options={cityOptions} />
 							</div>
 
 							<button
@@ -234,6 +304,11 @@ export default function Portfolio({ projects }: PortfolioProps) {
 					) : (
 						<div className="mt-6">
 							<div className="flex flex-wrap items-end gap-3">
+								<div className="flex-auto flex flex-col gap-1.5">
+									<span className="text-[13px] text-brand-gray">{UI_TEXT.city}</span>
+									<CitySearch value={cityQuery} onChange={setCityQuery} options={cityOptions} />
+								</div>
+
 								<div className="flex-auto flex flex-col gap-1.5">
 									<span className="text-[13px] text-brand-gray">{UI_TEXT.objectType}</span>
 									<div className="relative">
