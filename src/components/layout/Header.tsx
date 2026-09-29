@@ -13,12 +13,19 @@ export default function Header() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [activeTab, setActiveTab] = useState('security');
 	const [showFunctional, setShowFunctional] = useState(false);
-
+	// мобилка: раскрыт ли раздел «Функционал» и какая категория внутри
+	const [openFunctional, setOpenFunctional] = useState(false);
+	const [openCat, setOpenCat] = useState<string | null>(null);
 	const phoneClean = contacts.phone.replace(/[^\d]/g, "")
 
 	const activeCategory = functionalMenu.categories.find(
 		c => c.id === activeTab
 	)
+
+	const closeMenu = () => {
+		setIsOpen(false)
+		setShowFunctional(false)
+	}
 
 	useEffect(() => {
 		if (isOpen) document.body.classList.add('overflow-hidden')
@@ -28,6 +35,15 @@ export default function Header() {
 			document.body.classList.remove('overflow-hidden')
 		}
 	}, [isOpen])
+
+	// при закрытии шторки сбрасываем аккордеон
+	useEffect(() => {
+		if (!isOpen) {
+			setOpenFunctional(false)
+			setOpenCat(null)
+		}
+	}, [isOpen])
+
 	const { enabled } = useTheme()
 	return (
 		<header
@@ -40,45 +56,31 @@ export default function Header() {
 			<div className="max-w-308 mx-auto px-4 flex items-center lg:justify-between gap-5">
 
 				<Link href="/" className="font-helvetica font-bold tracking-[0.01em] text-[#00d0ff] text-[20px] md:text-[22px] order-1 mr-auto lg:mr-0">
-					MiMi<span className={`transition-colors duration-301 ${enabled ? "text-white" : 'text-foreground'}`}>Smart</span>
+					MiMi<span className={`transition-colors duration-300 ${enabled ? "text-white" : 'text-foreground'}`}>Smart</span>
 				</Link>
 
 				<div className="flex gap-6 xl:gap-8 items-center order-3 lg:order-2">
 					<nav className={`hidden lg:flex gap-6 xl:gap-8 transition-colors duration-400 items-center ${enabled ? 'text-[#939393]/60' : 'text-brand-light-gray/60'} text-[13px]`}>
 						{menuItems.filter(item => item.desktop).map(item =>
 							item.href ? (
-								<Link key={item.label} href={item.href} className='transitions-colors duration-300 hover:text-brand-light-gray'>{item.label}</Link>
+								<Link key={item.label} href={item.href} className='transition-colors duration-300 hover:text-brand-light-gray'>{item.label}</Link>
 							) : (
-								<button key={item.label} className='transitions-colors duration-300 hover:text-brand-light-gray cursor-pointer' onClick={() => setShowFunctional(true)}>{item.label}</button>
+								<button key={item.label} className='transition-colors duration-300 hover:text-brand-light-gray cursor-pointer' onClick={() => setShowFunctional(true)}>{item.label}</button>
 							)
 						)}
 					</nav>
 					<button
+						aria-label={isOpen ? "Закрыть меню" : "Открыть меню"}
 						onClick={() => {
 							setIsOpen(prev => !prev)
 							setShowFunctional(prev => !prev)
 						}}
-						className={`relative z-12 ${enabled ? 'text-white' : 'text-brand-light-gray'} lg:text-[#777777] w-6 h-6 basis-6 cursor-pointer transitions-colors duration-300 hover:text-brand-light-gray`}
+						className={`relative z-12 ${enabled ? 'text-white' : 'text-brand-light-gray'} lg:text-[#777777] w-6 h-6 basis-6 cursor-pointer transition-colors duration-300 hover:text-brand-light-gray`}
 					>
 						<svg className={`${isOpen && "opacity-0"} transition-opacity duration-300`} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-							<path
-								d="M4 12H20"
-								stroke="currentColor"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-							/>
-							<path
-								d="M4 18H20"
-								stroke="currentColor"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-							/>
-							<path
-								d="M4 6H20"
-								stroke="currentColor"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-							/>
+							<path d="M4 12H20" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
+							<path d="M4 18H20" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
+							<path d="M4 6H20" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
 						</svg>
 						<span className={`${isOpen && "opacity-100"} opacity-0 transition-opacity duration-300 absolute top-1/2 left-1/2 w-[75%] h-0.5 bg-[#777777] -translate-x-1/2 -translate-y-1/2 rotate-45`}></span>
 						<span className={`${isOpen && "opacity-100"} opacity-0 transition-opacity duration-300 absolute top-1/2 left-1/2 w-[75%] h-0.5 bg-[#777777] -translate-x-1/2 -translate-y-1/2 -rotate-45`}></span>
@@ -91,20 +93,21 @@ export default function Header() {
 					</svg>
 					Связаться с нами
 				</a>
-				<a href="tel:+740122344555" className={`lg:hidden text-[#121212] order-2 lg:order-3 rounded-full shadow-[inset_0_2px_4px_0_rgba(0,0,0,0.06)] p-2 border min-w-9.5 lg:min-w-auto min-h-9.5 lg:min-h-auto lg:px-4 lg:pt-2.5 lg:pb-2.5 flex items-center justify-center transition duration-400 gap-2 font-medium leading-none text-[13px] ${enabled ? 'text-white hover:bg-[#00d0ff] hover:text-white border-[#00d0ff]' : 'bg-white hover:bg-[#00d0ff] hover:text-white border-[#EFEFEF]'}`}>
+				<a href="tel:+740122344555" aria-label="Позвонить" className={`lg:hidden text-[#121212] order-2 lg:order-3 rounded-full shadow-[inset_0_2px_4px_0_rgba(0,0,0,0.06)] p-2 border min-w-9.5 min-h-9.5 flex items-center justify-center transition duration-400 gap-2 font-medium leading-none text-[13px] ${enabled ? 'text-white hover:bg-[#00d0ff] hover:text-white border-[#00d0ff]' : 'bg-white hover:bg-[#00d0ff] hover:text-white border-[#EFEFEF]'}`}>
 					<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path d="M8.06802 9.66463C8.18849 9.71995 8.32422 9.73259 8.45284 9.70047C8.58145 9.66834 8.69529 9.59336 8.7756 9.48788L8.98268 9.21663C9.09135 9.07173 9.23227 8.95413 9.39427 8.87313C9.55626 8.79213 9.7349 8.74996 9.91602 8.74996H11.666C11.9754 8.74996 12.2722 8.87288 12.491 9.09167C12.7098 9.31046 12.8327 9.60721 12.8327 9.91663V11.6666C12.8327 11.976 12.7098 12.2728 12.491 12.4916C12.2722 12.7104 11.9754 12.8333 11.666 12.8333C8.88124 12.8333 6.21053 11.727 4.24139 9.75791C2.27226 7.78878 1.16602 5.11807 1.16602 2.33329C1.16602 2.02387 1.28893 1.72713 1.50772 1.50833C1.72652 1.28954 2.02326 1.16663 2.33268 1.16663H4.08268C4.3921 1.16663 4.68885 1.28954 4.90764 1.50833C5.12643 1.72713 5.24935 2.02387 5.24935 2.33329V4.08329C5.24935 4.26441 5.20718 4.44304 5.12618 4.60504C5.04518 4.76704 4.92758 4.90795 4.78268 5.01663L4.50968 5.22138C4.40259 5.30315 4.32711 5.41947 4.29606 5.55058C4.26501 5.68169 4.28031 5.81951 4.33935 5.94063C5.13658 7.55988 6.44776 8.86942 8.06802 9.66463Z" fill="currentColor" />
 					</svg>
 				</a>
 			</div>
 
+			{/* ===== DESKTOP: мега-меню (без изменений) ===== */}
 			<div className={`${showFunctional ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} hidden lg:block absolute top-full pt-4 pb-20 left-0 w-full transition duration-300 leading-snug ${enabled ? "bg-foreground" : "bg-white"} backdrop-blur-md font-helvetica min-h-95.5`}>
 				<div className="max-w-308 mx-auto px-4 flex gap-10">
 					<div className="basis-55">
 						<div className='mb-4 text-[#5a6d7c] text-[13px]'>
 							Функционал
 						</div>
-						<div className="flex flex-col text-alig gap-4">
+						<div className="flex flex-col gap-4">
 							{functionalMenu.categories.map(cat => (
 								<button
 									key={cat.id}
@@ -121,7 +124,6 @@ export default function Header() {
 							{activeCategory?.label}
 						</div>
 						<div className="grid gap-y-4">
-
 							{activeCategory?.items.map(item => (
 								<Link
 									key={item.label}
@@ -151,7 +153,6 @@ export default function Header() {
 							className="flex gap-4 mb-10"
 							aria-label="Социальные сети"
 						>
-
 							{contacts.socials?.map(icon => {
 								const IconComponent = icon.icon
 								return (
@@ -187,26 +188,85 @@ export default function Header() {
 				</div>
 			</div>
 
-			<div className={`${enabled ? "bg-foreground" : "bg-white"} ${isOpen ? "right-0 pointer-events-auto" : "-right-full pointer-events-none"} fixed lg:hidden top-0 z-11 w-full overflow-auto h-full px-8 pt-20 pb-10 transitions duration-300 font-helvetica`}>
-				<nav className={`${enabled ? "text-white" : "text-foreground"} transitions-colors duration-300 flex flex-col gap-5 text-[20px] pb-10`}>
+			{/* ===== MOBILE: шторка ===== */}
+			<div className={`${enabled ? "bg-foreground" : "bg-white"} ${isOpen ? "right-0 pointer-events-auto" : "-right-full pointer-events-none"} fixed lg:hidden top-0 z-11 w-full overflow-y-auto overscroll-contain h-dvh px-8 pt-20 pb-10 transition-[right] duration-300 font-helvetica`}>
+				<nav className={`${enabled ? "text-white" : "text-foreground"} transition-colors duration-300 flex flex-col gap-5 text-[20px] pb-10`}>
 					{menuItems.map(item =>
 						item.href ? (
-							<Link key={item.label} href={item.href}>{item.label}</Link>
+							<Link key={item.label} href={item.href} onClick={closeMenu}>{item.label}</Link>
 						) : (
-							<button
-								key={item.label}
-								className="hidden lg:block cursor-pointer text-left"
-								onClick={() => setShowFunctional(true)}
-							>
-								{item.label}
-							</button>
+							<div key={item.label}>
+								{/* Уровень 1: «Функционал» */}
+								<button
+									type="button"
+									aria-expanded={openFunctional}
+									onClick={() => setOpenFunctional(prev => !prev)}
+									className="flex w-full items-center justify-between cursor-pointer text-left"
+								>
+									{item.label}
+									<svg
+										className={`w-5 h-5 shrink-0 transition-transform duration-300 ${openFunctional ? "rotate-180" : ""}`}
+										viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+									>
+										<path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+									</svg>
+								</button>
+
+								<div className={`grid transition-[grid-template-rows] duration-300 ${openFunctional ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
+									<div className="overflow-hidden">
+										{/* Уровень 2: категории */}
+										<div className="mt-4 flex flex-col divide-y divide-[#5a6d7c]/20 border-y border-[#5a6d7c]/20 text-[17px]">
+											{functionalMenu.categories.map(cat => {
+												const isCatOpen = openCat === cat.id
+												return (
+													<div key={cat.id}>
+														<button
+															type="button"
+															aria-expanded={isCatOpen}
+															onClick={() => setOpenCat(isCatOpen ? null : cat.id)}
+															className="flex w-full items-center justify-between py-3.5 text-left cursor-pointer"
+														>
+															{cat.label}
+															<svg
+																className={`w-4 h-4 shrink-0 transition-transform duration-300 ${isCatOpen ? "rotate-180" : ""}`}
+																viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+															>
+																<path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+															</svg>
+														</button>
+
+														{/* Уровень 3: пункты */}
+														<div className={`grid transition-[grid-template-rows] duration-300 ${isCatOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
+															<div className="overflow-hidden">
+																<div className="flex flex-col pb-3 pl-3">
+																	{cat.items.map(sub => (
+																		<Link
+																			key={sub.label}
+																			href={sub.href}
+																			onClick={closeMenu}
+																			className={`py-2 text-[15px] active:opacity-60 ${enabled ? "text-white/80" : "text-black/70"}`}
+																		>
+																			{sub.label}
+																		</Link>
+																	))}
+																</div>
+															</div>
+														</div>
+													</div>
+												)
+											})}
+										</div>
+									</div>
+								</div>
+							</div>
 						)
 					)}
 				</nav>
+
 				<div className='pt-10 border-t border-[#d9d9d9] leading-tight font-helvetica text-[17px] tracking-[-0.01em]'>
 					<div className='mb-10'>
 						<div className="flex items-center gap-3 mb-8">
-							<div className="basis-12.5 basis-12.5 w-12.5 h-12.5 bg-white rounded-[10px]">
+							<div className="basis-12.5 w-12.5 h-12.5 bg-white rounded-[10px]">
 								<Image
 									src="/images/icons/address-decor.svg"
 									width={50}
@@ -216,12 +276,12 @@ export default function Header() {
 							</div>
 							<div>
 								<div className="text-brand-blue max-w-[74%]">
-									<a href="https://yandex.ru/maps/org/mimismart/174037338866/?ll=37.625065%2C55.698133&z=16" target="_blank">{brand.address}</a>
+									<a href="https://yandex.ru/maps/org/mimismart/174037338866/?ll=37.625065%2C55.698133&z=16" target="_blank" rel="noopener noreferrer">{brand.address}</a>
 								</div>
 							</div>
 						</div>
 						<div className='text-brand-blue flex items-center gap-3 mb-8'>
-							<div className='basis-12.5 basis-12.5 w-12.5'>
+							<div className='basis-12.5 w-12.5'>
 								<Image
 									className="w-full h-auto"
 									src="/images/icons/phone-header.svg"
@@ -235,18 +295,20 @@ export default function Header() {
 								<p className='text-[#acacac]'>Время работы: {contacts.workingHours}</p>
 							</div>
 						</div>
-						<div className='text-brand-blue flex items-center gap-3 mb-8'>
-							<div className='basis-12.5 basis-12.5 w-12.5 shadow-[0_0_2px_0_rgba(148,148,148,0.12)]'>
-								<Image
-									className="w-full h-auto"
-									src="/images/icons/mail-header.svg"
-									alt="MiMiSmart"
-									width={50}
-									height={50}
-								/>
+						{contacts.email && (
+							<div className='text-brand-blue flex items-center gap-3 mb-8'>
+								<div className='basis-12.5 w-12.5 shadow-[0_0_2px_0_rgba(148,148,148,0.12)]'>
+									<Image
+										className="w-full h-auto"
+										src="/images/icons/mail-header.svg"
+										alt="MiMiSmart"
+										width={50}
+										height={50}
+									/>
+								</div>
+								<a href={`mailto:${contacts.email}`}>{contacts.email}</a>
 							</div>
-							<a href={`mailto:${contacts.email}`}>{contacts.email}</a>
-						</div>
+						)}
 					</div>
 
 					<nav
@@ -260,6 +322,7 @@ export default function Header() {
 									key={icon.name}
 									href={icon.href}
 									target="_blank"
+									aria-label={icon.name}
 									className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125"
 								>
 									<IconComponent className="w-4.5 h-4.5 text-[#478BEB]" />
@@ -270,7 +333,7 @@ export default function Header() {
 					<Button className='mb-4 w-full justify-center'>Связаться с нами</Button>
 					<div className='font-helvetica flex items-center gap-2 text-[15px] text-[#acacac] -tracking-[0.01em] leading-normal mb-10'>
 						<span>Мы на связи сейчас</span>
-						<span className='w-2 h-2 rounded-full bg-[#27ca40] box-shadow: 0 4px 4px 0 rgba(39, 202, 64, 0.25);'></span>
+						<span className='w-2 h-2 rounded-full bg-[#27ca40] shadow-[0_4px_4px_0_rgba(39,202,64,0.25)]'></span>
 					</div>
 					<div className="grid grid-cols-2 gap-3">
 						{contacts.apps?.map(app => {
@@ -280,6 +343,7 @@ export default function Header() {
 									key={app.label}
 									href={app.href}
 									target='_blank'
+									rel="noopener noreferrer"
 									className="border flex items-center justify-center border-[rgba(224,232,235)]/40 rounded-xl min-h-14"
 									aria-label={`Перейти в ${app.label}`}
 								>

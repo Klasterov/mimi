@@ -14,7 +14,7 @@ export const footerColumns: FooterColumnData[] = [
 			{ label: 'Цены', href: '/pricing' },
 			{ label: 'О компании', href: '/about' },
 			// { label: 'Отзывы', href: '/about' },
-			{ label: 'Сертификаты', href: '/about' },
+			{ label: 'Сертификаты', href: '/about#certificates' },
 			{ label: 'Контакты', href: '/contacts' },
 			{ label: 'Статьи', href: '/news' },
 		],

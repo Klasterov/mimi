@@ -50,7 +50,7 @@ export default function Features({ title }: { title: string }) {
 							key={index}
 							className="mr-4 md:mr-5 lg:mr-10"
 						>
-							<a href="" className="relative block aspect-11/10 rounded-[20px] overflow-hidden mb-4 bg-brand-gray">
+							<a href={item.href} className="relative block aspect-11/10 rounded-[20px] overflow-hidden mb-4 bg-brand-gray">
 								<Image
 									src={item.src}
 									alt={item.title}

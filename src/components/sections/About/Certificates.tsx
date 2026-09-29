@@ -65,7 +65,7 @@ export default function Certificates() {
 	}, [])
 
 	return (
-		<section ref={sectionRef} className="py-22.5 lg:py-30">
+		<section ref={sectionRef} id="certificates" className="py-22.5 lg:py-30">
 			<div className="max-w-308 mx-auto px-4">
 				<div ref={titleRef}>
 					<Title className="mb-10">Сертификаты</Title>
