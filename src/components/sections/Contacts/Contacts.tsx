@@ -117,9 +117,10 @@ export default function Contacts() {
 					<div className="flex items-center gap-3">
 						<div className="w-12.5 h-12.5 bg-white rounded-[10px]">
 							<Image
-								src="/images/icons/address-decor.svg"
+								src="/images/icons/address-decor.png"
 								width={50}
 								height={50}
+								quality={95}
 								alt="г. Москва, Новоданиловская наб., 6к1"
 							/>
 						</div>
@@ -147,7 +148,8 @@ export default function Contacts() {
 						<div className='basis-12.5 w-12.5'>
 							<Image
 								className="w-full h-auto"
-								src="/images/icons/phone-header.svg"
+								src="/images/icons/phone-header.png"
+								quality={95}
 								alt="MiMiSmart"
 								width={50}
 								height={50}
@@ -162,7 +164,8 @@ export default function Contacts() {
 						<div className='basis-12.5 w-12.5 shadow-[0_0_2px_0_rgba(148,148,148,0.12)]'>
 							<Image
 								className="w-full h-auto"
-								src="/images/icons/mail-header.svg"
+								src="/images/icons/mail-header.png"
+								quality={95}
 								alt="MiMiSmart"
 								width={50}
 								height={50}

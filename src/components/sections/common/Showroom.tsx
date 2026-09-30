@@ -21,7 +21,7 @@ export default function Showroom() {
 		video.currentTime = 0 // перезапуск с начала
 		video.muted = false // включаем звук
 		setIsMuted(false)
-		video.play().catch(() => {})
+		video.play().catch(() => { })
 	}
 
 	// Автоплей без звука + пауза, когда видео вне viewport
@@ -134,7 +134,7 @@ export default function Showroom() {
 					<div className="flex items-center gap-3">
 						<div className="w-11 h-11 bg-white rounded-[10px] flex items-center justify-center">
 							<Image
-								src="/images/icons/address-decor.svg"
+								src="/images/icons/address-decor.png"
 								width={44}
 								height={44}
 								alt="Address"

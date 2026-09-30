@@ -87,7 +87,7 @@ export function ApplicationModal({ onClose, formType }: ApplicationModalProps) {
 					<div className="flex pb-4 border-b border-black/10 items-center gap-3">
 						<div className="w-12.5 h-12.5 bg-white rounded-[10px]">
 							<Image
-								src="/images/icons/address-decor.svg"
+								src="/images/icons/address-decor.png"
 								width={50}
 								height={50}
 								alt={brand.address}
@@ -102,7 +102,7 @@ export function ApplicationModal({ onClose, formType }: ApplicationModalProps) {
 						<div className="basis-12.5 w-12.5">
 							<Image
 								className="w-full h-auto"
-								src="/images/icons/phone-header.svg"
+								src="/images/icons/phone-header.png"
 								alt="MiMiSmart"
 								width={50}
 								height={50}

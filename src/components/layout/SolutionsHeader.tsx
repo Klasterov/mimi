@@ -209,7 +209,7 @@ export default function Header() {
 						<div className="flex items-center gap-3 mb-8">
 							<div className="w-12.5 h-12.5 bg-white rounded-[10px]">
 								<Image
-									src="/images/icons/address-decor.svg"
+									src="/images/icons/address-decor.png"
 									quality={95}
 									width={50}
 									height={50}
@@ -227,7 +227,7 @@ export default function Header() {
 								<Image
 									className="w-full h-auto"
 									quality={95}
-									src="/images/icons/phone-header.svg"
+									src="/images/icons/phone-header.png"
 									alt="MiMiSmart"
 									width={50}
 									height={50}
@@ -243,7 +243,7 @@ export default function Header() {
 								<Image
 									className="w-full h-auto"
 									quality={95}
-									src="/images/icons/mail-header.svg"
+									src="/images/icons/mail-header.png"
 									alt="MiMiSmart"
 									width={50}
 									height={50}

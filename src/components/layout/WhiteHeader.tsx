@@ -210,7 +210,7 @@ export default function Header() {
 							<div className="w-12.5 h-12.5 bg-white rounded-[10px]">
 								<Image
 									quality={95}
-									src="/images/icons/address-decor.svg"
+									src="/images/icons/address-decor.png"
 									width={50}
 									height={50}
 									alt="г. Москва, Новоданиловская наб., 6к1"
@@ -227,7 +227,7 @@ export default function Header() {
 								<Image
 									className="w-full h-auto"
 									quality={95}
-									src="/images/icons/phone-header.svg"
+									src="/images/icons/phone-header.png"
 									alt="MiMiSmart"
 									width={50}
 									height={50}
@@ -242,7 +242,7 @@ export default function Header() {
 							<div className='basis-12.5 basis-12.5 w-12.5 shadow-[0_0_2px_0_rgba(148,148,148,0.12)]'>
 								<Image
 									className="w-full h-auto"
-									src="/images/icons/mail-header.svg"
+									src="/images/icons/mail-header.png"
 									quality={95}
 									alt="MiMiSmart"
 									width={50}
