@@ -205,6 +205,7 @@ export default function Header() {
 							<div className="w-12.5 h-12.5 bg-white rounded-[10px]">
 								<Image
 									src="/images/icons/address-decor.svg"
+									quality={95}
 									width={50}
 									height={50}
 									alt="г. Москва, Новоданиловская наб., 6к1"
@@ -221,6 +222,7 @@ export default function Header() {
 								<Image
 									className="w-full h-auto"
 									src="/images/icons/phone-header.svg"
+									quality={95}
 									alt="MiMiSmart"
 									width={50}
 									height={50}
@@ -238,6 +240,7 @@ export default function Header() {
 									src="/images/icons/mail-header.svg"
 									alt="MiMiSmart"
 									width={50}
+									quality={95}
 									height={50}
 								/>
 							</div>

@@ -41,7 +41,7 @@ export const menuItems = [
 	},
 	{
 		label: 'Партнерам',
-		href: '/parrtners',
+		href: '/partners',
 		desktop: true
 	},
 	{
