@@ -139,6 +139,7 @@ function normalizeProjectSummary(item: unknown, index: number): ProjectSummary |
     ),
     tags: readTags(item),
     objectType: firstString(item, ["objectType", "object_type", "type"]) ?? "Проект",
+    housingClass: firstString(item, ["housingClass", "housing_class"]) ?? "",
     area: firstString(item, ["area", "square", "size"]) ?? "",
     city: firstString(item, ["city", "location"]) ?? undefined,
   }
