@@ -26,6 +26,7 @@ export type ProjectSummary = {
 }
 
 export type ProjectDetails = ProjectSummary & {
+ gallery?: string[]
 	heroImage: string
 	steps: ProjectStep[]
 	sections: ProjectSection[]

@@ -67,12 +67,12 @@ async function request(method, path, options = {}) {
     headers.set("Content-Type", "application/json")
   }
 
-  const url = toUrl(path, options.params)
+  const url = options.url || toUrl(path, options.params)
 
   const fetchOptions = {
     method,
     headers,
-    credentials: "include",
+    credentials: options.credentials || "include",
     body:
       options.data instanceof FormData
         ? options.data
@@ -87,7 +87,10 @@ async function request(method, path, options = {}) {
 
   if (!response.ok) {
     const error = new Error(
-      payload?.error || payload?.message || `Request failed with status ${response.status}`
+      payload?.error || payload?.message ||
+      (response.status === 413
+        ? "Размер файла превышает допустимый размер загрузки на сервере."
+        : `Request failed with status ${response.status}`)
     )
     error.response = {
       status: response.status,
@@ -148,11 +151,24 @@ export const exportAPI = {
 }
 
 export const uploadAPI = {
-  uploadImage: formData =>
-    api.post("/upload/image", formData, {
+  async uploadImage(formData) {
+    const config = await api.get("/upload/image", { skipUnauthorizedRedirect: true })
+    const uploadUrl = config.data?.uploadUrl
+
+    if (typeof uploadUrl !== "string" || !uploadUrl) {
+      throw new Error("Не удалось определить адрес загрузки изображений.")
+    }
+
+    const isExternal = new URL(uploadUrl, window.location.origin).origin !== window.location.origin
+    return request("POST", "/upload/image", {
+      url: uploadUrl,
+      data: formData,
       headers: {},
+      // The backend uses the existing Bearer token and does not need site cookies.
+      credentials: isExternal ? "omit" : "include",
       skipUnauthorizedRedirect: true,
-    }),
+    })
+  },
 }
 
 export const adminApiConfig = {

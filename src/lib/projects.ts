@@ -208,6 +208,9 @@ function normalizeProjectDetails(item: unknown): ProjectDetails | null {
       firstString(item, ["heroImage", "hero_image", "imageMain", "image_main"]),
       summary.imageMain || MAIN_IMAGE_FALLBACK
     ),
+    gallery: Array.isArray(item.gallery)
+      ? item.gallery.filter((url): url is string => typeof url === "string" && Boolean(url.trim())).map(url => resolveAssetUrl(url.trim(), MAIN_IMAGE_FALLBACK))
+      : [],
     steps: normalizeSteps(item.steps),
     sections: normalizeSections(item.sections),
     relatedProjectSlugs: Array.isArray(item.relatedProjectSlugs)

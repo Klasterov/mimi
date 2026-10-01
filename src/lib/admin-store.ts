@@ -292,6 +292,7 @@ function ensureProjectDetails(record: Partial<ProjectRecord>, index = 0): Projec
     area: text(record.area),
     housingClass: text(record.housingClass),
     city: text(record.city),
+    gallery: Array.isArray(record.gallery) ? record.gallery.filter((url): url is string => typeof url === "string" && Boolean(url.trim())).map(url => url.trim()) : [],
     steps: projectSteps(record.steps),
     sections: projectSections(record.sections),
     relatedProjectSlugs: Array.isArray(record.relatedProjectSlugs)

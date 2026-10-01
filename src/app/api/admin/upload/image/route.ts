@@ -6,6 +6,16 @@ import { NextRequest, NextResponse } from "next/server"
 
 import { proxyAdminRequest, shouldProxyAdminBackend } from "@/lib/admin-backend"
 import { requireAdmin } from "@/lib/admin-api"
+import { buildBackendUrl } from "@/lib/backend-url"
+
+// Only this small response passes through Vercel; image bytes go to the backend.
+export async function GET() {
+  return NextResponse.json({
+    uploadUrl: shouldProxyAdminBackend()
+      ? buildBackendUrl("api/admin/upload/image")
+      : "/api/admin/upload/image",
+  }, { headers: { "Cache-Control": "no-store" } })
+}
 
 function sanitizeSegment(value: string, fallback: string) {
   const normalized = value

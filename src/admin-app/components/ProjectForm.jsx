@@ -45,6 +45,7 @@ const createInitialFormData = () => ({
   area: '',
   city: '',
   heroImage: '',
+  gallery: [],
   status: 'active',
   sort_order: 0,
   steps: [],
@@ -83,6 +84,7 @@ function normalizeProject(project) {
       project.imageMain ||
       project.image ||
       '',
+    gallery: Array.isArray(project.gallery) ? project.gallery.filter((url) => typeof url === 'string' && url.trim()) : [],
     status: project.status || 'active',
     sort_order: project.sort_order ?? 0,
     steps:
@@ -311,6 +313,30 @@ function ProjectForm() {
     }
   };
 
+  const handleGalleryUpload = async (files) => {
+    if (!files.length) return;
+    setUploadingField('gallery');
+    setError('');
+    const failures = [];
+    try {
+      for (const file of files) {
+        try {
+          const data = new FormData();
+          data.append('image', file);
+          data.append('folder', 'projects');
+          const response = await uploadAPI.uploadImage(data);
+          const url = response.data.file.url;
+          setFormData((prev) => ({ ...prev, gallery: [...prev.gallery, url] }));
+        } catch {
+          failures.push(file.name);
+        }
+      }
+      if (failures.length) setError(`Не удалось загрузить: ${failures.join(', ')}. Остальные фотографии добавлены.`);
+    } finally {
+      setUploadingField('');
+    }
+  };
+
   const buildPayload = () => ({
     name: formData.title.trim(),
     slug: formData.slug.trim(),
@@ -325,6 +351,7 @@ function ProjectForm() {
     area: formData.area.trim(),
     city: formData.city.trim(),
     heroImage: formData.heroImage.trim(),
+    gallery: formData.gallery.map((url) => url.trim()).filter(Boolean),
     status: formData.status,
     sort_order: Number(formData.sort_order) || 0,
     steps: formData.steps
@@ -350,6 +377,7 @@ function ProjectForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (uploadingField) return;
     setError('');
     setSuccess('');
 
@@ -391,7 +419,7 @@ function ProjectForm() {
     <div className="project-form-container">
       <div className="project-header">
         <h2>Управление проектами</h2>
-        <button className="btn btn-primary" onClick={handleToggleForm}>
+        <button className="btn btn-primary" onClick={handleToggleForm} disabled={Boolean(uploadingField)}>
           {showForm ? 'Отмена' : '+ Добавить проект'}
         </button>
       </div>
@@ -561,6 +589,32 @@ function ProjectForm() {
                   <span className="field-help">Загрузка изображения...</span>
                 )}
               </div>
+            </div>
+          </div>
+
+          <div className="form-section">
+            <h3>Фотографии проекта</h3>
+            <label htmlFor="project-gallery">Добавить фотографии</label>
+            <input id="project-gallery" type="file" accept="image/*" multiple
+              disabled={Boolean(uploadingField)}
+              onChange={(e) => {
+                const files = Array.from(e.target.files || []);
+                e.target.value = '';
+                handleGalleryUpload(files);
+              }} />
+            <p className="field-help">Можно выбрать несколько файлов сразу. Количество фотографий не ограничено.</p>
+            {uploadingField === 'gallery' && <p role="status">Загрузка фотографий...</p>}
+            <div className="project-gallery">
+              {formData.gallery.map((url, index) => (
+                <div className="subsection" key={`${index}-${url}`}>
+                  <img src={url} alt={`Фото проекта ${index + 1}`} className="project-gallery-preview" />
+                  <button type="button" className="btn btn-danger btn-small"
+                    disabled={Boolean(uploadingField)}
+                    onClick={() => setFormData((prev) => ({ ...prev, gallery: prev.gallery.filter((_, i) => i !== index) }))}>
+                    Удалить фото {index + 1}
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -742,10 +796,10 @@ function ProjectForm() {
           </div>
 
           <div className="form-actions">
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="btn btn-primary" disabled={Boolean(uploadingField)}>
               {editingId ? 'Сохранить проект' : 'Создать проект'}
             </button>
-            <button type="button" className="btn btn-secondary" onClick={handleToggleForm}>
+            <button type="button" className="btn btn-secondary" onClick={handleToggleForm} disabled={Boolean(uploadingField)}>
               Отмена
             </button>
           </div>
@@ -824,13 +878,13 @@ function ProjectForm() {
                   ))}
                 </div>
                 <div className="project-actions">
-                  <button className="btn btn-edit" onClick={() => handleEdit(project)}>
+                  <button className="btn btn-edit" disabled={Boolean(uploadingField)} onClick={() => handleEdit(project)}>
                     Изменить
                   </button>
                   <button className="btn btn-secondary" onClick={() => handleToggleVisibility(project)}>
                     {isVisibleByEntity('projects', project) ? 'Скрыть' : 'Восстановить'}
                   </button>
-                  <button className="btn btn-delete" onClick={() => handleDelete(project.id)}>
+                  <button className="btn btn-delete" disabled={Boolean(uploadingField)} onClick={() => handleDelete(project.id)}>
                     Удалить
                   </button>
                 </div>
