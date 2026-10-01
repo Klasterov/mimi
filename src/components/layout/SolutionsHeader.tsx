@@ -14,7 +14,7 @@ export default function Header() {
 	const [activeTab, setActiveTab] = useState('security');
 	const [showFunctional, setShowFunctional] = useState(false);
 
-	const phoneClean = contacts.phone.replace(/[^\d]/g, "")
+	const phoneClean = contacts.phone.replace(/[^\d+]/g, "")
 
 	const activeCategory = functionalMenu.categories.find(
 		c => c.id === activeTab

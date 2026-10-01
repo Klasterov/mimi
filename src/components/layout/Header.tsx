@@ -16,7 +16,7 @@ export default function Header() {
 	// мобилка: раскрыт ли раздел «Функционал» и какая категория внутри
 	const [openFunctional, setOpenFunctional] = useState(false);
 	const [openCat, setOpenCat] = useState<string | null>(null);
-	const phoneClean = contacts.phone.replace(/[^\d]/g, "")
+	const phoneClean = contacts.phone.replace(/[^\d+]/g, "")
 
 	const activeCategory = functionalMenu.categories.find(
 		c => c.id === activeTab
