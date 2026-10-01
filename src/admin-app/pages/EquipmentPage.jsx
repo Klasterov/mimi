@@ -51,6 +51,7 @@ function EquipmentPage() {
   const [visibilityFilter, setVisibilityFilter] = useState('published');
   const [formData, setFormData] = useState(EMPTY_FORM);
   const [uploadingField, setUploadingField] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
 
   const token = localStorage.getItem('adminToken') || localStorage.getItem('authToken');
 
@@ -154,26 +155,22 @@ function EquipmentPage() {
   };
 
   const handleSave = async () => {
+    if (isSaving || uploadingField) return;
+    setIsSaving(true);
+    setError(null);
     try {
+      const image = await uploadAPI.persistImage(formData.image, 'equipment');
+      setFormData((prev) => ({ ...prev, image }));
       const payload = {
         ...formData,
+        image,
         type: formData.type.trim(),
         sort_order: formData.sort_order === '' ? undefined : Number(formData.sort_order),
       };
 
-      const url = `/api/admin/equipment${editingId ? `/${editingId}` : ''}`;
-      const method = editingId ? 'PUT' : 'POST';
-
-      const response = await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) throw new Error(`Не удалось ${editingId ? 'обновить' : 'создать'} оборудование`);
+      const url = `/equipment${editingId ? `/${editingId}` : ''}`;
+      if (editingId) await api.put(url, payload);
+      else await api.post(url, payload);
 
       if (editingId && Number.isFinite(payload.sort_order)) {
         const savedItem = {
@@ -214,6 +211,8 @@ function EquipmentPage() {
       fetchEquipment();
     } catch (err) {
       setError(err.message);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -542,11 +541,12 @@ function EquipmentPage() {
             </div>
 
             <div className="form-actions">
-              <button className="btn btn-primary" onClick={handleSave}>
-                Сохранить
+              <button className="btn btn-primary" onClick={handleSave} disabled={isSaving || Boolean(uploadingField)}>
+                {isSaving ? 'Сохранение...' : 'Сохранить'}
               </button>
               <button
                 className="btn btn-secondary"
+                disabled={isSaving || Boolean(uploadingField)}
                 onClick={() => {
                   setShowForm(false);
                   setEditingId(null);

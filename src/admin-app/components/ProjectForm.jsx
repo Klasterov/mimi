@@ -327,8 +327,12 @@ function ProjectForm() {
           const response = await uploadAPI.uploadImage(data);
           const url = response.data.file.url;
           setFormData((prev) => ({ ...prev, gallery: [...prev.gallery, url] }));
-        } catch {
-          failures.push(file.name);
+        } catch (err) {
+          failures.push(`${file.name}: ${err.message || 'ошибка загрузки'}`);
+          if (err.response?.status === 503) {
+            setError(`Загрузка остановлена: ${err.message}. Уже загруженные фотографии оставлены в форме.`);
+            return;
+          }
         }
       }
       if (failures.length) setError(`Не удалось загрузить: ${failures.join(', ')}. Остальные фотографии добавлены.`);

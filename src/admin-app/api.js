@@ -1,3 +1,5 @@
+import { prepareImage } from "./utils/prepareImage"
+
 const adminBaseUrl = "/api/admin"
 
 function getStoredToken() {
@@ -151,7 +153,24 @@ export const exportAPI = {
 }
 
 export const uploadAPI = {
+  async persistImage(value, folder) {
+    if (typeof value !== "string" || !value.startsWith("data:image/")) return value
+    const blob = await (await fetch(value)).blob()
+    const data = new FormData()
+    const extension = blob.type.split("/")[1]?.replace(/[^a-z0-9]/gi, "") || "png"
+    data.append("image", new File([blob], `image.${extension}`, { type: blob.type }))
+    data.append("folder", folder)
+    const response = await uploadAPI.uploadImage(data)
+    return response.data.file.url
+  },
   async uploadImage(formData) {
+    const originalImage = formData.get("image")
+    const uploadData = new FormData()
+    for (const [key, value] of formData.entries()) uploadData.append(key, value)
+    if (originalImage instanceof File) {
+      const image = await prepareImage(originalImage)
+      uploadData.set("image", image, image.name)
+    }
     const config = await api.get("/upload/image", { skipUnauthorizedRedirect: true })
     const uploadUrl = config.data?.uploadUrl
 
@@ -160,14 +179,19 @@ export const uploadAPI = {
     }
 
     const isExternal = new URL(uploadUrl, window.location.origin).origin !== window.location.origin
-    return request("POST", "/upload/image", {
+    const response = await request("POST", "/upload/image", {
       url: uploadUrl,
-      data: formData,
+      data: uploadData,
       headers: {},
       // The backend uses the existing Bearer token and does not need site cookies.
       credentials: isExternal ? "omit" : "include",
       skipUnauthorizedRedirect: true,
     })
+    const imageUrl = response.data?.file?.url
+    if (typeof imageUrl !== "string" || !imageUrl || imageUrl.startsWith("data:")) {
+      throw new Error("Сервер не сохранил изображение. Повторите загрузку после восстановления базы данных.")
+    }
+    return response
   },
 }
 
