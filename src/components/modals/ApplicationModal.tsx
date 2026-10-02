@@ -57,7 +57,7 @@ export function ApplicationModal({ onClose, formType }: ApplicationModalProps) {
 		}
 	}
 
-	const phoneClean = contacts.phone.replace(/[^\d]/g, "")
+	const phoneClean = contacts.phone.replace(/[^\d+]/g, "")
 	const isSuccess = status === "success"
 	const isError = status === "error"
 

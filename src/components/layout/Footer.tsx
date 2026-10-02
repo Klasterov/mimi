@@ -62,7 +62,7 @@ export const Breadcrumbs = () => {
 }
 
 export default function Footer() {
-	const phoneClean = contacts.phone.replace(/[^\d]/g, "")
+	const phoneClean = contacts.phone.replace(/[^\d+]/g, "")
 	return (
 		<footer className="bg-[#efefef] py-10">
 			<div className="max-w-308 mx-auto px-4">

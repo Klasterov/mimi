@@ -74,7 +74,7 @@ const capabilitiesItems: CapabilityItem[] = [
 							<BtnArrowIcon className="group-hover:translate-x-1 transition-transform duration-300 w-6 h-6" />
 						</Link>
 					</div>
-					<span className="absolute w-full sm:w-70% bottom-0 right-0 lg:w-[73.16%] aspect-878/600">
+					<span className="absolute w-full sm:w-70% bottom-40 sm:bottom-0 right-0 lg:w-[73.16%] aspect-878/600">
 						<Image
 							quality={95}
 							src="/images/capabilities/decor/10.png"
@@ -323,7 +323,7 @@ const capabilitiesItems: CapabilityItem[] = [
 					</div>
 					<h3 className="hidden">Видеонаблюдение</h3>
 					<div className="relative flex justify-between gap-4 items-start sm:items-end lg:items-end flex-col sm:flex-row">
-						<p className="font-helvetica text-[16px] sm:max-w-85 lg:max-w-85 leading-snug tracking-[-0.01em] text-[#95979e]">
+						<p className="font-helvetica text-[16px] max-w-[70%] sm:max-w-85 lg:max-w-85 leading-snug tracking-[-0.01em] text-[#95979e]">
 							Смотрите ваши камеры и отвечайте на звонок в домофон в любой точке мира. Наблюдайте за домом и будьте уверены, что с родными все в порядке.
 						</p>
 						<Link href="/video-control" className="group cursor-pointer rounded-[50px] leading-none flex px-11 py-2 border border-white items-center justify-center uppercase gap-1.5 font-semibold text-[13px] bg-[#f0f4f6] tracking-[-0.02em] text-[#0a051a] hover:opacity-80 transition-opacity">

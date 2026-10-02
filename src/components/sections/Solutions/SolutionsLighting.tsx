@@ -12,7 +12,7 @@ export default function SolutionsLighting() {
 					<div className="font-helvetica text-[17px] leading-[1.3] -tracking-[0.01em]">
 						Освещение играет ключевую роль в создании комфортной и безопасной атмосферы как внутри, так и вокруг коттеджа. Система умного дома позволяет эффективно управлять наружным освещением, делая его более энергоэффективным, удобным и функциональным
 					</div>
-					<ArrowLink href="">Узнать больше</ArrowLink>
+					<ArrowLink href="/lightning">Узнать больше</ArrowLink>
 				</div>
 				<div className="max-md:self-end -mr-30 md:-mr-[30%]">
 					<Image

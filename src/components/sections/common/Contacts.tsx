@@ -9,7 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function Contacts() {
-	const phoneClean = contacts.phone.replace(/[^\d]/g, "")
+	const phoneClean = contacts.phone.replace(/[^\d+]/g, "")
 
 	return (
 		<section className="pt-13.5 md:py-22.5 overflow-hidden md:relative flex flex-col md:block">
