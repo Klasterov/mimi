@@ -63,15 +63,6 @@ export default function RootLayout({
           })(window, document, 'script', 'cloud.roistat.com', '46de6212504c2f1649b2b15ff67946fd');`}
         </Script>
         */}
-        <Script id="roistat-fe810b8818665490b7af7de96723d806" strategy="afterInteractive">
-          {`(function(w, d, s, h, id) {
-            w.roistatProjectId = id; w.roistatHost = h; w.roistatPage = d.location.href; w.roistatReferrer = d.referrer;
-            var p = d.location.protocol == "https:" ? "https://" : "http://";
-            var u = /^.*roistat_visit=[^;]+(.*)?$/.test(d.cookie) ? "/dist/module.js" : "/api/site/1.0/" + id + "/init?referrer=" + encodeURIComponent(d.location.href);
-            var js = d.createElement(s); js.charset = "UTF-8"; js.async = 1; js.src = p + h + u;
-            var js2 = d.getElementsByTagName(s)[0]; js2.parentNode.insertBefore(js, js2);
-          })(window, document, 'script', 'cloud.roistat.com', 'fe810b8818665490b7af7de96723d806');`}
-        </Script>
         <Script id="google-tag-manager" strategy="afterInteractive">
           {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -82,6 +73,19 @@ export default function RootLayout({
         <ThemeProvider>
           {children}
         </ThemeProvider>
+        {/* Оригинальный код Roistat в исходном HTML для проверки подключения. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+(function(w, d, s, h, id) {
+    w.roistatProjectId = id; w.roistatHost = h; w.roistatPage = d.location.href; w.roistatReferrer = d.referrer;
+    var p = d.location.protocol == "https:" ? "https://" : "http://";
+    var u = /^.*roistat_visit=[^;]+(.*)?$/.test(d.cookie) ? "/dist/module.js" : "/api/site/1.0/"+id+"/init?referrer="+encodeURIComponent(d.location.href);
+    var js = d.createElement(s); js.charset="UTF-8"; js.async = 1; js.src = p+h+u; var js2 = d.getElementsByTagName(s)[0]; js2.parentNode.insertBefore(js, js2);
+})(window, document, 'script', 'cloud.roistat.com', 'fe810b8818665490b7af7de96723d806');
+`,
+          }}
+        />
       </body>
     </html>
   )
