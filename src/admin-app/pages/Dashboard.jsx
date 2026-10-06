@@ -7,6 +7,7 @@ import ProjectsTab from '../components/ProjectsTab';
 import ArticleForm from '../components/ArticleForm';
 import DetectorForm from '../components/DetectorForm';
 import AdminsTab from '../components/AdminsTab';
+import { readAdminStorage, writeAdminStorage } from '../utils/adminStorage';
 
 const TABS = [
   { id: 'leads', label: 'Лиды', hint: 'Заявки и обращения' },
@@ -20,7 +21,14 @@ const TABS = [
 ];
 
 function Dashboard({ onLogout }) {
-  const [activeTab, setActiveTab] = useState('leads');
+  const [activeTab, updateActiveTab] = useState(() => {
+    const saved = readAdminStorage('activeTab');
+    return TABS.some((tab) => tab.id === saved) ? saved : 'leads';
+  });
+  const setActiveTab = (tab) => {
+    updateActiveTab(tab);
+    try { writeAdminStorage('activeTab', tab); } catch { /* Navigation still works without storage. */ }
+  };
   const [leadsDate, setLeadsDate] = useState('');
   const openLeadsForDate = (date) => {
     setLeadsDate(date);
@@ -29,7 +37,13 @@ function Dashboard({ onLogout }) {
   const currentTab = TABS.find((tab) => tab.id === activeTab);
 
   return (
-    <div className="dashboard">
+    <div className="dashboard"
+      onDragOver={(event) => {
+        if (Array.from(event.dataTransfer.types).includes('Files')) event.preventDefault();
+      }}
+      onDrop={(event) => {
+        if (event.dataTransfer.files.length) event.preventDefault();
+      }}>
       <div className="dashboard-aura dashboard-aura-one"></div>
       <div className="dashboard-aura dashboard-aura-two"></div>
 

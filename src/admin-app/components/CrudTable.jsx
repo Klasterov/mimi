@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api, { uploadAPI } from '../api';
+import ImageField from './ImageField';
 import {
   getEntityLabel,
   getFieldLabel,
@@ -212,19 +213,6 @@ function CrudTable({ entity, fields, title, icon }) {
     }
   };
 
-  const renderImagePreview = (value, alt) => {
-    if (!value) return null;
-
-    return (
-      <div className="image-preview-wrap">
-        <img src={value} alt={alt} className="image-preview" />
-        <a href={value} target="_blank" rel="noreferrer" className="image-link">
-          Открыть изображение
-        </a>
-      </div>
-    );
-  };
-
   const renderFormField = (mode, field, value) => {
     const uploadKey = `${mode}:${field.key}`;
     const displayValue = value ?? '';
@@ -232,23 +220,11 @@ function CrudTable({ entity, fields, title, icon }) {
 
     if (isImageField(field)) {
       return (
-        <>
-          <input
-            type="text"
-            value={displayValue}
-            onChange={(e) => setFormFieldValue(mode, field, e.target.value)}
-            placeholder="Вставьте URL изображения или загрузите файл"
-          />
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => handleImageUpload(mode, field, e.target.files?.[0])}
-          />
-          {uploadingField === uploadKey && (
-            <span className="field-help">Загрузка изображения...</span>
-          )}
-          {renderImagePreview(displayValue, `${entity} preview`)}
-        </>
+        <ImageField value={displayValue} label={field.label}
+          onChange={(value) => setFormFieldValue(mode, field, value)}
+          onUpload={(file) => handleImageUpload(mode, field, file)}
+          disabled={Boolean(uploadingField)} busy={uploadingField === uploadKey}
+          placeholder="Вставьте URL изображения" />
       );
     }
 

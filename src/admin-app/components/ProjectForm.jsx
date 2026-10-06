@@ -1,3 +1,7 @@
+import ImageField, { ImageFilesInput } from './ImageField';
+import DraftNotice from './DraftNotice';
+import { useAdminDraft } from '../utils/useAdminDraft';
+import { uploadGallery } from '../utils/uploadGallery';
 import React, { useEffect, useState } from 'react';
 import api, { uploadAPI } from '../api';
 import { loadAllItems, matchesProject, projectField } from '../utils/contentFilters';
@@ -62,14 +66,14 @@ function normalizeTextArray(value) {
   return items.length ? items : [''];
 }
 
-function normalizeProject(project) {
+export function normalizeProject(project) {
   return {
     slug: project.slug || '',
     title: project.title || project.name || '',
     description: project.description || '',
-    image: project.image || project.image_url || '',
+    image: project.image ?? project.image_url ?? '',
     imageMain:
-      project.image_main || project.imageMain || project.image || project.image_url || '',
+      project.image_main ?? project.imageMain ?? project.image ?? project.image_url ?? '',
     tags: Array.isArray(project.tags)
       ? project.tags.filter((tag) => ALLOWED_TAGS.includes(tag))
       : [],
@@ -78,11 +82,11 @@ function normalizeProject(project) {
     area: project.area || '',
     city: project.city || '',
     heroImage:
-      project.hero_image ||
-      project.heroImage ||
-      project.image_main ||
-      project.imageMain ||
-      project.image ||
+      project.hero_image ??
+      project.heroImage ??
+      project.image_main ??
+      project.imageMain ??
+      project.image ??
       '',
     gallery: Array.isArray(project.gallery) ? project.gallery.filter((url) => typeof url === 'string' && url.trim()) : [],
     status: project.status || 'active',
@@ -115,18 +119,17 @@ function normalizeProject(project) {
 function ProjectForm() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [showForm, setShowForm] = useState(false);
-  const [editingId, setEditingId] = useState(null);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [uploadingField, setUploadingField] = useState('');
+  const [galleryProgress, setGalleryProgress] = useState(null);
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState(EMPTY_FILTERS);
   const filteredProjects = projects.filter((project) => matchesProject(project, search, filters));
   const hasFilters = search.trim() || Object.values(filters).some(Boolean);
   const updateFilter = (key, value) => setFilters((previous) => ({ ...previous, [key]: value }));
   const filterOptions = (key) => [...new Set(projects.map((project) => projectField(project, key)).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ru'));
-  const [formData, setFormData] = useState(createInitialFormData);
+  const { formData, setFormData, showForm, setShowForm, editingId, setEditingId, restored, draftError } = useAdminDraft('projects', createInitialFormData);
 
   useEffect(() => {
     fetchProjects();
@@ -286,7 +289,7 @@ function ProjectForm() {
   };
 
   const handleImageUpload = async (field, file, sectionIndex = null) => {
-    if (!file) return;
+    if (!file || uploadingField) return;
 
     const uploadKey = sectionIndex === null ? field : `${field}-${sectionIndex}`;
     setUploadingField(uploadKey);
@@ -313,31 +316,30 @@ function ProjectForm() {
     }
   };
 
-  const handleGalleryUpload = async (files) => {
-    if (!files.length) return;
+  const handleGalleryUpload = async (files, replaceIndex = null) => {
+    if (!files.length || uploadingField) return;
     setUploadingField('gallery');
     setError('');
-    const failures = [];
     try {
-      for (const file of files) {
-        try {
+      const { failures } = await uploadGallery(files, {
+        upload: async (file) => {
           const data = new FormData();
           data.append('image', file);
           data.append('folder', 'projects');
           const response = await uploadAPI.uploadImage(data);
-          const url = response.data.file.url;
-          setFormData((prev) => ({ ...prev, gallery: [...prev.gallery, url] }));
-        } catch (err) {
-          failures.push(`${file.name}: ${err.message || 'ошибка загрузки'}`);
-          if (err.response?.status === 503) {
-            setError(`Загрузка остановлена: ${err.message}. Уже загруженные фотографии оставлены в форме.`);
-            return;
-          }
-        }
-      }
-      if (failures.length) setError(`Не удалось загрузить: ${failures.join(', ')}. Остальные фотографии добавлены.`);
+          return response.data.file.url;
+        },
+        onUploaded: (url) => setFormData((prev) => ({
+          ...prev,
+          gallery: replaceIndex === null ? [...prev.gallery, url]
+            : prev.gallery.map((previousUrl, index) => index === replaceIndex ? url : previousUrl),
+        })),
+        onProgress: setGalleryProgress,
+      });
+      if (failures.length) setError(`Не удалось загрузить: ${failures.map((file) => `${file.name}: ${file.message}`).join(', ')}. Успешно загруженные фотографии сохранены в форме; неудачные можно выбрать повторно.`);
     } finally {
       setUploadingField('');
+      setGalleryProgress(null);
     }
   };
 
@@ -433,6 +435,7 @@ function ProjectForm() {
 
       {showForm && (
         <form className="project-form" onSubmit={handleSubmit}>
+          <DraftNotice restored={restored} error={draftError} />
           <div className="form-section">
             <h3>Основная информация</h3>
             <div className="form-grid">
@@ -544,83 +547,45 @@ function ProjectForm() {
             <div className="form-grid">
               <div className="full-width">
                 <label>Изображение карточки</label>
-                <input
-                  type="text"
-                  value={formData.image}
-                  onChange={(e) => updateField('image', e.target.value)}
-                  placeholder="/images/cases/3.jpg"
-                />
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => handleImageUpload('image', e.target.files?.[0])}
-                />
-                {uploadingField === 'image' && (
-                  <span className="field-help">Загрузка изображения...</span>
-                )}
+                <ImageField value={formData.image} onChange={(value) => updateField('image', value)}
+                  onUpload={(file) => handleImageUpload('image', file)} disabled={Boolean(uploadingField)} busy={uploadingField === 'image'}
+                  label="Изображение карточки" placeholder="/images/cases/3.jpg" />
               </div>
               <div className="full-width">
                 <label>Главное изображение портфолио</label>
-                <input
-                  type="text"
-                  value={formData.imageMain}
-                  onChange={(e) => updateField('imageMain', e.target.value)}
-                  placeholder="/images/cases/1-big.jpg"
-                />
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => handleImageUpload('imageMain', e.target.files?.[0])}
-                />
-                {uploadingField === 'imageMain' && (
-                  <span className="field-help">Загрузка изображения...</span>
-                )}
+                <ImageField value={formData.imageMain} onChange={(value) => updateField('imageMain', value)}
+                  onUpload={(file) => handleImageUpload('imageMain', file)} disabled={Boolean(uploadingField)} busy={uploadingField === 'imageMain'}
+                  label="Главное изображение портфолио" placeholder="/images/cases/1-big.jpg" />
               </div>
               <div className="full-width">
                 <label>Hero-изображение</label>
-                <input
-                  type="text"
-                  value={formData.heroImage}
-                  onChange={(e) => updateField('heroImage', e.target.value)}
-                  placeholder="/images/project-page/hero.jpg"
-                />
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => handleImageUpload('heroImage', e.target.files?.[0])}
-                />
-                {uploadingField === 'heroImage' && (
-                  <span className="field-help">Загрузка изображения...</span>
-                )}
+                <ImageField value={formData.heroImage} onChange={(value) => updateField('heroImage', value)}
+                  onUpload={(file) => handleImageUpload('heroImage', file)} disabled={Boolean(uploadingField)} busy={uploadingField === 'heroImage'}
+                  label="Hero-изображение" placeholder="/images/project-page/hero.jpg" />
               </div>
             </div>
           </div>
 
-          <div className="form-section">
-            <h3>Фотографии проекта</h3>
-            <label htmlFor="project-gallery">Добавить фотографии</label>
-            <input id="project-gallery" type="file" accept="image/*" multiple
-              disabled={Boolean(uploadingField)}
-              onChange={(e) => {
-                const files = Array.from(e.target.files || []);
-                e.target.value = '';
-                handleGalleryUpload(files);
-              }} />
+          <ImageFilesInput multiple controlsFirst className="form-section project-gallery-dropzone"
+            heading="Фотографии проекта" label="Выбрать фотографии"
+            hint="Перетащите фотографии в любую часть этого блока или нажмите «Выбрать фотографии»."
+            disabled={Boolean(uploadingField)} onUpload={handleGalleryUpload}>
             <p className="field-help">Можно выбрать несколько файлов сразу. Количество фотографий не ограничено.</p>
-            {uploadingField === 'gallery' && <p role="status">Загрузка фотографий...</p>}
+            <p className="field-help">Фотографий в проекте: {formData.gallery.length}</p>
+            {galleryProgress && <p role="status">Обработано {galleryProgress.completed} из {galleryProgress.total}, загружено: {galleryProgress.uploaded}</p>}
             <div className="project-gallery">
               {formData.gallery.map((url, index) => (
-                <div className="subsection" key={`${index}-${url}`}>
-                  <img src={url} alt={`Фото проекта ${index + 1}`} className="project-gallery-preview" />
-                  <button type="button" className="btn btn-danger btn-small"
-                    disabled={Boolean(uploadingField)}
-                    onClick={() => setFormData((prev) => ({ ...prev, gallery: prev.gallery.filter((_, i) => i !== index) }))}>
-                    Удалить фото {index + 1}
-                  </button>
+                <div className="subsection" key={index}>
+                  <ImageField value={url} label={`Фото проекта ${index + 1}`} disabled={Boolean(uploadingField)}
+                    onUpload={(file) => handleGalleryUpload([file], index)}
+                    onChange={(value) => setFormData((prev) => ({ ...prev,
+                      gallery: value ? prev.gallery.map((previousUrl, i) => i === index ? value : previousUrl)
+                        : prev.gallery.filter((_, i) => i !== index),
+                    }))} />
                 </div>
               ))}
             </div>
-          </div>
+          </ImageFilesInput>
 
           <div className="form-section">
             <h3>Этапы работ</h3>
@@ -685,7 +650,7 @@ function ProjectForm() {
                     <button
                       type="button"
                       className="btn btn-danger btn-small"
-                      onClick={() => removeSection(sectionIndex)}
+                      disabled={Boolean(uploadingField)} onClick={() => removeSection(sectionIndex)}
                     >
                       Удалить
                     </button>
@@ -725,22 +690,9 @@ function ProjectForm() {
                   </div>
                   <div className="full-width">
                     <label>Изображение секции</label>
-                    <input
-                      type="text"
-                      value={section.image}
-                      onChange={(e) => updateSection(sectionIndex, 'image', e.target.value)}
-                      placeholder="/images/project-page/1.jpg"
-                    />
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) =>
-                        handleImageUpload('image', e.target.files?.[0], sectionIndex)
-                      }
-                    />
-                    {uploadingField === `image-${sectionIndex}` && (
-                      <span className="field-help">Загрузка изображения...</span>
-                    )}
+                    <ImageField value={section.image} onChange={(value) => updateSection(sectionIndex, 'image', value)}
+                      onUpload={(file) => handleImageUpload('image', file, sectionIndex)} disabled={Boolean(uploadingField)} busy={uploadingField === `image-${sectionIndex}`}
+                      label="Изображение секции" placeholder="/images/project-page/1.jpg" />
                   </div>
                   <div className="full-width">
                     <label>Текстовые абзацы</label>

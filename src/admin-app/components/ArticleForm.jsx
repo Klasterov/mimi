@@ -1,3 +1,6 @@
+import ImageField from './ImageField';
+import DraftNotice from './DraftNotice';
+import { useAdminDraft } from '../utils/useAdminDraft';
 import React, { useEffect, useState } from 'react';
 import api, { uploadAPI } from '../api';
 import { loadAllItems, matchesArticle } from '../utils/contentFilters';
@@ -41,11 +44,9 @@ function ArticleForm() {
   const [search, setSearch] = useState('');
   const filteredArticles = articles.filter((article) => matchesArticle(article, search));
   const [loading, setLoading] = useState(false);
-  const [showForm, setShowForm] = useState(false);
-  const [editingId, setEditingId] = useState(null);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [formData, setFormData] = useState(createInitialFormData);
+  const { formData, setFormData, showForm, setShowForm, editingId, setEditingId, restored, draftError } = useAdminDraft('articles', createInitialFormData);
   const [uploadingField, setUploadingField] = useState('');
 
   useEffect(() => {
@@ -136,6 +137,7 @@ function ArticleForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (uploadingField) return;
     setError('');
     setSuccess('');
     try {
@@ -246,13 +248,16 @@ function ArticleForm() {
   };
 
   const updateSection = (index, field, value) => {
-    const sections = [...formData.sections];
-    sections[index][field] = value;
-    updateNestedField('sections', sections);
+    setFormData((previous) => ({
+      ...previous,
+      sections: previous.sections.map((section, currentIndex) =>
+        currentIndex === index ? { ...section, [field]: value } : section
+      ),
+    }));
   };
 
   const handleImageUpload = async (field, file, sectionIndex = null) => {
-    if (!file) return;
+    if (!file || uploadingField) return;
 
     const uploadKey = sectionIndex === null ? field : `${field}-${sectionIndex}`;
     setUploadingField(uploadKey);
@@ -292,6 +297,7 @@ function ArticleForm() {
         <h2>Управление статьями</h2>
         <button
           className="btn btn-primary"
+          disabled={Boolean(uploadingField)}
           onClick={() => {
             setEditingId(null);
             setFormData(createInitialFormData());
@@ -307,6 +313,7 @@ function ArticleForm() {
 
       {showForm && (
         <form className="article-form" onSubmit={handleSubmit}>
+          <DraftNotice restored={restored} error={draftError} />
           <div className="form-section">
             <h3>Основная информация</h3>
             <div className="form-grid">
@@ -414,23 +421,9 @@ function ArticleForm() {
             <div className="form-grid">
               <div className="full-width">
                 <label>URL главного изображения</label>
-                <input
-                  type="text"
-                  value={formData.image}
-                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                  placeholder="/images/article/main.jpg"
-                />
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => handleImageUpload('image', e.target.files?.[0])}
-                />
-                {uploadingField === 'image' && (
-                  <span className="field-help">Загрузка изображения...</span>
-                )}
-                {formData.image && (
-                  <img src={formData.image} alt="Preview" className="admin-image-preview" />
-                )}
+                <ImageField value={formData.image} onChange={(value) => setFormData({ ...formData, image: value })}
+                  onUpload={(file) => handleImageUpload('image', file)} disabled={Boolean(uploadingField)} busy={uploadingField === 'image'}
+                  label="URL главного изображения" placeholder="/images/article/main.jpg" />
               </div>
             </div>
           </div>
@@ -487,7 +480,7 @@ function ArticleForm() {
                     <button
                       type="button"
                       className="btn btn-danger btn-small"
-                      onClick={() => removeSection(idx)}
+                      disabled={Boolean(uploadingField)} onClick={() => removeSection(idx)}
                     >
                       Удалить
                     </button>
@@ -523,28 +516,14 @@ function ArticleForm() {
                   </div>
                   <div className="full-width">
                     <label>URL изображения секции</label>
-                    <input
-                      type="text"
-                      value={section.image}
-                      onChange={(e) => updateSection(idx, 'image', e.target.value)}
-                      placeholder="/images/article/section.jpg"
-                    />
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => handleImageUpload('image', e.target.files?.[0], idx)}
-                    />
-                    {uploadingField === `image-${idx}` && (
-                      <span className="field-help">Загрузка изображения...</span>
-                    )}
-                    {section.image && (
-                      <img src={section.image} alt="Preview" className="admin-image-preview" />
-                    )}
+                    <ImageField value={section.image} onChange={(value) => updateSection(idx, 'image', value)}
+                      onUpload={(file) => handleImageUpload('image', file, idx)} disabled={Boolean(uploadingField)} busy={uploadingField === `image-${idx}`}
+                      label="URL изображения секции" placeholder="/images/article/section.jpg" />
                   </div>
                 </div>
               </div>
             ))}
-            <button type="button" className="btn btn-secondary" onClick={addSection}>
+            <button type="button" className="btn btn-secondary" disabled={Boolean(uploadingField)} onClick={addSection}>
               + Добавить секцию
             </button>
           </div>
@@ -567,12 +546,13 @@ function ArticleForm() {
           </div>
 
           <div className="form-actions">
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="btn btn-primary" disabled={Boolean(uploadingField)}>
               {editingId ? 'Сохранить статью' : 'Создать статью'}
             </button>
             <button
               type="button"
               className="btn btn-secondary"
+              disabled={Boolean(uploadingField)}
               onClick={() => setShowForm(false)}
             >
               Отмена
@@ -608,13 +588,13 @@ function ArticleForm() {
                   {article.author && <span>{article.author}</span>}
                 </div>
                 <div className="article-actions">
-                  <button className="btn btn-edit" onClick={() => handleEdit(article)}>
+                  <button className="btn btn-edit" disabled={Boolean(uploadingField)} onClick={() => handleEdit(article)}>
                     Изменить
                   </button>
                   <button className="btn btn-secondary" onClick={() => handleToggleVisibility(article)}>
                     {isVisibleByEntity('articles', article) ? 'Скрыть' : 'Восстановить'}
                   </button>
-                  <button className="btn btn-delete" onClick={() => handleDelete(article.id)}>
+                  <button className="btn btn-delete" disabled={Boolean(uploadingField)} onClick={() => handleDelete(article.id)}>
                     Удалить
                   </button>
                 </div>

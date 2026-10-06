@@ -1,3 +1,6 @@
+import ImageField from '../components/ImageField';
+import DraftNotice from '../components/DraftNotice';
+import { useAdminDraft } from '../utils/useAdminDraft';
 import React, { useEffect, useMemo, useState } from 'react';
 import api, { uploadAPI } from '../api';
 import { loadAllItems, matchesEquipment } from '../utils/contentFilters';
@@ -44,12 +47,10 @@ function EquipmentPage() {
   const [equipmentList, setEquipmentList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [editingId, setEditingId] = useState(null);
-  const [showForm, setShowForm] = useState(false);
   const [selectedType, setSelectedType] = useState('all');
   const [search, setSearch] = useState('');
   const [visibilityFilter, setVisibilityFilter] = useState('published');
-  const [formData, setFormData] = useState(EMPTY_FORM);
+  const { formData, setFormData, showForm, setShowForm, editingId, setEditingId, restored, draftError } = useAdminDraft('equipment', () => ({ ...EMPTY_FORM }));
   const [uploadingField, setUploadingField] = useState('');
   const [isSaving, setIsSaving] = useState(false);
 
@@ -217,7 +218,7 @@ function EquipmentPage() {
   };
 
   const handleImageUpload = async (field, file) => {
-    if (!file) return;
+    if (!file || uploadingField) return;
 
     setUploadingField(field);
     setError(null);
@@ -339,7 +340,7 @@ function EquipmentPage() {
             Можно вести оборудование по отдельным типам и добавлять записи сразу в выбранную категорию.
           </p>
         </div>
-        <button className="btn btn-primary" onClick={handleCreate}>
+        <button className="btn btn-primary" disabled={isSaving || Boolean(uploadingField)} onClick={handleCreate}>
           {selectedType === 'all' ? '+ Добавить оборудование' : `+ Добавить в "${selectedType}"`}
         </button>
       </div>
@@ -398,6 +399,7 @@ function EquipmentPage() {
               />
             </div>
 
+            <DraftNotice restored={restored} error={draftError} />
             <div className="form-group">
               <label>Название (cap) *</label>
               <input
@@ -439,27 +441,10 @@ function EquipmentPage() {
 
             <div className="form-group">
               <label>Изображение</label>
-              <input
-                type="text"
-                value={formData.image}
-                onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                placeholder="/images/products/1.png"
-              />
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => handleImageUpload('image', e.target.files?.[0])}
-              />
-              {uploadingField === 'image' && (
-                <span className="field-help">Загрузка изображения...</span>
-              )}
+              <ImageField value={formData.image} onChange={(value) => setFormData({ ...formData, image: value })}
+                  onUpload={(file) => handleImageUpload('image', file)} disabled={isSaving || Boolean(uploadingField)} busy={uploadingField === 'image'}
+                label="Изображение" placeholder="/images/products/1.png" />
             </div>
-
-            {formData.image && (
-              <div className="form-group">
-                <img src={formData.image} alt="Preview" style={{ maxWidth: '200px', marginTop: '10px' }} />
-              </div>
-            )}
 
             <div className="form-group">
               <label>Порядок вывода</label>
@@ -597,13 +582,13 @@ function EquipmentPage() {
                   {item.image && <img src={item.image} alt={item.cap} style={{ maxHeight: '50px' }} />}
                 </td>
                 <td className="actions">
-                  <button className="btn btn-sm btn-info" onClick={() => handleEdit(item)}>
+                  <button className="btn btn-sm btn-info" disabled={isSaving || Boolean(uploadingField)} onClick={() => handleEdit(item)}>
                     Изменить
                   </button>
                   <button className="btn btn-sm btn-secondary" onClick={() => handleToggleVisibility(item)}>
                     {isEquipmentVisible(item) ? 'Скрыть' : 'Восстановить'}
                   </button>
-                  <button className="btn btn-sm btn-danger" onClick={() => handleDelete(item.id)}>
+                  <button className="btn btn-sm btn-danger" disabled={isSaving || Boolean(uploadingField)} onClick={() => handleDelete(item.id)}>
                     Удалить
                   </button>
                 </td>

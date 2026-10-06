@@ -1,3 +1,6 @@
+import ImageField from './ImageField';
+import DraftNotice from './DraftNotice';
+import { useAdminDraft } from '../utils/useAdminDraft';
 import React, { useEffect, useState } from 'react';
 import {
   createDetector,
@@ -55,12 +58,10 @@ function DetectorForm() {
   const [search, setSearch] = useState('');
   const filteredDetectors = detectors.filter((detector) => matchesDetector(detector, search));
   const [loading, setLoading] = useState(false);
-  const [showForm, setShowForm] = useState(false);
-  const [editingId, setEditingId] = useState(null);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [uploadingField, setUploadingField] = useState('');
-  const [formData, setFormData] = useState(createInitialFormData);
+  const { formData, setFormData, showForm, setShowForm, editingId, setEditingId, restored, draftError } = useAdminDraft('detectors', createInitialFormData);
 
   useEffect(() => {
     fetchDetectors();
@@ -136,6 +137,7 @@ function DetectorForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (uploadingField) return;
     setError('');
     setSuccess('');
     try {
@@ -180,7 +182,7 @@ function DetectorForm() {
   };
 
   const handleImageUpload = async (path, file) => {
-    if (!file) return;
+    if (!file || uploadingField) return;
 
     setUploadingField(path);
     setError('');
@@ -232,6 +234,7 @@ function DetectorForm() {
         <h2>Управление детекторами</h2>
         <button
           className="btn btn-primary"
+          disabled={Boolean(uploadingField)}
           onClick={() => {
             setEditingId(null);
             setFormData(createInitialFormData());
@@ -247,6 +250,7 @@ function DetectorForm() {
 
       {showForm && (
         <form className="detector-form" onSubmit={handleSubmit}>
+          <DraftNotice restored={restored} error={draftError} />
           <div className="form-section">
             <h3>Основная информация</h3>
             <div className="form-grid">
@@ -281,37 +285,15 @@ function DetectorForm() {
               </div>
               <div>
                 <label>URL иконки</label>
-                <input
-                  type="text"
-                  value={formData.icon}
-                  onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-                  placeholder="/images/detector-page/icons/1.svg"
-                />
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => handleImageUpload('icon', e.target.files?.[0])}
-                />
-                {uploadingField === 'icon' && (
-                  <span className="field-help">Загрузка изображения...</span>
-                )}
+                <ImageField value={formData.icon} onChange={(value) => setFormData({ ...formData, icon: value })}
+                  onUpload={(file) => handleImageUpload('icon', file)} disabled={Boolean(uploadingField)} busy={uploadingField === 'icon'}
+                  label="URL иконки" placeholder="/images/detector-page/icons/1.svg" />
               </div>
               <div>
                 <label>URL изображения</label>
-                <input
-                  type="text"
-                  value={formData.image}
-                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                  placeholder="/images/detector-page/cols/1.png"
-                />
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => handleImageUpload('image', e.target.files?.[0])}
-                />
-                {uploadingField === 'image' && (
-                  <span className="field-help">Загрузка изображения...</span>
-                )}
+                <ImageField value={formData.image} onChange={(value) => setFormData({ ...formData, image: value })}
+                  onUpload={(file) => handleImageUpload('image', file)} disabled={Boolean(uploadingField)} busy={uploadingField === 'image'}
+                  label="URL изображения" placeholder="/images/detector-page/cols/1.png" />
               </div>
               <div>
                 <label>CSS-класс фона</label>
@@ -390,22 +372,9 @@ function DetectorForm() {
               </div>
               <div>
                 <label>Изображение</label>
-                <input
-                  type="text"
-                  value={formData.detectorExample?.image || ''}
-                  onChange={(e) => updateNestedField('detectorExample.image', e.target.value)}
-                  placeholder="/images/detector-page/example/1.png"
-                />
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) =>
-                    handleImageUpload('detectorExample.image', e.target.files?.[0])
-                  }
-                />
-                {uploadingField === 'detectorExample.image' && (
-                  <span className="field-help">Загрузка изображения...</span>
-                )}
+                <ImageField value={formData.detectorExample?.image || ''} onChange={(value) => updateNestedField('detectorExample.image', value)}
+                  onUpload={(file) => handleImageUpload('detectorExample.image', file)} disabled={Boolean(uploadingField)} busy={uploadingField === 'detectorExample.image'}
+                  label="Изображение" placeholder="/images/detector-page/example/1.png" />
               </div>
               <div>
                 <label>Ширина изображения</label>
@@ -463,20 +432,9 @@ function DetectorForm() {
               </div>
               <div>
                 <label>Изображение</label>
-                <input
-                  type="text"
-                  value={formData.hero?.image || ''}
-                  onChange={(e) => updateNestedField('hero.image', e.target.value)}
-                  placeholder="/images/detector-page/hero/01.png"
-                />
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => handleImageUpload('hero.image', e.target.files?.[0])}
-                />
-                {uploadingField === 'hero.image' && (
-                  <span className="field-help">Загрузка изображения...</span>
-                )}
+                <ImageField value={formData.hero?.image || ''} onChange={(value) => updateNestedField('hero.image', value)}
+                  onUpload={(file) => handleImageUpload('hero.image', file)} disabled={Boolean(uploadingField)} busy={uploadingField === 'hero.image'}
+                  label="Изображение" placeholder="/images/detector-page/hero/01.png" />
               </div>
               <div>
                 <label>Ширина изображения</label>
@@ -542,7 +500,7 @@ function DetectorForm() {
                     <button
                       type="button"
                       className="btn btn-danger btn-small"
-                      onClick={() => removeSection(idx)}
+                      disabled={Boolean(uploadingField)} onClick={() => removeSection(idx)}
                     >
                       Удалить
                     </button>
@@ -591,18 +549,19 @@ function DetectorForm() {
                 </div>
               </div>
             ))}
-            <button type="button" className="btn btn-secondary" onClick={addSection}>
+            <button type="button" className="btn btn-secondary" disabled={Boolean(uploadingField)} onClick={addSection}>
               + Добавить секцию
             </button>
           </div>
 
           <div className="form-actions">
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="btn btn-primary" disabled={Boolean(uploadingField)}>
               {editingId ? 'Сохранить детектор' : 'Создать детектор'}
             </button>
             <button
               type="button"
               className="btn btn-secondary"
+              disabled={Boolean(uploadingField)}
               onClick={() => setShowForm(false)}
             >
               Отмена
@@ -634,13 +593,13 @@ function DetectorForm() {
                   <span>Порядок: {detector.sort_order ?? 0}</span>
                 </div>
                 <div className="detector-actions">
-                  <button className="btn btn-edit" onClick={() => handleEdit(detector)}>
+                  <button className="btn btn-edit" disabled={Boolean(uploadingField)} onClick={() => handleEdit(detector)}>
                     Изменить
                   </button>
                   <button className="btn btn-secondary" onClick={() => handleToggleVisibility(detector)}>
                     {isVisibleByEntity('detectors', detector) ? 'Скрыть' : 'Восстановить'}
                   </button>
-                  <button className="btn btn-delete" onClick={() => handleDelete(detector.id)}>
+                  <button className="btn btn-delete" disabled={Boolean(uploadingField)} onClick={() => handleDelete(detector.id)}>
                     Удалить
                   </button>
                 </div>

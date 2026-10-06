@@ -440,3 +440,16 @@ body .status.inactive {
     padding: 22px;
   }
 }
+/* Shared image controls for all content forms. */
+.admin-image-field { min-height: 200px; border: 2px dashed #94a3b8; border-radius: 10px; padding: 24px; background: #f8fafc; transition: background 0.2s, border-color 0.2s; }
+.admin-image-field.is-dragging { border-color: #1677ff; background: #eef5ff; }
+.admin-image-control > input[type="text"] { width: 100%; margin-bottom: 8px; }
+.admin-image-control > .field-help { margin: 0 0 14px; }
+.admin-image-field > .admin-image-drop-hint { margin: 16px 0; padding: 16px; border-radius: 8px; background: #e8f0ff; color: #334155; font-size: 15px; line-height: 1.5; }
+.admin-image-file-input { display: none; }
+.admin-image-preview-wrap { margin: 10px 0; }
+.admin-image-field .admin-image-preview { display: block; max-width: 100%; width: auto; max-height: 180px; object-fit: contain; }
+.admin-image-actions { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-top: 8px; }
+.project-form .project-gallery { grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); }
+.project-form .project-gallery-dropzone { min-height: 240px; padding: 28px; border: 2px dashed #94a3b8; background: #f8fafc; transition: background 0.2s, border-color 0.2s; }
+.project-form .project-gallery-dropzone.is-dragging { border-color: #1677ff; background: #eef5ff; }
