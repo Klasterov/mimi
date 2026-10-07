@@ -1,4 +1,5 @@
 import ImageField from '../components/ImageField';
+import { browserImageUrl } from '../../lib/browser-image-url';
 import DraftNotice from '../components/DraftNotice';
 import { useAdminDraft } from '../utils/useAdminDraft';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -579,9 +580,10 @@ function EquipmentPage() {
                   {item.descr}
                 </td>
                 <td>
-                  {item.image && <img src={item.image} alt={item.cap} style={{ maxHeight: '50px' }} />}
+                  {item.image && <img src={browserImageUrl(item.image)} alt={item.cap} />}
                 </td>
-                <td className="actions">
+                <td>
+                  <div className="equipment-actions">
                   <button className="btn btn-sm btn-info" disabled={isSaving || Boolean(uploadingField)} onClick={() => handleEdit(item)}>
                     Изменить
                   </button>
@@ -591,6 +593,7 @@ function EquipmentPage() {
                   <button className="btn btn-sm btn-danger" disabled={isSaving || Boolean(uploadingField)} onClick={() => handleDelete(item.id)}>
                     Удалить
                   </button>
+                  </div>
                 </td>
               </tr>
             ))}

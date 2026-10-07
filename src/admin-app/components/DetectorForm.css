@@ -241,11 +241,13 @@
 
 .detectors-table {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
   gap: 20px;
 }
 
 .detector-card {
+  min-width: 0;
+  overflow-wrap: anywhere;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   padding: 20px;
@@ -260,6 +262,8 @@
 }
 
 .detector-card-header {
+  flex-wrap: wrap;
+  gap: 8px;
   display: flex;
   justify-content: space-between;
   align-items: start;
@@ -267,6 +271,7 @@
 }
 
 .detector-card-header h4 {
+  min-width: 0;
   margin: 0;
   font-size: 16px;
   color: #333;
@@ -280,8 +285,9 @@
   border-radius: 4px;
   font-size: 12px;
   font-weight: 600;
-  white-space: nowrap;
-  margin-left: 10px;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .detector-subtitle {
@@ -292,13 +298,16 @@
 }
 
 .detector-actions {
+  flex-wrap: wrap;
   display: flex;
   gap: 8px;
   margin-top: 15px;
 }
 
 .detector-actions .btn {
-  flex: 1;
+  flex: 1 1 100px;
+  min-width: 0;
+  margin-right: 0;
   text-align: center;
   padding: 10px 12px;
 }

@@ -228,3 +228,32 @@ test('reopening a project preserves deleted images instead of restoring another 
   const legacy = normalizeProject({ image: '/card.jpg' });
   assert.equal(legacy.imageMain, '/card.jpg');
 });
+
+test('small HEIC files are converted before the size shortcut, including empty MIME types', async () => {
+  const { prepareImage } = harness().load('utils/prepareImage.js');
+  for (const type of ['image/heic', 'image/heif-sequence', '']) {
+    const original = new File(['heic'], 'Photo.HEIC', { type });
+    const jpeg = new File([Buffer.from('ffd8ff', 'hex')], 'Photo.jpg', { type: 'image/jpeg' });
+    let converted;
+    const result = await prepareImage(original, { convertHeic: async (file) => { converted = file; return jpeg; } });
+    assert.equal(converted, original);
+    assert.equal(result, jpeg);
+    assert.equal(result.type, 'image/jpeg');
+  }
+});
+
+test('HEIC conversion failure does not upload unsupported bytes; JPEG requires no decoder', async () => {
+  const { prepareImage } = harness().load('utils/prepareImage.js');
+  await assert.rejects(prepareImage(new File(['broken'], 'bad.heif'), { convertHeic: async () => { throw new Error('Decode failed'); } }), /HEIC\/HEIF/);
+  const jpeg = new File(['jpg'], 'good.jpg', { type: 'image/jpeg' });
+  assert.equal(await prepareImage(jpeg, { convertHeic: async () => assert.fail('JPEG should bypass HEIC decoder') }), jpeg);
+});
+
+test('legacy HEIC image URLs bypass old browser caches and remain stable on repeated renders', () => {
+  const { browserImageUrl } = harness().load('../lib/browser-image-url.js');
+  assert.equal(browserImageUrl('https://example.com/photo.HEIC'), 'https://example.com/photo.HEIC?format=jpeg');
+  assert.equal(browserImageUrl('/uploads/photo.heif?v=1#photo'), '/uploads/photo.heif?v=1&format=jpeg#photo');
+  const src = browserImageUrl('/uploads/photo.heic');
+  assert.equal(browserImageUrl(src), src);
+  assert.equal(browserImageUrl('/uploads/photo.jpg'), '/uploads/photo.jpg');
+});

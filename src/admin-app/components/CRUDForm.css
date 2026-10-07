@@ -222,6 +222,7 @@
 
 .equipment-table-scroll table {
   min-width: 960px;
+  table-layout: fixed;
 }
 
 .crud-list table {
@@ -244,6 +245,8 @@
 .crud-list td {
   padding: 15px;
   border-bottom: 1px solid #eee;
+  vertical-align: middle;
+  overflow-wrap: anywhere;
 }
 
 .crud-list tr:hover {
@@ -256,10 +259,19 @@
   white-space: nowrap;
 }
 
-.crud-list .actions {
+.crud-list .equipment-actions {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
 }
+
+.equipment-table-scroll th:last-child { width: 270px; }
+.equipment-table-scroll th:nth-child(1),
+.equipment-table-scroll th:nth-child(2) { width: 64px; }
+.equipment-table-scroll th:nth-child(8) { width: 90px; }
+.equipment-table-scroll td img { display: block; width: 60px; height: 50px; object-fit: contain; }
+.equipment-actions .btn { margin: 0; white-space: nowrap; }
 
 @media (max-width: 768px) {
   .crud-page {

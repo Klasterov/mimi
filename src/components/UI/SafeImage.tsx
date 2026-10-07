@@ -1,4 +1,5 @@
 import Image from "next/image"
+import { browserImageUrl } from "@/lib/browser-image-url"
 
 type SafeImageProps = {
 	src: string
@@ -27,6 +28,7 @@ export default function SafeImage({
 	quality,
 	sizes,
 }: SafeImageProps) {
+  src = browserImageUrl(src)
 	if (isRemoteImage(src)) {
 		if (fill) {
 			return (

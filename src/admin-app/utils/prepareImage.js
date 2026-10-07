@@ -1,9 +1,28 @@
 const MAX_IMAGE_BYTES = 2 * 1024 * 1024;
 const MAX_DIMENSION = 1920;
 const RASTER_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/avif']);
+const HEIC_TYPES = new Set(['image/heic', 'image/heif', 'image/heic-sequence', 'image/heif-sequence']);
+
+export function isHeicImage(file) {
+  return HEIC_TYPES.has(file.type.toLowerCase()) || /\.(heic|heif)$/i.test(file.name);
+}
+
+async function convertHeicFile(file) {
+  const { heicTo } = await import('heic-to/csp');
+  const blob = await heicTo({ blob: file, type: 'image/jpeg', quality: 0.9 });
+  return new File([blob], `${file.name.replace(/\.[^.]+$/, '')}.jpg`, { type: 'image/jpeg' });
+}
 
 // Large originals stay on the user's computer; upload a copy sized for the site.
-export async function prepareImage(file) {
+export async function prepareImage(file, { convertHeic = convertHeicFile } = {}) {
+  // HEIC must be converted even when the original is below the size limit.
+  if (isHeicImage(file)) {
+    try {
+      file = await convertHeic(file);
+    } catch {
+      throw new Error('Не удалось преобразовать HEIC/HEIF. Попробуйте другое фото или сохраните его в JPG.');
+    }
+  }
   if (file.size <= MAX_IMAGE_BYTES) return file;
   if (!RASTER_TYPES.has(file.type)) {
     throw new Error('Для большого изображения выберите JPG, PNG, WEBP или AVIF. GIF и другие форматы должны быть меньше 2 МБ.');
