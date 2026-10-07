@@ -23,6 +23,7 @@ function StatsTab({ onOpenLeads }) {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Initial loading state reflects the external API request.
     fetchStats();
   }, []);
 

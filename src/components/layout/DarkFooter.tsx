@@ -107,7 +107,7 @@ export default function Footer() {
 											key={icon.name}
 											href={icon.href}
 											target="_blank"
-											className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125"
+											className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125" rel="noopener noreferrer"
 										>
 											<IconComponent className="w-4.5 h-4.5 text-brand-blue" />
 										</Link>

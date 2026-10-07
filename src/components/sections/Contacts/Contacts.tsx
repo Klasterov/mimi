@@ -112,7 +112,7 @@ export default function Contacts() {
 	return (
 		<section className="pt-13.5 md:py-22.5 overflow-hidden md:relative flex flex-col md:block">
 			<div className="max-w-308 w-full lg:w-auto mx-auto px-4 self-stretch">
-				<Title className="mb-10">Контакты</Title>
+				<Title as="h1" className="mb-10">Контакты</Title>
 				<div className='mb-6 space-y-6 leading-snug text-[15px] tracking-[-0.01em] font-helvetica'>
 					<div className="flex items-center gap-3">
 						<div className="w-12.5 h-12.5 bg-white rounded-[10px]">
@@ -125,7 +125,7 @@ export default function Contacts() {
 							/>
 						</div>
 						<div className="text-[15px]">
-							<a className="text-brand-blue" href="" target="_blank">
+							<a className="text-brand-blue" href="" target="_blank" rel="noopener noreferrer">
 								{brand.address}
 							</a>
 							{contacts.rating && (
@@ -185,7 +185,7 @@ export default function Contacts() {
 								key={icon.name}
 								href={icon.href}
 								target="_blank"
-								className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125"
+								className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125" rel="noopener noreferrer"
 							>
 								<IconComponent className="w-4.5 h-4.5 text-[#478BEB]" />
 							</Link>

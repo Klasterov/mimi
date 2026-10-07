@@ -34,7 +34,7 @@ export default function RootLayout({
         </noscript>
         <noscript>
           <div>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+            {/* eslint-disable-next-line no-restricted-syntax */}
             <img
               src="https://mc.yandex.ru/watch/113422489"
               style={{ position: "absolute", left: "-9999px" }}

@@ -40,9 +40,9 @@ export default function LightningBio() {
 						<li className="rounded-[20px] px-5 md:px-6 py-6 bg-white">
 							<div className="mb-2 font-medium text-[17px]">Есть природа</div>
 							<ul className="text-[15px] text-brand-gray font-helvetica">
-								<li><span className="mr-2 text-current">•</span> Утром солнце встает </li>
+								<li><span className="mr-2 text-current">•</span> Утром солнце встает </li>
 								<li><span className="mr-2 text-current">•</span> Днем солнце в зените</li>
-								<li><span className="mr-2 text-current">•</span> Вечером солнце заходит </li>
+								<li><span className="mr-2 text-current">•</span> Вечером солнце заходит </li>
 								<li><span className="mr-2 text-current">•</span> Ночью солнца нет</li>
 							</ul>
 						</li>

@@ -429,6 +429,7 @@ function StatsPanel() {
   }
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Initial loading state reflects the external API request.
     void loadStats()
   }, [])
 
@@ -534,6 +535,7 @@ function EntityManager({ config }: { config: EntityConfig }) {
   }
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Initial loading state reflects the external API request.
     void loadData(page, search)
   }, [page, search])
 

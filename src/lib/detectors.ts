@@ -14,7 +14,7 @@ const configuredDetectorsPath =
 const DETECTORS_PATH = configuredDetectorsPath || "api/detectors"
 const DETECTORS_PATH_CANDIDATES = [
   DETECTORS_PATH,
-  DETECTORS_PATH.startsWith("api/admin/") ? DETECTORS_PATH.replace(/^api\/admin\//, "api/") : "api/admin/detectors",
+  DETECTORS_PATH.startsWith("api/admin/") ? DETECTORS_PATH.replace(/^api\/admin\//, "api/") : "api/detectors",
 ]
 
 const DETECTOR_ICON_FALLBACKS = [

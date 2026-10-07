@@ -1,5 +1,7 @@
 "use client";
 
+import type { Swiper as SwiperInstance } from "swiper"
+
 import { Title } from "@/components/UI/Title";
 import Image from "next/image";
 import { useRef, useState } from "react";
@@ -81,7 +83,7 @@ const features = [
 
 export default function CinemaFeatures() {
 	const [activeIndex, setActiveIndex] = useState(1);
-	const swiperRef = useRef<any>(null);
+	const swiperRef = useRef<SwiperInstance | null>(null);
 
 	const total = features.length
 	const handlePrev = () => {

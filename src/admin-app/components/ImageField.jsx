@@ -109,7 +109,7 @@ export default function ImageField({ value = '', onChange, onUpload, disabled = 
             <img src={browserImageUrl(value)} alt={label} className="admin-image-preview" draggable={false} />
             <div className="admin-image-actions">
               <button type="button" className="btn btn-danger btn-small" disabled={disabled} onClick={() => onChange('')}>Удалить изображение</button>
-              <a href={browserImageUrl(value)} target="_blank" rel="noreferrer">Открыть изображение</a>
+              <a href={browserImageUrl(value)} target="_blank" rel="noopener noreferrer">Открыть изображение</a>
             </div>
           </div>
         )}

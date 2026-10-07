@@ -15,9 +15,6 @@ function LoginPage({ onLoginSuccess }) {
     try {
       const response = await authAPI.login(username, password);
 
-      if (response.data?.token) {
-        localStorage.setItem('adminToken', response.data.token);
-      }
 
       if (response.data?.adminId) {
         localStorage.setItem('adminId', String(response.data.adminId));

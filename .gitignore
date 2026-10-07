@@ -41,3 +41,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# audit artifacts and runtime private data
+/.next-audit/
+/test-results/
+/playwright-report/
+/storage/*
+!/storage/.gitkeep
+!/storage/admin/
+/storage/admin/*
+!/storage/admin/articles.json

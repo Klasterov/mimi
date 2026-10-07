@@ -18,8 +18,7 @@ const CONTROLLERS_PATH_CANDIDATES = [
   CONTROLLERS_PATH.startsWith("api/admin/") ? CONTROLLERS_PATH.replace(/^api\/admin\//, "api/") : CONTROLLERS_PATH,
   "api/equipment",
   "api/controllers",
-  "api/admin/equipment",
-  "api/admin/controllers",
+
 ]
 
 type UnknownRecord = Record<string, unknown>

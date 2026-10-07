@@ -103,7 +103,8 @@ async function fetchFirstAvailable(pathnames: string[], init?: RequestInit) {
   for (const pathname of pathnames) {
     try {
       const response = await fetch(buildControllerUrl(pathname), {
-        cache: "no-store",
+        next: { revalidate: 60 },
+        signal: AbortSignal.timeout(3000),
         headers: {
           "Content-Type": "application/json",
           ...(init?.headers || {}),

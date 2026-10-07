@@ -1,5 +1,6 @@
 "use client"
 
+import { useMediaQuery } from "@/hooks/useMediaQuery"
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { Swiper, SwiperSlide } from "swiper/react"
@@ -16,7 +17,7 @@ import { ourFutureList } from "@/data/ourFuture"
 gsap.registerPlugin(ScrollTrigger)
 
 export default function OurFuture() {
-	const [isDesktop, setIsDesktop] = useState(false)
+	const isDesktop = useMediaQuery("(min-width: 1024px)")
 	const [prevEl, setPrevEl] = useState<HTMLButtonElement | null>(null)
 	const [nextEl, setNextEl] = useState<HTMLButtonElement | null>(null)
 
@@ -25,9 +26,6 @@ export default function OurFuture() {
 	const sliderRef = useRef<HTMLDivElement>(null)
 	const navRef = useRef<HTMLDivElement>(null)
 
-	useEffect(() => {
-		setIsDesktop(window.innerWidth >= 1024)
-	}, [])
 
 	useEffect(() => {
 		const ctx = gsap.context(() => {

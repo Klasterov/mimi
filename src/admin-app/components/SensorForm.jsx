@@ -57,7 +57,7 @@ function SensorForm() {
     fetchSensors();
   }, []);
 
-  const fetchSensors = async () => {
+  async function fetchSensors() {
     setLoading(true);
     try {
       const response = await api.get('/sensors');

@@ -61,7 +61,7 @@ function EquipmentPage() {
     fetchEquipment();
   }, []);
 
-  const fetchEquipment = async () => {
+  async function fetchEquipment() {
     try {
       setIsLoading(true);
       const items = await loadAllItems(api, 'equipment');

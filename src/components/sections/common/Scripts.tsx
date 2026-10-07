@@ -1,5 +1,7 @@
 "use client";
 
+import type { Swiper as SwiperInstance } from "swiper"
+
 import { Title } from "@/components/UI/Title";
 import Image from "next/image";
 import { useRef, useState, useLayoutEffect } from "react";
@@ -28,7 +30,7 @@ type Props = {
 
 export default function Scripts({ title, bgImage, bgImageMob, features, isLightNav, isCircleChecks }: Props) {
 	const [activeIndex, setActiveIndex] = useState(0);
-	const swiperRef = useRef<any>(null);
+	const swiperRef = useRef<SwiperInstance | null>(null);
 	const containerRef = useRef<HTMLDivElement>(null);
 
 	useLayoutEffect(() => {

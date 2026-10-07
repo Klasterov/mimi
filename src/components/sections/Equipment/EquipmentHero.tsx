@@ -6,7 +6,7 @@ export default function EquipmentHero() {
 	return (
 		<section className="bg-black pb-25 text-white pt-80 lg:pt-74 lg:pb-30 overflow-hidden relative">
 			<div className="max-w-238 mx-auto px-4 text-center">
-				<Title className="mb-4 lg:mb-7">Оборудование</Title>
+				<Title as="h1" className="mb-4 lg:mb-7">Оборудование</Title>
 				<ul className="flex gap-2 max-w-114.5 mx-auto justify-center flex-wrap mb-15 lg:mb-20">
 					<li className="py-1.5 px-3 rounded-[50px] bg-foreground flex items-center gap-2 text-[15px] -tracking-[0.01em] leading-normal">
 						<Image

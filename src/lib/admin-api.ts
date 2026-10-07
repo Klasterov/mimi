@@ -1,6 +1,8 @@
 import type { NextRequest } from "next/server"
 import { NextResponse } from "next/server"
 
+import { rejectCrossOriginMutation } from "@/lib/request-security"
+
 import { readAdminSessionFromRequest } from "@/lib/admin-auth"
 import { type AdminEntity } from "@/lib/admin-store"
 
@@ -11,6 +13,8 @@ export function unauthorizedResponse() {
 }
 
 export function requireAdmin(request: NextRequest) {
+  const rejected = rejectCrossOriginMutation(request)
+  if (rejected) return { response: rejected, session: null }
   const session = readAdminSessionFromRequest(request)
 
   if (!session) {

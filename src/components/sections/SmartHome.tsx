@@ -2,10 +2,8 @@
 
 import Image from 'next/image';
 import { Title } from '../UI/Title';
-import { Button } from '../UI/Button';
 import { useEffect } from 'react';
 import { useTheme } from '@/context/ThemeContext';
-import { ButtonLink } from '../UI/ButtonLink';
 import { ButtonLinkTrigger } from '../UI/ButtonLinkTrigger';
 
 function LivingRoom() {
@@ -176,6 +174,7 @@ export default function SmartHome() {
 				<div id="steps-container" className="absolute inset-0 pointer-events-none z-10" />
 				<Image
 					src='/images/smarthome/bg.png'
+          sizes="1440px"
 					priority
 					alt="background image"
 					fill
@@ -183,6 +182,7 @@ export default function SmartHome() {
 				/>
 				<Image
 					src='/images/smarthome/bg-dark.png'
+          sizes="1440px"
 					alt="background image"
 					fill
 					className={`left-1.75! z-10 top-0.5! object-cover transition-opacity duration-400 ${!enabled && 'opacity-0'}`}
@@ -277,7 +277,7 @@ export default function SmartHome() {
 							Увидеть в действии
 						</span>
 					</button>
-					<Title className={`mb-2 transition-colors duration-400 max-w-[80%] relative ${enabled && 'text-white'}`}>Умный дом под&nbsp;ключ</Title>
+					<Title as="h1" className={`mb-2 transition-colors duration-400 max-w-[80%] relative ${enabled && 'text-white'}`}>Умный дом под&nbsp;ключ</Title>
 					<p className={`font-helvetica relative text-[17px] mb-10 md:mb-20 tracking-[-0.01em] transition-colors duration-400 leading-tight ${enabled && 'text-[#d9dadc]/60'}`}>
 						Производство и монтаж современной электрики. <br />
 						Автоматическое управление всеми системами дома.

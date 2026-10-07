@@ -1,0 +1,440 @@
+{
+  "measuredAt": "2026-10-07T15:32:21.455Z",
+  "environment": "Local production build with fixture backend; analytics requests blocked by CDP URL rules (no request interception); browser cache disabled; 3 fresh contexts per route/profile; cold image optimization on first run, ISR/server caches may be warm",
+  "profiles": [
+    {
+      "name": "typical-4g",
+      "downloadMbps": 9,
+      "uploadMbps": 1.5,
+      "latencyMs": 80,
+      "cpu": 4,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "mobile": true
+    },
+    {
+      "name": "home-internet",
+      "downloadMbps": 50,
+      "uploadMbps": 10,
+      "latencyMs": 20,
+      "cpu": 1,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "mobile": false
+    }
+  ],
+  "results": [
+    {
+      "profile": "typical-4g",
+      "route": "/",
+      "fcpMedianMs": 788,
+      "fcpMaxMs": 796,
+      "targetMs": 2000,
+      "passed": true,
+      "runs": [
+        {
+          "fcpMs": 572,
+          "ttfbMs": 22.599999964237213,
+          "responseEndMs": 137.79999995231628,
+          "htmlBytes": 30376,
+          "calibrationMs": 353.9000000357628,
+          "pageErrors": []
+        },
+        {
+          "fcpMs": 788,
+          "ttfbMs": 7.099999964237213,
+          "responseEndMs": 129.5999999642372,
+          "htmlBytes": 30376,
+          "calibrationMs": 124.20000004768372,
+          "pageErrors": []
+        },
+        {
+          "fcpMs": 796,
+          "ttfbMs": 5.900000035762787,
+          "responseEndMs": 115.80000001192093,
+          "htmlBytes": 30376,
+          "calibrationMs": 123.80000001192093,
+          "pageErrors": []
+        }
+      ]
+    },
+    {
+      "profile": "typical-4g",
+      "route": "/about",
+      "fcpMedianMs": 652,
+      "fcpMaxMs": 656,
+      "targetMs": 2000,
+      "passed": true,
+      "runs": [
+        {
+          "fcpMs": 656,
+          "ttfbMs": 15.800000011920929,
+          "responseEndMs": 116.69999998807907,
+          "htmlBytes": 26368,
+          "calibrationMs": 316,
+          "pageErrors": []
+        },
+        {
+          "fcpMs": 652,
+          "ttfbMs": 7,
+          "responseEndMs": 118.40000003576279,
+          "htmlBytes": 26368,
+          "calibrationMs": 337.5,
+          "pageErrors": []
+        },
+        {
+          "fcpMs": 652,
+          "ttfbMs": 5.400000035762787,
+          "responseEndMs": 109.70000004768372,
+          "htmlBytes": 26368,
+          "calibrationMs": 293.19999998807907,
+          "pageErrors": []
+        }
+      ]
+    },
+    {
+      "profile": "typical-4g",
+      "route": "/services",
+      "fcpMedianMs": 704,
+      "fcpMaxMs": 716,
+      "targetMs": 2000,
+      "passed": true,
+      "runs": [
+        {
+          "fcpMs": 704,
+          "ttfbMs": 13.5,
+          "responseEndMs": 114.89999997615814,
+          "htmlBytes": 22346,
+          "calibrationMs": 205.30000001192093,
+          "pageErrors": []
+        },
+        {
+          "fcpMs": 716,
+          "ttfbMs": 4.599999964237213,
+          "responseEndMs": 116.19999998807907,
+          "htmlBytes": 22346,
+          "calibrationMs": 214,
+          "pageErrors": []
+        },
+        {
+          "fcpMs": 704,
+          "ttfbMs": 4.700000047683716,
+          "responseEndMs": 116.5,
+          "htmlBytes": 22346,
+          "calibrationMs": 224.19999998807907,
+          "pageErrors": []
+        }
+      ]
+    },
+    {
+      "profile": "typical-4g",
+      "route": "/contacts",
+      "fcpMedianMs": 596,
+      "fcpMaxMs": 608,
+      "targetMs": 2000,
+      "passed": true,
+      "runs": [
+        {
+          "fcpMs": 596,
+          "ttfbMs": 12.699999988079071,
+          "responseEndMs": 104.60000002384186,
+          "htmlBytes": 20244,
+          "calibrationMs": 174.5,
+          "pageErrors": []
+        },
+        {
+          "fcpMs": 592,
+          "ttfbMs": 4,
+          "responseEndMs": 112.30000001192093,
+          "htmlBytes": 20244,
+          "calibrationMs": 172.5999999642372,
+          "pageErrors": []
+        },
+        {
+          "fcpMs": 608,
+          "ttfbMs": 4.200000047683716,
+          "responseEndMs": 111.90000003576279,
+          "htmlBytes": 20244,
+          "calibrationMs": 171.80000001192093,
+          "pageErrors": []
+        }
+      ]
+    },
+    {
+      "profile": "typical-4g",
+      "route": "/equipment",
+      "fcpMedianMs": 716,
+      "fcpMaxMs": 732,
+      "targetMs": 2000,
+      "passed": true,
+      "runs": [
+        {
+          "fcpMs": 660,
+          "ttfbMs": 4.700000047683716,
+          "responseEndMs": 123.10000002384186,
+          "htmlBytes": 24616,
+          "calibrationMs": 231.39999997615814,
+          "pageErrors": []
+        },
+        {
+          "fcpMs": 716,
+          "ttfbMs": 4.300000011920929,
+          "responseEndMs": 119.20000004768372,
+          "htmlBytes": 24616,
+          "calibrationMs": 211.4000000357628,
+          "pageErrors": []
+        },
+        {
+          "fcpMs": 732,
+          "ttfbMs": 4.399999976158142,
+          "responseEndMs": 106.59999996423721,
+          "htmlBytes": 24616,
+          "calibrationMs": 219.19999998807907,
+          "pageErrors": []
+        }
+      ]
+    },
+    {
+      "profile": "typical-4g",
+      "route": "/pricing",
+      "fcpMedianMs": 684,
+      "fcpMaxMs": 688,
+      "targetMs": 2000,
+      "passed": true,
+      "runs": [
+        {
+          "fcpMs": 680,
+          "ttfbMs": 4.200000047683716,
+          "responseEndMs": 105.20000004768372,
+          "htmlBytes": 22228,
+          "calibrationMs": 166.60000002384186,
+          "pageErrors": []
+        },
+        {
+          "fcpMs": 688,
+          "ttfbMs": 4.300000011920929,
+          "responseEndMs": 113.39999997615814,
+          "htmlBytes": 22228,
+          "calibrationMs": 133.9000000357628,
+          "pageErrors": []
+        },
+        {
+          "fcpMs": 684,
+          "ttfbMs": 4.800000011920929,
+          "responseEndMs": 116.5,
+          "htmlBytes": 22228,
+          "calibrationMs": 128.5,
+          "pageErrors": []
+        }
+      ]
+    },
+    {
+      "profile": "home-internet",
+      "route": "/",
+      "fcpMedianMs": 232,
+      "fcpMaxMs": 240,
+      "targetMs": 2000,
+      "passed": true,
+      "runs": [
+        {
+          "fcpMs": 240,
+          "ttfbMs": 5.600000023841858,
+          "responseEndMs": 41.19999998807907,
+          "htmlBytes": 30376,
+          "calibrationMs": 78.79999995231628,
+          "pageErrors": []
+        },
+        {
+          "fcpMs": 232,
+          "ttfbMs": 5.5,
+          "responseEndMs": 54.299999952316284,
+          "htmlBytes": 30376,
+          "calibrationMs": 75.80000001192093,
+          "pageErrors": []
+        },
+        {
+          "fcpMs": 220,
+          "ttfbMs": 5.5,
+          "responseEndMs": 45.5,
+          "htmlBytes": 30376,
+          "calibrationMs": 104.60000002384186,
+          "pageErrors": []
+        }
+      ]
+    },
+    {
+      "profile": "home-internet",
+      "route": "/about",
+      "fcpMedianMs": 192,
+      "fcpMaxMs": 216,
+      "targetMs": 2000,
+      "passed": true,
+      "runs": [
+        {
+          "fcpMs": 188,
+          "ttfbMs": 4.599999964237213,
+          "responseEndMs": 38.5,
+          "htmlBytes": 26368,
+          "calibrationMs": 68.69999998807907,
+          "pageErrors": []
+        },
+        {
+          "fcpMs": 216,
+          "ttfbMs": 4.5,
+          "responseEndMs": 54.39999997615814,
+          "htmlBytes": 26368,
+          "calibrationMs": 61.09999996423721,
+          "pageErrors": []
+        },
+        {
+          "fcpMs": 192,
+          "ttfbMs": 4.699999988079071,
+          "responseEndMs": 41.60000002384186,
+          "htmlBytes": 26368,
+          "calibrationMs": 66.19999998807907,
+          "pageErrors": []
+        }
+      ]
+    },
+    {
+      "profile": "home-internet",
+      "route": "/services",
+      "fcpMedianMs": 208,
+      "fcpMaxMs": 212,
+      "targetMs": 2000,
+      "passed": true,
+      "runs": [
+        {
+          "fcpMs": 212,
+          "ttfbMs": 4.399999976158142,
+          "responseEndMs": 45.299999952316284,
+          "htmlBytes": 22346,
+          "calibrationMs": 25.19999998807907,
+          "pageErrors": []
+        },
+        {
+          "fcpMs": 208,
+          "ttfbMs": 4.700000047683716,
+          "responseEndMs": 49,
+          "htmlBytes": 22346,
+          "calibrationMs": 29.19999998807907,
+          "pageErrors": []
+        },
+        {
+          "fcpMs": 208,
+          "ttfbMs": 4.599999964237213,
+          "responseEndMs": 51,
+          "htmlBytes": 22346,
+          "calibrationMs": 37.39999997615814,
+          "pageErrors": []
+        }
+      ]
+    },
+    {
+      "profile": "home-internet",
+      "route": "/contacts",
+      "fcpMedianMs": 180,
+      "fcpMaxMs": 180,
+      "targetMs": 2000,
+      "passed": true,
+      "runs": [
+        {
+          "fcpMs": 180,
+          "ttfbMs": 5.600000023841858,
+          "responseEndMs": 47.200000047683716,
+          "htmlBytes": 20244,
+          "calibrationMs": 29.100000023841858,
+          "pageErrors": []
+        },
+        {
+          "fcpMs": 176,
+          "ttfbMs": 4,
+          "responseEndMs": 47.5,
+          "htmlBytes": 20244,
+          "calibrationMs": 34.30000001192093,
+          "pageErrors": []
+        },
+        {
+          "fcpMs": 180,
+          "ttfbMs": 3.800000011920929,
+          "responseEndMs": 44.5,
+          "htmlBytes": 20244,
+          "calibrationMs": 28.399999976158142,
+          "pageErrors": []
+        }
+      ]
+    },
+    {
+      "profile": "home-internet",
+      "route": "/equipment",
+      "fcpMedianMs": 212,
+      "fcpMaxMs": 216,
+      "targetMs": 2000,
+      "passed": true,
+      "runs": [
+        {
+          "fcpMs": 216,
+          "ttfbMs": 4.300000011920929,
+          "responseEndMs": 52.89999997615814,
+          "htmlBytes": 24616,
+          "calibrationMs": 39.89999997615814,
+          "pageErrors": []
+        },
+        {
+          "fcpMs": 212,
+          "ttfbMs": 4.400000035762787,
+          "responseEndMs": 53.30000001192093,
+          "htmlBytes": 24616,
+          "calibrationMs": 43.30000001192093,
+          "pageErrors": []
+        },
+        {
+          "fcpMs": 200,
+          "ttfbMs": 4.5,
+          "responseEndMs": 42.39999997615814,
+          "htmlBytes": 24616,
+          "calibrationMs": 57.60000002384186,
+          "pageErrors": []
+        }
+      ]
+    },
+    {
+      "profile": "home-internet",
+      "route": "/pricing",
+      "fcpMedianMs": 204,
+      "fcpMaxMs": 216,
+      "targetMs": 2000,
+      "passed": true,
+      "runs": [
+        {
+          "fcpMs": 216,
+          "ttfbMs": 6.199999988079071,
+          "responseEndMs": 47.60000002384186,
+          "htmlBytes": 22228,
+          "calibrationMs": 71.5,
+          "pageErrors": []
+        },
+        {
+          "fcpMs": 204,
+          "ttfbMs": 4.399999976158142,
+          "responseEndMs": 43.39999997615814,
+          "htmlBytes": 22228,
+          "calibrationMs": 47.90000003576279,
+          "pageErrors": []
+        },
+        {
+          "fcpMs": 196,
+          "ttfbMs": 4.5,
+          "responseEndMs": 41.10000002384186,
+          "htmlBytes": 22228,
+          "calibrationMs": 72.5,
+          "pageErrors": []
+        }
+      ]
+    }
+  ]
+}

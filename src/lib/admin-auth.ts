@@ -14,9 +14,13 @@ export type AdminSession = {
 
 const SESSION_COOKIE = "mimi_admin_session"
 const SESSION_TTL_SECONDS = 60 * 60 * 24 * 7
-const DEFAULT_ADMIN_USERNAME = process.env.ADMIN_DEFAULT_USERNAME ?? "admin"
-const DEFAULT_ADMIN_PASSWORD = process.env.ADMIN_DEFAULT_PASSWORD ?? "admin12345"
-const SESSION_SECRET = process.env.ADMIN_SESSION_SECRET ?? "mimi-admin-session-secret"
+const DEFAULT_ADMIN_USERNAME = process.env.ADMIN_DEFAULT_USERNAME ?? ""
+const DEFAULT_ADMIN_PASSWORD = process.env.ADMIN_DEFAULT_PASSWORD ?? ""
+function sessionSecret() {
+  const secret = process.env.ADMIN_SESSION_SECRET
+  if (!secret || Buffer.byteLength(secret) < 32) throw new Error("ADMIN_SESSION_SECRET must contain at least 32 bytes")
+  return secret
+}
 
 function encode(value: string) {
   return Buffer.from(value, "utf8").toString("base64url")
@@ -27,7 +31,7 @@ function decode(value: string) {
 }
 
 function sign(value: string) {
-  return crypto.createHmac("sha256", SESSION_SECRET).update(value).digest("base64url")
+  return crypto.createHmac("sha256", sessionSecret()).update(value).digest("base64url")
 }
 
 function hashPassword(password: string, salt: string) {
@@ -35,23 +39,22 @@ function hashPassword(password: string, salt: string) {
 }
 
 function verifyPassword(password: string, user: Pick<AdminUserRecord, "passwordHash" | "salt">) {
-  return hashPassword(password, user.salt) === user.passwordHash
+  const actual = Buffer.from(hashPassword(password, user.salt), "hex")
+  const expected = Buffer.from(user.passwordHash, "hex")
+  return actual.length === expected.length && crypto.timingSafeEqual(actual, expected)
 }
 
 function createDefaultAdmin(): AdminUserRecord {
   const record = {
     id: "default-admin",
     username: DEFAULT_ADMIN_USERNAME,
-    salt: "default-admin-salt",
-    passwordHash: hashPassword(DEFAULT_ADMIN_PASSWORD, "default-admin-salt"),
+    salt: crypto.randomBytes(16).toString("hex"),
+    passwordHash: "",
     createdAt: new Date().toISOString(),
   }
-  
-  console.log(`[Auth] Создан дефолтный администратор:`)
-  console.log(`  Логин: ${record.username}`)
-  console.log(`  Ожидаемый пароль: ${DEFAULT_ADMIN_PASSWORD}`)
-  console.log(`  Хеш пароля: ${record.passwordHash}`)
-  
+
+
+  record.passwordHash = hashPassword(DEFAULT_ADMIN_PASSWORD, record.salt)
   return record
 }
 
@@ -76,16 +79,16 @@ export function readAdminSessionFromRequest(request: NextRequest): AdminSession 
     return null
   }
 
-  const [payload, signature] = token.split(".")
-
-  if (!payload || !signature || sign(payload) !== signature) {
-    return null
-  }
-
   try {
+    const parts = token.split(".")
+    const [payload, signature] = parts
+    if (parts.length !== 2 || !payload || !signature) return null
+    const expected = Buffer.from(sign(payload))
+    const actual = Buffer.from(signature)
+    if (actual.length !== expected.length || !crypto.timingSafeEqual(actual, expected)) return null
     const decoded = JSON.parse(decode(payload)) as AdminSession
 
-    if (!decoded.id || !decoded.username || decoded.exp < Math.floor(Date.now() / 1000)) {
+    if (typeof decoded.id !== "string" || !decoded.id || typeof decoded.username !== "string" || !decoded.username || typeof decoded.exp !== "number" || !Number.isFinite(decoded.exp) || decoded.exp <= Math.floor(Date.now() / 1000)) {
       return null
     }
 
@@ -104,6 +107,7 @@ export async function findAdminByUsername(username: string) {
     return fileAdmin
   }
 
+  if (!DEFAULT_ADMIN_USERNAME || DEFAULT_ADMIN_PASSWORD.length < 12) return null
   const defaultAdmin = createDefaultAdmin()
   return defaultAdmin.username.toLowerCase() === normalized ? defaultAdmin : null
 }
@@ -112,18 +116,15 @@ export async function authenticateAdmin(username: string, password: string) {
   const admin = await findAdminByUsername(username)
 
   if (!admin) {
-    console.log(`[Auth] Администратор не найден: "${username}"`)
     return null
   }
 
   const isPasswordValid = verifyPassword(password, admin)
-  
+
   if (!isPasswordValid) {
-    console.log(`[Auth] Неверный пароль для администратора: "${username}"`)
     return null
   }
 
-  console.log(`[Auth] Успешная аутентификация: "${username}"`)
   return {
     id: admin.id,
     username: admin.username,
@@ -133,8 +134,8 @@ export async function authenticateAdmin(username: string, password: string) {
 export async function registerAdmin(username: string, password: string) {
   const normalizedUsername = username.trim()
 
-  if (!normalizedUsername || password.trim().length < 6) {
-    return { error: "Введите логин и пароль длиной не меньше 6 символов." as const }
+  if (!normalizedUsername || password.length < 12 || Buffer.byteLength(password) > 72) {
+    return { error: "Введите логин и пароль длиной не меньше 12 символов." as const }
   }
 
   const existing = await findAdminByUsername(normalizedUsername)

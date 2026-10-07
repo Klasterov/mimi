@@ -34,6 +34,7 @@ function LeadsTab({ date = '', onDateChange }) {
   }, [search, status, date]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Initial loading state reflects the external API request.
     fetchLeads(1);
     return () => { requestId.current += 1; };
   }, [fetchLeads]);

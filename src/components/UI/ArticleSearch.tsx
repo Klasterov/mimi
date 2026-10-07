@@ -197,7 +197,7 @@ export function ArticleSearch({
 											className={`flex items-center gap-3 sm:gap-4 rounded-2xl p-1.5 -m-1.5 transition-colors duration-200 ${index === activeIndex ? "bg-[#f4f6fa]" : ""
 												}`}
 										>
-											{/* eslint-disable-next-line @next/next/no-img-element */}
+											{/* eslint-disable-next-line no-restricted-syntax */}
 											<img
 												src={article.image}
 												alt=""

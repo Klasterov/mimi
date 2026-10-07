@@ -14,7 +14,7 @@ const configuredProjectsPath =
 const PROJECTS_PATH = configuredProjectsPath || "api/projects"
 const PROJECTS_PATH_CANDIDATES = [
   PROJECTS_PATH,
-  PROJECTS_PATH.startsWith("api/admin/") ? PROJECTS_PATH.replace(/^api\/admin\//, "api/") : `api/admin/projects`,
+  PROJECTS_PATH.startsWith("api/admin/") ? PROJECTS_PATH.replace(/^api\/admin\//, "api/") : "api/projects",
 ]
 
 type UnknownRecord = Record<string, unknown>
@@ -249,7 +249,8 @@ async function getBackendProjectBySlug(slug: string): Promise<ProjectDetails | n
   for (const path of slugPathCandidates) {
     try {
       const response = await fetch(buildBackendUrl(path), {
-        cache: "no-store",
+        next: { revalidate: 60 },
+        signal: AbortSignal.timeout(3000),
       })
 
       if (!response.ok) {

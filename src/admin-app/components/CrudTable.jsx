@@ -118,6 +118,7 @@ function CrudTable({ entity, fields, title, icon }) {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Initial loading state reflects the external API request.
     fetchItems(1);
   }, [search]);
 
@@ -290,7 +291,7 @@ function CrudTable({ entity, fields, title, icon }) {
   const renderCellValue = (field, value) => {
     if (isImageField(field)) {
       return value ? (
-        <a href={value} target="_blank" rel="noreferrer" className="table-image-link">
+        <a href={value} target="_blank" rel="noopener noreferrer" className="table-image-link">
           Открыть
         </a>
       ) : (
@@ -381,9 +382,9 @@ function CrudTable({ entity, fields, title, icon }) {
       )}
 
       {loading ? (
-        <div className="loading">Загрузка раздела "{getEntityLabel(entity)}"...</div>
+        <div className="loading">Загрузка раздела &quot;{getEntityLabel(entity)}&quot;...</div>
       ) : items.length === 0 ? (
-        <div className="no-data">Записей в разделе "{getEntityLabel(entity)}" пока нет.</div>
+        <div className="no-data">Записей в разделе &quot;{getEntityLabel(entity)}&quot; пока нет.</div>
       ) : (
         <>
           <div className="table-wrapper">

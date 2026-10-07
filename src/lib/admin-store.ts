@@ -322,7 +322,7 @@ async function readCollection<T extends AdminEntity>(entity: T): Promise<EntityM
   try {
     // Убедимся, что директория существует перед попыткой чтения
     await ensureStorageDir()
-    
+
     const fileContents = await readFile(filePath, "utf8")
     const parsed = JSON.parse(fileContents) as unknown
 
@@ -887,7 +887,11 @@ export async function exportLeads(format: "csv" | "json", from?: string, to?: st
       item.formType ?? "",
       item.submittedAt,
     ]
-      .map(value => `"${String(value).replaceAll('"', '""')}"`)
+      .map(value => {
+        const text = String(value)
+        const safe = /^[\s]*[=+@-]/.test(text) ? "'" + text : text
+        return `"${safe.replaceAll('"', '""')}"`
+      })
       .join(",")
   )
 

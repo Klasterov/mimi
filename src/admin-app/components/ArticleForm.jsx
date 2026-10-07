@@ -53,7 +53,7 @@ function ArticleForm() {
     fetchArticles();
   }, []);
 
-  const fetchArticles = async () => {
+  async function fetchArticles() {
     setLoading(true);
     try {
       const nextArticles = await loadAllItems(api, 'articles');

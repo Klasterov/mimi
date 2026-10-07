@@ -135,7 +135,7 @@ function ProjectForm() {
     fetchProjects();
   }, []);
 
-  const fetchProjects = async () => {
+  async function fetchProjects() {
     setLoading(true);
     try {
       setProjects(await loadAllItems(api, 'projects'));
@@ -591,8 +591,8 @@ function ProjectForm() {
             <h3>Этапы работ</h3>
             {formData.steps.length === 0 && (
               <p className="empty-note">
-                Этапов пока нет. Добавьте их, если у проекта есть блок "Этапы работ".
-              </p>
+                Этапов пока нет. Добавьте их, если у проекта есть блок &quot;Этапы работ&quot;.
+                   </p>
             )}
             {formData.steps.map((step, index) => (
               <div key={`step-${index}`} className="subsection">
@@ -764,7 +764,7 @@ function ProjectForm() {
 
       <div className="projects-list">
         <h3>Проекты ({filteredProjects.length} из {projects.length})</h3>
-        
+
         <div className="projects-filters">
           <input
             type="text"

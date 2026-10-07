@@ -9,12 +9,20 @@ import { requireAdmin } from "@/lib/admin-api"
 import { buildBackendUrl } from "@/lib/backend-url"
 
 // Only this small response passes through Vercel; image bytes go to the backend.
-export async function GET() {
-  return NextResponse.json({
-    uploadUrl: shouldProxyAdminBackend()
-      ? buildBackendUrl("api/admin/upload/image")
-      : "/api/admin/upload/image",
-  }, { headers: { "Cache-Control": "no-store" } })
+export async function GET(request: NextRequest) {
+  if (shouldProxyAdminBackend()) {
+    const token = request.cookies.get("mimi_backend_token")?.value
+    if (!token) return NextResponse.json({ error: "Требуется вход администратора." }, { status: 401 })
+    try {
+      const response = await fetch(buildBackendUrl("api/admin/upload/ticket"), { headers: { Authorization: `Bearer ${token}` }, cache: "no-store", signal: AbortSignal.timeout(5000) })
+      if (!response.ok) return NextResponse.json({ error: "Не удалось разрешить загрузку." }, { status: response.status })
+      const data = await response.json()
+      return NextResponse.json({ uploadUrl: buildBackendUrl("api/admin/upload/image"), uploadToken: data.uploadToken }, { headers: { "Cache-Control": "no-store" } })
+    } catch { return NextResponse.json({ error: "Backend недоступен." }, { status: 503 }) }
+  }
+  const auth = requireAdmin(request)
+  if (auth.response) return auth.response
+  return NextResponse.json({ uploadUrl: "/api/admin/upload/image" }, { headers: { "Cache-Control": "no-store" } })
 }
 
 function sanitizeSegment(value: string, fallback: string) {
@@ -26,10 +34,6 @@ function sanitizeSegment(value: string, fallback: string) {
   return normalized || fallback
 }
 
-function extensionFromFileName(name: string) {
-  const ext = path.extname(name).toLowerCase()
-  return ext || ".png"
-}
 
 const MAX_IMAGE_SIZE_BYTES = 5 * 1024 * 1024
 const MAX_IMAGE_DIMENSION = 1920
@@ -38,12 +42,12 @@ const ALLOWED_IMAGE_TYPES = new Set([
   "image/png",
   "image/webp",
   "image/gif",
-  "image/svg+xml",
+  "image/avif",
 ])
-const require = createRequire(import.meta.url)
+const requireSharp = createRequire(import.meta.url)
 
 async function resizeRasterImage(buffer: Buffer) {
-  const sharp = require("sharp")
+  const sharp = requireSharp("sharp")
 
   return sharp(buffer)
     .rotate()
@@ -53,6 +57,7 @@ async function resizeRasterImage(buffer: Buffer) {
       fit: "inside",
       withoutEnlargement: true,
     })
+    .webp({ quality: 85 })
     .toBuffer()
 }
 
@@ -62,9 +67,7 @@ export async function POST(request: NextRequest) {
   }
 
   const auth = requireAdmin(request)
-  const bearerToken = request.headers.get("authorization")?.replace(/^Bearer\s+/i, "").trim()
-
-  if (auth.response && !bearerToken) {
+  if (auth.response) {
     return auth.response
   }
 
@@ -86,7 +89,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Размер изображения не должен превышать 5 МБ." }, { status: 400 })
     }
 
-    const ext = extensionFromFileName(image.name)
+    const ext = ".webp"
     const fileName = `${Date.now()}-${sanitizeSegment(
       image.name.replace(path.extname(image.name), ""),
       "image"
@@ -98,11 +101,7 @@ export async function POST(request: NextRequest) {
 
     await mkdir(absoluteDir, { recursive: true })
 
-    if (image.type === "image/svg+xml" || image.type === "image/gif") {
-      await writeFile(absolutePath, buffer)
-    } else {
-      await writeFile(absolutePath, await resizeRasterImage(buffer))
-    }
+    await writeFile(absolutePath, await resizeRasterImage(buffer))
 
     return NextResponse.json({
       file: {
@@ -110,7 +109,7 @@ export async function POST(request: NextRequest) {
       },
     })
   } catch (error) {
-    console.error("[admin-upload] Failed to save image:", error)
+    console.error("[admin-upload] Failed to save image", { name: error instanceof Error ? error.name : "Error" })
 
     return NextResponse.json(
       { error: "Не удалось сохранить изображение на сервере." },

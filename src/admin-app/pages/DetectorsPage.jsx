@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import type { Detector } from '@/types/detector';
-import { getDetectors } from '@/api/detectors';
+import { getDetectors } from '../api/detectors';
 
 function DetectorsPage() {
-  const [detectors, setDetectors] = useState<Detector[]>([]);
+  const [detectors, setDetectors] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchDetectors = async () => {
       try {
-        setIsLoading(true);
         const data = await getDetectors();
         setDetectors(data);
       } catch (err) {

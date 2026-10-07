@@ -27,7 +27,7 @@ export default function Contacts() {
 							/>
 						</div>
 						<div className="text-[15px]">
-							<a className="text-brand-blue" href="https://yandex.ru/maps/org/mimismart/174037338866/?ll=37.625065%2C55.698133&z=16" target="_blank">
+							<a className="text-brand-blue" href="https://yandex.ru/maps/org/mimismart/174037338866/?ll=37.625065%2C55.698133&z=16" target="_blank" rel="noopener noreferrer">
 								{brand.address}
 							</a>
 						</div>
@@ -73,7 +73,7 @@ export default function Contacts() {
 								key={icon.name}
 								href={icon.href}
 								target="_blank"
-								className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125"
+								className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125" rel="noopener noreferrer"
 							>
 								<IconComponent className="w-4.5 h-4.5 text-[#478BEB]" />
 							</Link>

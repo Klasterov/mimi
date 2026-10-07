@@ -24,6 +24,8 @@ export default function Header() {
 
 	const closeMenu = () => {
 		setIsOpen(false)
+		setOpenFunctional(false)
+		setOpenCat(null)
 		setShowFunctional(false)
 	}
 
@@ -36,13 +38,6 @@ export default function Header() {
 		}
 	}, [isOpen])
 
-	// при закрытии шторки сбрасываем аккордеон
-	useEffect(() => {
-		if (!isOpen) {
-			setOpenFunctional(false)
-			setOpenCat(null)
-		}
-	}, [isOpen])
 
 	const { enabled } = useTheme()
 	return (
@@ -73,6 +68,8 @@ export default function Header() {
 						aria-label={isOpen ? "Закрыть меню" : "Открыть меню"}
 						onClick={() => {
 							setIsOpen(prev => !prev)
+              setOpenFunctional(false)
+              setOpenCat(null)
 							setShowFunctional(prev => !prev)
 						}}
 						className={`relative z-12 ${enabled ? 'text-white' : 'text-brand-light-gray'} lg:text-[#777777] w-6 h-6 basis-6 cursor-pointer transition-colors duration-300 hover:text-brand-light-gray`}
@@ -140,7 +137,7 @@ export default function Header() {
 					</div>
 					<div className="text-[15px] ml-auto basis-67 text-brand-blue tracking-[-0.01em]">
 						<address className="not-italic mb-3">
-							<a href="https://yandex.ru/maps/org/mimismart/174037338866/?ll=37.625065%2C55.698133&z=16" target="_blank">{brand.address}</a>
+							<a href="https://yandex.ru/maps/org/mimismart/174037338866/?ll=37.625065%2C55.698133&z=16" target="_blank" rel="noopener noreferrer">{brand.address}</a>
 						</address>
 						<div className='mb-6'>
 							<a className={`transition-colors duration-300 ${enabled ? "hover:text-white" : "hover:text-foreground"}`} href={`tel:${phoneClean}`}>{contacts.phone}</a> <br />
@@ -160,7 +157,7 @@ export default function Header() {
 										key={icon.name}
 										href={icon.href}
 										target="_blank"
-										className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125"
+										className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125" rel="noopener noreferrer"
 									>
 										<IconComponent className={`w-4.5 h-4.5 transition duration-300 ${enabled ? "text-blue/40" : "text-[#0B0D10]/40"}`} />
 									</Link>
@@ -177,7 +174,7 @@ export default function Header() {
 										href={app.href}
 										target='_blank'
 										className="border hover:scale-[1.05] duration-300 transition-transform flex items-center justify-center border-[rgba(224,232,235)]/40 rounded-xl min-h-14"
-										aria-label={`Перейти в ${app.label}`}
+										aria-label={`Перейти в ${app.label}`} rel="noopener noreferrer"
 									>
 										<IconComponent className={`w-8 h-8 transition duration-300 ${enabled ? "text-white" : "text-[#0B0D10]"}`}></IconComponent>
 									</a>
@@ -326,7 +323,7 @@ export default function Header() {
 									href={icon.href}
 									target="_blank"
 									aria-label={icon.name}
-									className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125"
+									className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125" rel="noopener noreferrer"
 								>
 									<IconComponent className="w-4.5 h-4.5 text-[#478BEB]" />
 								</Link>

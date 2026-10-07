@@ -67,6 +67,8 @@ export default function ArticlePage() {
 	const sectionRefs = useRef<(HTMLElement | null)[]>([])
 
 	const setSectionRef = (index: number) => (el: HTMLElement | null) => {
+		// React invokes this callback during commit, after rendering.
+		// eslint-disable-next-line react-hooks/refs
 		sectionRefs.current[index] = el
 	}
 
@@ -161,28 +163,28 @@ export default function ArticlePage() {
 								<a
 									href=""
 									target="_blank"
-									className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125"
+									className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125" rel="noopener noreferrer"
 								>
 									<TgIcon className="w-4.5 h-4.5 transition duration-300 text-blue/40" />
 								</a>
 								<a
 									href=""
 									target="_blank"
-									className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125"
+									className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125" rel="noopener noreferrer"
 								>
 									<DzenIcon className="w-4.5 h-4.5 transition duration-300 text-blue/40" />
 								</a>
 								<a
 									href=""
 									target="_blank"
-									className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125"
+									className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125" rel="noopener noreferrer"
 								>
 									<YoutubeIcon className="w-4.5 h-4.5 transition duration-300 text-blue/40" />
 								</a>
 								<a
 									href=""
 									target="_blank"
-									className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125"
+									className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125" rel="noopener noreferrer"
 								>
 									<VkIcon className="w-4.5 h-4.5 transition duration-300 text-blue/40" />
 								</a>
@@ -358,28 +360,28 @@ export default function ArticlePage() {
 								<a
 									href=""
 									target="_blank"
-									className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125"
+									className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125" rel="noopener noreferrer"
 								>
 									<TgIcon className="w-4.5 h-4.5 transition duration-300 text-black" />
 								</a>
 								<a
 									href=""
 									target="_blank"
-									className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125"
+									className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125" rel="noopener noreferrer"
 								>
 									<DzenIcon className="w-4.5 h-4.5 transition duration-300 text-black" />
 								</a>
 								<a
 									href=""
 									target="_blank"
-									className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125"
+									className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125" rel="noopener noreferrer"
 								>
 									<YoutubeIcon className="w-4.5 h-4.5 transition duration-300 text-black" />
 								</a>
 								<a
 									href=""
 									target="_blank"
-									className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125"
+									className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125" rel="noopener noreferrer"
 								>
 									<VkIcon className="w-4.5 h-4.5 transition duration-300 text-black" />
 								</a>

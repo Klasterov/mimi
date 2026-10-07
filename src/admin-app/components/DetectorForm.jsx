@@ -67,7 +67,7 @@ function DetectorForm() {
     fetchDetectors();
   }, []);
 
-  const fetchDetectors = async () => {
+  async function fetchDetectors() {
     setLoading(true);
     try {
       const data = await loadAllItems(api, 'detectors');

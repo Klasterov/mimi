@@ -19,7 +19,7 @@ export default function LightningDecor() {
 					</div>
 					<div className="text-[17px] font-helvetica leading-tight -tracking-[0.01em] lg:space-y-3 space-y-6">
 						<p>Одной кнопкой вы будете включать весь декоративный свет. А не только основное освещение.</p>
-						<p>Поэтому у  вас всегда будет уютная атмосфера, как и задумывал ваш дизайнер.</p>
+						<p>Поэтому у  вас всегда будет уютная атмосфера, как и задумывал ваш дизайнер.</p>
 					</div>
 				</div>
 			</div>

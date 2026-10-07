@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 
 import { proxyAdminRequest, shouldProxyAdminBackend } from "@/lib/admin-backend"
+import { rateLimitRequest } from "@/lib/request-security"
+
 import { authenticateAdmin, createSessionCookieValue, sessionCookieName } from "@/lib/admin-auth"
 
 export async function POST(request: NextRequest) {
@@ -12,10 +14,12 @@ export async function POST(request: NextRequest) {
     | { username?: string; password?: string }
     | null
 
-  const username = body?.username?.trim() ?? ""
-  const password = body?.password?.trim() ?? ""
+  const username = typeof body?.username === "string" ? body.username.trim() : ""
+  const password = typeof body?.password === "string" ? body.password : ""
 
-  if (!username || !password) {
+  const limited = rateLimitRequest(`login:${username.toLowerCase()}`, 10)
+  if (limited) return limited
+  if (!username || username.length > 100 || !password || Buffer.byteLength(password) > 72) {
     return NextResponse.json({ error: "Введите логин и пароль." }, { status: 400 })
   }
 
@@ -34,6 +38,7 @@ export async function POST(request: NextRequest) {
     name: sessionCookieName(),
     value: createSessionCookieValue(admin),
     httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
     maxAge: 60 * 60 * 24 * 7,

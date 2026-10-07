@@ -6,11 +6,10 @@ import { Title } from "@/components/UI/Title"
 import { FAQItems } from "@/data/faq"
 import { RightArrowIcon } from "@/icons/RightArrowIcon"
 import Image from "next/image"
-import { useRef, useState } from "react"
+import { useState } from "react"
 
 export default function FAQ() {
 	const [openIndex, setOpenIndex] = useState<number | null>(null)
-	const contentRefs = useRef<Array<HTMLDivElement | null>>([])
 
 	const toggle = (index: number) => {
 		setOpenIndex(openIndex === index ? null : index)
@@ -82,16 +81,15 @@ export default function FAQ() {
 								</button>
 
 								<div
-									ref={(el) => { (contentRefs.current[index] = el) }}
 									style={{
-										maxHeight: isOpen
-											? contentRefs.current[index]?.scrollHeight + "px"
-											: "0px",
-										transition: "max-height 0.3s ease",
+										display: "grid",
+                    gridTemplateRows: isOpen ? "1fr" : "0fr",
+                    transition: "grid-template-rows 0.3s ease",
 									}}
 									className="overflow-hidden font-helvetica text-[17px] text-brand-gray"
 								>
-									<div className="pb-2">
+									<div className="min-h-0 overflow-hidden">
+                    <div className="pb-2">
 										<div className="mb-3 lg:mb-0">{item.description}</div>
 										<div className="relative lg:hidden flex justify-center">
 											<Image
@@ -111,6 +109,7 @@ export default function FAQ() {
 											/>
 										</div>
 									</div>
+                    </div>
 								</div>
 							</div>
 						)

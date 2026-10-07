@@ -142,21 +142,21 @@ export function ArticlePageClient({ allArticles }: ArticlePageClientProps) {
 								<a
 									href=""
 									target="_blank"
-									className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125"
+									className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125" rel="noopener noreferrer"
 								>
 									<TgIcon className="w-4.5 h-4.5 transition duration-300 text-blue/40" />
 								</a>
 								<a
 									href=""
 									target="_blank"
-									className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125"
+									className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125" rel="noopener noreferrer"
 									>
 									<YoutubeIcon className="w-4.5 h-4.5 transition duration-300 text-black" />
 								</a>
 								<a
 									href=""
 									target="_blank"
-									className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125"
+									className="w-4.5 h-4.5 block duration-300 transition-transform ease-in-out hover:scale-125" rel="noopener noreferrer"
 								>
 									<VkIcon className="w-4.5 h-4.5 transition duration-300 text-black" />
 								</a>

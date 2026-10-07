@@ -86,8 +86,8 @@ export default function ServicesMontage() {
 					/>
 					<Title className="mb-6">Монтаж и настройка</Title>
 					<div className="font-helvetica leading-[1.3] -tracking-[0.01em] text-brand-light-gray max-w-139 mx-auto">
-						Система децентрализована, не имеет "центрального мозга", что позволяет поднять надежность системы на новый уровень.
-					</div>
+						Система децентрализована, не имеет &quot;центрального мозга&quot;, что позволяет поднять надежность системы на новый уровень.
+										</div>
 				</div>
 
 				<ul className="grid md:grid-cols-2 gap-5">
@@ -112,8 +112,8 @@ export default function ServicesMontage() {
 								Щиты
 							</h3>
 							<div className="font-helvetica text-brand-light-gray">
-								Система децентрализована, не имеет "центрального мозга", что позволяет поднять надежность системы на новый уровень.
-							</div>
+								Система децентрализована, не имеет &quot;центрального мозга&quot;, что позволяет поднять надежность системы на новый уровень.
+												</div>
 						</div>
 					</li>
 
@@ -138,8 +138,8 @@ export default function ServicesMontage() {
 								Мультирум
 							</h3>
 							<div className="font-helvetica text-brand-light-gray">
-								Система децентрализована, не имеет "центрального мозга", что позволяет поднять надежность системы на новый уровень.
-							</div>
+								Система децентрализована, не имеет &quot;центрального мозга&quot;, что позволяет поднять надежность системы на новый уровень.
+												</div>
 						</div>
 					</li>
 
@@ -154,8 +154,8 @@ export default function ServicesMontage() {
 								Оборудование
 							</h3>
 							<div className="font-helvetica text-brand-light-gray">
-								Система децентрализована, не имеет "центрального мозга", что позволяет поднять надежность системы на новый уровень.
-							</div>
+								Система децентрализована, не имеет &quot;центрального мозга&quot;, что позволяет поднять надежность системы на новый уровень.
+												</div>
 						</div>
 						<div>
 							<Image
@@ -180,8 +180,8 @@ export default function ServicesMontage() {
 								Электрика
 							</h3>
 							<div className="font-helvetica mb-2.5 lg:mb-6 text-brand-light-gray">
-								Система децентрализована, не имеет "центрального мозга", что позволяет поднять надежность системы на новый уровень.
-							</div>
+								Система децентрализована, не имеет &quot;центрального мозга&quot;, что позволяет поднять надежность системы на новый уровень.
+												</div>
 							<Link
 								href="/customization"
 								className="-tracking-[0.01em] inline-flex hover:text-foreground transition-colors duration-300 items-center gap-1 text-[15px] font-medium text-brand-blue group"

@@ -10,18 +10,13 @@ function App() {
 
   useEffect(() => {
     async function checkSession() {
-      const token = localStorage.getItem('adminToken') || localStorage.getItem('authToken');
-
-      if (token) {
-        setIsLoggedIn(true);
-        setLoading(false);
-        return;
-      }
+      localStorage.removeItem("adminToken");
+      localStorage.removeItem("authToken");
 
       try {
         const response = await fetch('/api/admin/session', { credentials: 'include' });
         const data = await response.json();
-        
+
         if (data?.authenticated && data?.admin) {
           localStorage.setItem('adminUsername', data.admin.username);
           localStorage.setItem('adminId', data.admin.id);
@@ -36,7 +31,7 @@ function App() {
         setLoading(false);
       }
     }
-    
+
     checkSession();
   }, []);
 
@@ -46,6 +41,7 @@ function App() {
 
   const handleLogout = () => {
     localStorage.removeItem('adminToken');
+    localStorage.removeItem('authToken');
     localStorage.removeItem('adminId');
     localStorage.removeItem('adminUsername');
 

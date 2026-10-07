@@ -55,6 +55,7 @@ function getBackendAdminPath(request: NextRequest) {
     return pathname.replace(/^\/api\/admin\/equipment/, "/api/equipment")
   }
 
+  if (pathname === "/api/admin/session") return "/api/admin/auth/session"
   return pathname.replace(/^\/api\/admin\/equipment(?=\/|$)/, "/api/admin/controllers")
 }
 
@@ -80,6 +81,9 @@ export async function proxyAdminRequest(request: NextRequest) {
   const targetUrl = buildTargetUrl(request)
   const headers = new Headers(request.headers)
 
+  const token = request.cookies.get("mimi_backend_token")?.value
+  headers.delete("cookie")
+  if (token) headers.set("authorization", `Bearer ${token}`)
   headers.delete("host")
   headers.delete("content-length")
   headers.delete("origin")
@@ -94,6 +98,7 @@ export async function proxyAdminRequest(request: NextRequest) {
     headers,
     cache: "no-store",
     redirect: "manual",
+    signal: AbortSignal.timeout(15000),
   }
 
   if (request.method !== "GET" && request.method !== "HEAD") {
@@ -103,14 +108,23 @@ export async function proxyAdminRequest(request: NextRequest) {
 
   try {
     const response = await fetch(targetUrl, init)
+    if (request.nextUrl.pathname === "/api/admin/auth/login" && response.ok) {
+      const data = await response.json()
+      if (typeof data.token !== "string") return NextResponse.json({ error: "Invalid backend response" }, { status: 502 })
+      const loginResponse = NextResponse.json({ ok: true, adminId: data.adminId, admin: data.admin })
+      loginResponse.cookies.set({ name: "mimi_backend_token", value: data.token, httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "strict", path: "/", maxAge: 86400 })
+      loginResponse.headers.set("Cache-Control", "no-store")
+      return loginResponse
+    }
     const nextResponse = new NextResponse(response.body, { status: response.status })
 
     appendForwardedHeaders(response.headers, nextResponse)
+    nextResponse.headers.set("Cache-Control", "no-store")
     return nextResponse
   } catch (error) {
     console.error(
       `[admin-backend] Failed to proxy ${request.method} ${request.nextUrl.pathname}:`,
-      error
+      { name: error instanceof Error ? error.name : "Error" }
     )
 
     return NextResponse.json(

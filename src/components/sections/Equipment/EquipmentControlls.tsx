@@ -109,8 +109,8 @@ export default function EquipmentControlls() {
 						ref={descriptionRef}
 						className="text-[17px] font-helvetica leading-tight max-w-143"
 					>
-						Система децентрализована, не имеет "центрального мозга", что позволяет поднять надежность системы на новый уровень.
-					</div>
+						Система децентрализована, не имеет &quot;центрального мозга&quot;, что позволяет поднять надежность системы на новый уровень.
+										</div>
 				</div>
 
 				<div className="flex lg:items-center lg:flex-row flex-col-reverse gap-15 lg:gap-17">

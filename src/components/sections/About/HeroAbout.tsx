@@ -31,17 +31,17 @@ export default function HeroAbout() {
 
 				line.innerHTML = `
         <span class="line-wrapper" style="
-            position: relative; 
-            display: inline-block; 
-            padding: 2px ${paddingX}; 
+            position: relative;
+            display: inline-block;
+            padding: 2px ${paddingX};
             margin-left: -${paddingX};
         ">
           <span class="line-bg" style="
-            position: absolute; 
-            inset: 0; 
-            background: #ffeba4; 
-            z-index: -1; 
-            transform-origin: left; 
+            position: absolute;
+            inset: 0;
+            background: #ffeba4;
+            z-index: -1;
+            transform-origin: left;
             transform: scaleX(0);
           "></span>
           ${lineContent}
@@ -104,10 +104,10 @@ export default function HeroAbout() {
 					</div>
 				</div>
 				<div className="xl:mr-24 flex-auto leading-[1.4]">
-					<Title className="mb-8.5"><span className="text-[#00d0ff]">MiMi</span>Smart</Title>
+					<Title as="h1" className="mb-8.5"><span className="text-[#00d0ff]">MiMi</span>Smart</Title>
 					<div className="mb-8.5 font-helvetica text-[18px] lg:text-[20px] tracking-[-0.01em]">
 						<div className="lg:pr-11 mb-8.5">
-							<p className="mb-9.5">Крупнейший <span className="text-[#ce5941] font-bold">(ТОП-1)</span> российский производитель <br />премиальных систем умный дом.</p>
+							<p className="mb-9.5">Крупнейший <span className="text-[#ce5941] font-bold">(ТОП-1)</span> российский производитель <br />премиальных систем умный дом.</p>
 							<div className="relative flex flex-col items-start mb-5">
 								{/* Каретка в начале (верхний левый угол) */}
 								<div className="caret-start absolute -left-1.5 top-0 w-0.5 h-7 bg-black z-10 opacity-0">

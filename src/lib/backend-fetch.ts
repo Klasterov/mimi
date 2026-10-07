@@ -1,4 +1,4 @@
-import { buildBackendUrl, uniquePaths } from "@/lib/backend-url"
+import { buildBackendUrl, getBackendBaseUrl, uniquePaths } from "@/lib/backend-url"
 
 type ExtractCollection = (payload: unknown) => unknown[]
 
@@ -27,13 +27,15 @@ export async function fetchBackendCollection<T>({
   extract,
   normalize,
 }: FetchBackendCollectionOptions<T>): Promise<T[] | null> {
+  if (!getBackendBaseUrl()) return null
   const normalizedPaths = uniquePaths(paths)
   let lastError: unknown = null
 
-  for (const [index, path] of normalizedPaths.entries()) {
+  for (const path of normalizedPaths) {
     try {
       const response = await fetch(buildBackendUrl(path), {
-        cache: "no-store",
+        next: { revalidate: 60 },
+        signal: AbortSignal.timeout(3000),
       })
 
       if (!response.ok) {
@@ -46,15 +48,7 @@ export async function fetchBackendCollection<T>({
         .map(normalize)
         .filter((item): item is T => item !== null)
 
-      if (items.length > 0) {
-        return items
-      }
-
-      if (index < normalizedPaths.length - 1) {
-        continue
-      }
-
-      return null
+      return items
     } catch (error) {
       lastError = error
     }
@@ -76,6 +70,7 @@ export async function fetchBackendJson<T>(paths: string[], init: RequestInit): P
       const response = await fetch(buildBackendUrl(path), {
         ...init,
         cache: "no-store",
+        signal: init.signal ?? AbortSignal.timeout(5000),
       })
 
       if (response.status === 404 || response.status === 405) {

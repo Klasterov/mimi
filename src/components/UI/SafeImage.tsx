@@ -13,8 +13,10 @@ type SafeImageProps = {
 	sizes?: string
 }
 
-function isRemoteImage(src: string) {
-	return src.startsWith("http://") || src.startsWith("https://")
+function isUnconfiguredRemoteImage(src: string) {
+  if (!/^https?:\/\//.test(src)) return false
+  const origin = new URL(src).origin
+  return ![process.env.NEXT_PUBLIC_IMAGE_ORIGIN, "http://localhost:4000", "http://127.0.0.1:4000"].includes(origin)
 }
 
 export default function SafeImage({
@@ -29,13 +31,14 @@ export default function SafeImage({
 	sizes,
 }: SafeImageProps) {
   src = browserImageUrl(src)
-	if (isRemoteImage(src)) {
+	if (isUnconfiguredRemoteImage(src)) {
 		if (fill) {
 			return (
 				<img
 					src={src}
 					alt={alt}
 					loading={priority ? "eager" : "lazy"}
+          decoding="async"
 					referrerPolicy="no-referrer"
 					className={`absolute inset-0 h-full w-full ${className ?? ""}`.trim()}
 				/>
@@ -64,7 +67,7 @@ export default function SafeImage({
 			fill={fill}
 			priority={priority}
 			quality={quality}
-			sizes={sizes}
+			sizes={sizes ?? (fill ? "(max-width: 768px) 100vw, 50vw" : undefined)}
 			className={className}
 		/>
 	)

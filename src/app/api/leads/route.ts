@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 
+import { rateLimitRequest } from "@/lib/request-security"
+
 import { createLead } from "@/lib/admin-store"
 import { buildBackendUrl, getBackendBaseUrl } from "@/lib/backend-url"
 
@@ -74,6 +76,7 @@ async function forwardLeadToBackend(externalPayload: Record<string, unknown>) {
         },
         body: requestBody,
         cache: "no-store",
+        signal: AbortSignal.timeout(5000),
       })
 
       const data = await parseResponseBody(response)
@@ -94,7 +97,13 @@ async function forwardLeadToBackend(externalPayload: Record<string, unknown>) {
 export async function POST(request: NextRequest) {
   const body = (await request.json().catch(() => null)) as LeadPayload | null
 
-  if (!body) {
+  const limited = rateLimitRequest(`leads:${process.env.TRUST_PROXY === "1" ? request.headers.get("x-forwarded-for")?.split(",")[0] : "local"}`, 20)
+  if (limited) return limited
+  if (!body || typeof body !== "object" || Array.isArray(body) ||
+    ["name", "phone", "pageUrl"].some(key => typeof (body as Record<string, unknown>)[key] !== "string") ||
+    ["comment", "formType"].some(key => (body as Record<string, unknown>)[key] != null && typeof (body as Record<string, unknown>)[key] !== "string") ||
+    (body.name?.length ?? 0) > 200 || (body.phone?.length ?? 0) > 40 || (body.pageUrl?.length ?? 0) > 2000 ||
+    (body.comment?.length ?? 0) > 5000 || (body.formType?.length ?? 0) > 100) {
     return NextResponse.json({ error: "Некорректные данные формы." }, { status: 400 })
   }
 

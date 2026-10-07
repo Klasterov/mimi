@@ -7,9 +7,10 @@ import gsap from "gsap"
 interface TitleProps {
 	children: React.ReactNode
 	className?: string
+  as?: "h1" | "h2" | "h3"
 }
 
-export const Title = ({ children, className = "" }: TitleProps) => {
+export const Title = ({ children, className = "", as: Heading = "h2" }: TitleProps) => {
 	const bulbRef = useRef<HTMLImageElement>(null)
 	const titleRef = useRef<HTMLHeadingElement>(null)
 
@@ -55,7 +56,7 @@ export const Title = ({ children, className = "" }: TitleProps) => {
 	}, [])
 
 	return (
-		<h2
+		<Heading
 			ref={titleRef}
 			className={`text-[40px] md:text-[52px] lg:text-[64px] font-bold tracking-[-0.01em] leading-tight ${className}`}
 		>
@@ -72,6 +73,6 @@ export const Title = ({ children, className = "" }: TitleProps) => {
 					className="inline-block align-baseline rounded-full"
 				/>
 			</span>
-		</h2>
+		</Heading>
 	)
 }

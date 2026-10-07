@@ -101,7 +101,7 @@ async function request(method, path, options = {}) {
 
     if (response.status === 401 && !options.skipUnauthorizedRedirect && typeof window !== "undefined") {
       clearStoredAuth()
-      window.location.href = "/admin"
+      window.location.assign("/admin")
     }
 
     throw error
@@ -182,8 +182,8 @@ export const uploadAPI = {
     const response = await request("POST", "/upload/image", {
       url: uploadUrl,
       data: uploadData,
-      headers: {},
-      // The backend uses the existing Bearer token and does not need site cookies.
+      headers: config.data?.uploadToken ? { Authorization: `Bearer ${config.data.uploadToken}` } : {},
+      // A short-lived upload-only token keeps the admin session out of JavaScript.
       credentials: isExternal ? "omit" : "include",
       skipUnauthorizedRedirect: true,
     })

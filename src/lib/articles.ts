@@ -14,7 +14,7 @@ const configuredArticlesPath =
 const ARTICLES_PATH = configuredArticlesPath || "api/articles"
 const ARTICLES_PATH_CANDIDATES = [
   ARTICLES_PATH,
-  ARTICLES_PATH.startsWith("api/admin/") ? ARTICLES_PATH.replace(/^api\/admin\//, "api/") : "api/admin/articles",
+  ARTICLES_PATH.startsWith("api/admin/") ? ARTICLES_PATH.replace(/^api\/admin\//, "api/") : "api/articles",
 ]
 
 const ARTICLE_IMAGE_FALLBACKS = [

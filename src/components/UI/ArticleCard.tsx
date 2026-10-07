@@ -1,17 +1,20 @@
+"use client"
+
 import { Article } from "@/types/article";
 import Link from "next/link";
 import { getArticleHref } from "@/lib/article-links";
+import { useState } from "react";
 import SafeImage from "@/components/UI/SafeImage";
 
 export function ArticleCard({ article, className }: { article: Article, className?: string }) {
+	const [now] = useState(() => Date.now())
 	function isNewArticle(date: string, days = 7) {
 		const articleDate = new Date(date).getTime()
-		const now = Date.now()
 
 		const diff = now - articleDate
 		const daysMs = days * 24 * 60 * 60 * 1000
 
-		return diff <= daysMs
+		return diff >= 0 && diff <= daysMs
 	}
 	return (
 		<article className={`max-lg:min-h-93.75 group flex h-full flex-col relative bg-white p-4 pt-5 md:p-5 md:pt-7.5 rounded-[20px] leading-tight font-semibold ${className}`}>
